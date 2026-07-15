@@ -21,14 +21,15 @@ import (
 )
 
 type API struct {
-	Queries *db.Queries
-	Logger  *slog.Logger
-	Metrics *platform.Metrics
+	Queries        *db.Queries
+	Logger         *slog.Logger
+	Metrics        *platform.Metrics
+	AllowedOrigins []string
 }
 
 func (a *API) Router() http.Handler {
 	r := chi.NewRouter()
-	r.Use(middleware.RequestID, middleware.RealIP, middleware.Recoverer, middleware.Timeout(30*time.Second), a.observability)
+	r.Use(middleware.RequestID, middleware.RealIP, middleware.Recoverer, middleware.Timeout(30*time.Second), a.cors, a.observability)
 	r.Get("/health/live", func(w http.ResponseWriter, _ *http.Request) { writeJSON(w, 200, map[string]string{"status": "live"}) })
 	r.Get("/health/ready", a.ready)
 	r.Handle("/metrics", promhttp.Handler())
@@ -49,6 +50,28 @@ func (a *API) Router() http.Handler {
 		r.Get("/sources", a.listSources)
 	})
 	return otelhttp.NewHandler(r, "public-api")
+}
+
+func (a *API) cors(next http.Handler) http.Handler {
+	allowed := make(map[string]struct{}, len(a.AllowedOrigins))
+	for _, origin := range a.AllowedOrigins {
+		allowed[origin] = struct{}{}
+	}
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		if _, ok := allowed[origin]; ok {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, X-Request-ID")
+			w.Header().Set("Access-Control-Expose-Headers", "X-Data-Observed-At, X-Data-Source, X-Request-ID")
+			w.Header().Add("Vary", "Origin")
+		}
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func (a *API) compareOfficialEquivalence(w http.ResponseWriter, r *http.Request) {

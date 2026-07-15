@@ -1,0 +1,12 @@
+name = "medicine-platform-web"
+main = "src/worker.ts"
+compatibility_date = "2026-07-15"
+account_id = "41f7c7617eaf8b90252846f25c77177e"
+
+routes = [
+  { pattern = "health.passarelli.dev", custom_domain = true }
+]
+
+[[r2_buckets]]
+binding = "FRONTEND"
+bucket_name = "medicine-platform-frontend"

@@ -1,0 +1,163 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: medicine-platform
+  namespace: medicine-platform
+data:
+  MEDICINE_ENVIRONMENT: production
+  MEDICINE_VERSION: a96e805-home
+  MEDICINE_HTTP_ADDRESS: :8080
+  MEDICINE_METRICS_ADDRESS: :9091
+  MEDICINE_RABBIT_MQ_PREFETCH: "2"
+  MEDICINE_MINIO_ENDPOINT: minio:9000
+  MEDICINE_MINIO_BUCKET: medicine-data
+  MEDICINE_MINIO_USE_SSL: "false"
+  MEDICINE_SOURCES_DIR: /app/configs/sources
+  MEDICINE_DOWNLOAD_TIMEOUT: 120s
+  MEDICINE_CORS_ALLOWED_ORIGINS: https://health.passarelli.dev
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: medicine-migrate
+  namespace: medicine-platform
+spec:
+  backoffLimit: 12
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels: {app: medicine-migrate}
+    spec:
+      restartPolicy: OnFailure
+      imagePullSecrets: [{name: ghcr-secret}]
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: migrate
+          image: ghcr.io/ale1x/medicine-platform-migrate:75f0e97
+          envFrom:
+            - {configMapRef: {name: medicine-platform}}
+            - {secretRef: {name: medicine-runtime}}
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: public-api
+  namespace: medicine-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: public-api}
+  template:
+    metadata:
+      labels: {app: public-api}
+    spec:
+      serviceAccountName: medicine-platform
+      imagePullSecrets: [{name: ghcr-secret}]
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector: {matchLabels: {app: public-api}}
+      containers:
+        - name: public-api
+          image: ghcr.io/ale1x/medicine-platform-public-api:a96e805
+          imagePullPolicy: Always
+          ports: [{name: http, containerPort: 8080}]
+          envFrom:
+            - {configMapRef: {name: medicine-platform}}
+            - {secretRef: {name: medicine-runtime}}
+          readinessProbe: {httpGet: {path: /health/ready, port: http}, periodSeconds: 10}
+          livenessProbe: {httpGet: {path: /health/live, port: http}, periodSeconds: 20}
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 500m, memory: 512Mi}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: public-api
+  namespace: medicine-platform
+spec:
+  selector: {app: public-api}
+  ports: [{name: http, port: 8080, targetPort: http}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingestion-worker
+  namespace: medicine-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: ingestion-worker}
+  template:
+    metadata:
+      labels: {app: ingestion-worker}
+    spec:
+      serviceAccountName: medicine-platform
+      imagePullSecrets: [{name: ghcr-secret}]
+      terminationGracePeriodSeconds: 45
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: worker
+          image: ghcr.io/ale1x/medicine-platform-ingestion-worker:75f0e97
+          imagePullPolicy: Always
+          envFrom:
+            - {configMapRef: {name: medicine-platform}}
+            - {secretRef: {name: medicine-runtime}}
+          ports: [{name: metrics, containerPort: 9091}]
+          resources:
+            requests: {cpu: 250m, memory: 512Mi}
+            limits: {cpu: "2", memory: 3Gi}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          volumeMounts: [{name: tmp, mountPath: /tmp}]
+      volumes: [{name: tmp, emptyDir: {sizeLimit: 1Gi}}]
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ingestion-scheduler
+  namespace: medicine-platform
+spec:
+  schedule: "0 3 * * *"
+  timeZone: Europe/Rome
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels: {app: ingestion-scheduler}
+        spec:
+          serviceAccountName: medicine-platform
+          imagePullSecrets: [{name: ghcr-secret}]
+          restartPolicy: Never
+          securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+          containers:
+            - name: scheduler
+              image: ghcr.io/ale1x/medicine-platform-ingestion-scheduler:75f0e97
+              args: [--all-due]
+              envFrom:
+                - {configMapRef: {name: medicine-platform}}
+                - {secretRef: {name: medicine-runtime}}
+              resources:
+                requests: {cpu: 25m, memory: 32Mi}
+                limits: {cpu: 250m, memory: 128Mi}
+              securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: public-api
+  namespace: medicine-platform
+spec:
+  minAvailable: 1
+  selector: {matchLabels: {app: public-api}}

@@ -75,8 +75,10 @@ type ComparisonData = {
 
 const initialAIC = "026089019"
 
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "")
+
 async function request<T>(url: string): Promise<T> {
-  const response = await fetch(url)
+  const response = await fetch(`${apiBaseUrl}${url}`)
   if (!response.ok) {
     const body = await response.json().catch(() => null)
     throw new Error(body?.error?.detail ?? `Richiesta non riuscita (${response.status})`)

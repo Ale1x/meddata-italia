@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -33,7 +34,12 @@ func main() {
 		fatal(err)
 	}
 	defer pool.Close()
-	api := &catalog.API{Queries: db.New(pool), Logger: logger, Metrics: platform.NewMetrics(prometheus.DefaultRegisterer)}
+	api := &catalog.API{
+		Queries:        db.New(pool),
+		Logger:         logger,
+		Metrics:        platform.NewMetrics(prometheus.DefaultRegisterer),
+		AllowedOrigins: splitCSV(cfg.CORSAllowedOrigins),
+	}
 	server := &http.Server{Addr: cfg.HTTPAddress, Handler: api.Router(), ReadHeaderTimeout: 5 * time.Second}
 	go func() {
 		<-ctx.Done()
@@ -47,3 +53,14 @@ func main() {
 	}
 }
 func fatal(err error) { fmt.Fprintln(os.Stderr, err); os.Exit(1) }
+
+func splitCSV(value string) []string {
+	parts := strings.Split(value, ",")
+	result := make([]string, 0, len(parts))
+	for _, part := range parts {
+		if part = strings.TrimSpace(part); part != "" {
+			result = append(result, part)
+		}
+	}
+	return result
+}

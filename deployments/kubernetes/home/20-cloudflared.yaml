@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  namespace: medicine-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: cloudflared}
+  template:
+    metadata:
+      labels: {app: cloudflared}
+    spec:
+      serviceAccountName: medicine-platform
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          args: [tunnel, --no-autoupdate, run, --token, $(TUNNEL_TOKEN)]
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom: {secretKeyRef: {name: cloudflare-tunnel, key: token}}
+          resources:
+            requests: {cpu: 25m, memory: 32Mi}
+            limits: {cpu: 250m, memory: 128Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
