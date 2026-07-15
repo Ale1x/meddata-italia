@@ -56,8 +56,8 @@ Endpoints:
 Seed sources in dependency order. Each command publishes an event and exits:
 
 ```bash
-docker compose --profile tools run --rm ingestion-scheduler --source=aifa-packages
 docker compose --profile tools run --rm ingestion-scheduler --source=aifa-atc
+docker compose --profile tools run --rm ingestion-scheduler --source=aifa-packages
 docker compose --profile tools run --rm ingestion-scheduler --source=aifa-package-ingredients
 docker compose --profile tools run --rm ingestion-scheduler --source=aifa-transparency-list
 docker compose --profile tools run --rm ingestion-scheduler --source=aifa-shortages
@@ -73,6 +73,34 @@ curl 'http://localhost:8080/api/v1/packages/by-aic/44155024?include=provenance'
 curl 'http://localhost:8080/api/v1/official-equivalence/compare?left_aic=044155024&right_aic=039716182'
 curl http://localhost:8080/api/v1/packages/REPLACE_UUID/official-equivalents
 curl http://localhost:8080/api/v1/ingestions/latest
+```
+
+## Home Kubernetes deployment
+
+The live demo uses the `kubernetes-admin@kubernetes` context:
+
+- frontend: `https://health.passarelli.dev`, built with React/Tailwind/shadcn and served from the private `medicine-platform-frontend` R2 bucket by `medicine-platform-web`;
+- API: `https://api.health.passarelli.dev`, exposed by the `medicine-platform-api-proxy` Worker through a Workers VPC Service and the `medicine-platform-home` Cloudflare Tunnel;
+- runtime: CloudNativePG, RabbitMQ, MinIO, two public API replicas, one ingestion worker and the daily scheduler CronJob in namespace `medicine-platform`.
+
+The Worker-to-cluster path is outbound-only; no home router port is exposed. Versioned manifests are under `deployments/kubernetes/home`, while the R2 and API proxy Workers are under `deployments/cloudflare`.
+
+Apply an existing installation after creating the referenced Kubernetes secrets:
+
+```bash
+kubectl apply -f deployments/kubernetes/home/00-infrastructure.yaml
+kubectl apply -f deployments/kubernetes/home/10-applications.yaml
+kubectl apply -f deployments/kubernetes/home/20-cloudflared.yaml
+npx wrangler deploy --config deployments/cloudflare/wrangler.toml
+npx wrangler deploy --config deployments/cloudflare/api-proxy/wrangler.toml
+```
+
+Public smoke tests:
+
+```bash
+curl https://api.health.passarelli.dev/health/ready
+curl https://api.health.passarelli.dev/api/v1/packages/by-aic/026089019
+curl 'https://api.health.passarelli.dev/api/v1/official-equivalence/compare?left_aic=044155024&right_aic=039716182'
 ```
 
 ## Verification

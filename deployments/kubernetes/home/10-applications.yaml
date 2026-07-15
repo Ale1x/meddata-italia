@@ -30,10 +30,10 @@ spec:
     spec:
       restartPolicy: OnFailure
       imagePullSecrets: [{name: ghcr-secret}]
-      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532, seccompProfile: {type: RuntimeDefault}}
       containers:
         - name: migrate
-          image: ghcr.io/ale1x/medicine-platform-migrate:75f0e97
+          image: ghcr.io/ale1x/medicine-platform-migrate:home-20260715-2
           envFrom:
             - {configMapRef: {name: medicine-platform}}
             - {secretRef: {name: medicine-runtime}}
@@ -57,7 +57,7 @@ spec:
     spec:
       serviceAccountName: medicine-platform
       imagePullSecrets: [{name: ghcr-secret}]
-      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532, seccompProfile: {type: RuntimeDefault}}
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -103,7 +103,7 @@ spec:
       serviceAccountName: medicine-platform
       imagePullSecrets: [{name: ghcr-secret}]
       terminationGracePeriodSeconds: 45
-      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532, seccompProfile: {type: RuntimeDefault}}
       containers:
         - name: worker
           image: ghcr.io/ale1x/medicine-platform-ingestion-worker:75f0e97
@@ -140,10 +140,10 @@ spec:
           serviceAccountName: medicine-platform
           imagePullSecrets: [{name: ghcr-secret}]
           restartPolicy: Never
-          securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+          securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532, seccompProfile: {type: RuntimeDefault}}
           containers:
             - name: scheduler
-              image: ghcr.io/ale1x/medicine-platform-ingestion-scheduler:75f0e97
+              image: ghcr.io/ale1x/medicine-platform-ingestion-scheduler:home-20260715-2
               args: [--all-due]
               envFrom:
                 - {configMapRef: {name: medicine-platform}}

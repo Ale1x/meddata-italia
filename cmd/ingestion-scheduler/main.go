@@ -70,7 +70,7 @@ func main() {
 	} else {
 		fatal(fmt.Errorf("one of --source or --all-due is required"))
 	}
-	sort.Strings(ids)
+	sortSourceIDs(ids)
 	if len(ids) == 0 {
 		logger.Info("no sources due")
 		return
@@ -117,6 +117,29 @@ func sourceDue(ctx context.Context, db *pgxpool.Pool, sourceID, frequency string
 		interval = 7 * 24 * time.Hour
 	}
 	return !lastFinished.Add(interval).After(now), nil
+}
+
+func sortSourceIDs(ids []string) {
+	priority := map[string]int{
+		"aifa-atc":                 0,
+		"aifa-packages":            1,
+		"aifa-package-ingredients": 2,
+		"aifa-class-a":             3,
+		"aifa-class-h":             3,
+		"aifa-shortages":           4,
+		"aifa-transparency-list":   5,
+	}
+	sort.SliceStable(ids, func(i, j int) bool {
+		left, leftKnown := priority[ids[i]]
+		right, rightKnown := priority[ids[j]]
+		if leftKnown != rightKnown {
+			return leftKnown
+		}
+		if left != right {
+			return left < right
+		}
+		return ids[i] < ids[j]
+	})
 }
 
 func fatal(err error) { fmt.Fprintln(os.Stderr, err); os.Exit(1) }

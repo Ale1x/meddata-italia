@@ -1,0 +1,12 @@
+name = "medicine-platform-api-proxy"
+main = "src/worker.ts"
+compatibility_date = "2026-07-15"
+account_id = "41f7c7617eaf8b90252846f25c77177e"
+
+routes = [
+  { pattern = "api.health.passarelli.dev", custom_domain = true }
+]
+
+[[vpc_services]]
+binding = "PRIVATE_API"
+service_id = "019f67ba-95d7-7750-afb1-6a6386b47017"
