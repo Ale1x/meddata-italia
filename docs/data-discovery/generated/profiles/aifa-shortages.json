@@ -1,0 +1,536 @@
+{
+  "dataset_id": "aifa-shortages",
+  "artifact_url": "https://www.aifa.gov.it/documents/20142/847339/elenco_medicinali_carenti.csv",
+  "sha256": "dfb33dcbfe3492cf8f5d250d0a66ccfaec31dd227565e445af016ccd7887689d",
+  "size_bytes": 884824,
+  "encoding": "Windows-1252",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "MIXED",
+  "bom": false,
+  "row_count": 2487,
+  "column_count": 13,
+  "malformed_rows": 0,
+  "duplicate_rows": 2,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "Nome medicinale",
+      "normalized_name": "nome_medicinale",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 1576,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 58,
+      "top_values": [
+        {
+          "value": "IOMERON",
+          "count": 12
+        },
+        {
+          "value": "BINOCRIT",
+          "count": 11
+        },
+        {
+          "value": "DOTAREM",
+          "count": 9
+        },
+        {
+          "value": "EPREX",
+          "count": 9
+        },
+        {
+          "value": "EFFENTORA",
+          "count": 8
+        }
+      ],
+      "examples": [
+        "ABACAVIR E LAMIVUDINA SUN",
+        "ABIOCLAV",
+        "ABIRATERONE MEDICAL VALLEY",
+        "ABIRATERONE SUN",
+        "ACARBOSIO AUROBINDO"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "Codice AIC",
+      "normalized_name": "codice_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2485,
+      "unique": false,
+      "min_length": 9,
+      "max_length": 9,
+      "top_values": [
+        {
+          "value": "035320023",
+          "count": 2
+        },
+        {
+          "value": "043857022",
+          "count": 2
+        },
+        {
+          "value": "000590012",
+          "count": 1
+        },
+        {
+          "value": "002918047",
+          "count": 1
+        },
+        {
+          "value": "002918050",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "000590012",
+        "002918047",
+        "002918050",
+        "003671106",
+        "003763240"
+      ],
+      "patterns": [
+        "AIC_9_DIGITS"
+      ]
+    },
+    {
+      "position": 3,
+      "original_name": "Principio attivo",
+      "normalized_name": "principio_attivo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 846,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 373,
+      "top_values": [
+        {
+          "value": "IMMUNOGLOBULINA UMANA NORMALE",
+          "count": 46
+        },
+        {
+          "value": "QUETIAPINA FUMARATO",
+          "count": 32
+        },
+        {
+          "value": "QUETIAPINA",
+          "count": 31
+        },
+        {
+          "value": "TADALAFIL",
+          "count": 29
+        },
+        {
+          "value": "PREGABALIN",
+          "count": 27
+        }
+      ],
+      "examples": [
+        "ABACAVIR + LAMIVUDINE",
+        "ABACAVIR SOLFATO + LAMIVUDINA + ZIDOVUDINA",
+        "ABIRATERONE ACETATO",
+        "ACALABRUTINIB",
+        "ACARBOSIO"
+      ]
+    },
+    {
+      "position": 4,
+      "original_name": "Forma farmaceutica e dosaggio",
+      "normalized_name": "forma_farmaceutica_e_dosaggio",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2315,
+      "unique": false,
+      "min_length": 13,
+      "max_length": 263,
+      "top_values": [
+        {
+          "value": "\"10 MG/ML GOCCE ORALI, SOLUZIONE\" 1 FLACONE IN VETRO DA 60 ML CON CONTAGOCCE",
+          "count": 5
+        },
+        {
+          "value": "\"10 MG COMPRESSE\" 30 COMPRESSE IN BLISTER PVC/PVDC/AL",
+          "count": 4
+        },
+        {
+          "value": "\"10 MG/10 MG COMPRESSE\" 30 COMPRESSE IN BLISTER OPA/AL/PVC/AL",
+          "count": 4
+        },
+        {
+          "value": "\"25 MG COMPRESSE RIVESTITE CON FILM\" 30 COMPRESSE IN BLISTER PVC/AL",
+          "count": 4
+        },
+        {
+          "value": "\"5 MG COMPRESSE RIVESTITE CON FILM\" 20 COMPRESSE IN BLISTER PCTFE/PVC/AL",
+          "count": 4
+        }
+      ],
+      "examples": [
+        "\"  875 MG + 125 MG COMPRESSE RIVESTITE CON FILM \" 12 COMPRESSE",
+        "\" 0,005 % COLLIRIO, SOLUZIONE \" 1 FLACONE DA 2,5 ML",
+        "\" 0,015 % + 0,15 % SOLUZIONE CUTANEA \" BUSTA DA 25 ML",
+        "\" 0,015% + 0,15% SOLUZIONE CUTANEA \" 400 BUSTE 25 ML",
+        "\" 0,05 % SOLUZIONE CUTANEA \" 400 BUSTINE 25 ML"
+      ]
+    },
+    {
+      "position": 5,
+      "original_name": "Titolare AIC",
+      "normalized_name": "titolare_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 295,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 78,
+      "top_values": [
+        {
+          "value": "ZENTIVA ITALIA S.R.L.",
+          "count": 218
+        },
+        {
+          "value": "MYLAN S.P.A.",
+          "count": 188
+        },
+        {
+          "value": "ACCORD HEALTHCARE, S.L.U.",
+          "count": 156
+        },
+        {
+          "value": "EG S.P.A.",
+          "count": 113
+        },
+        {
+          "value": "AUROBINDO PHARMA (ITALIA) S.R.L.",
+          "count": 109
+        }
+      ],
+      "examples": [
+        "A. MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L.",
+        "A.G.I.P.S. FARMACEUTICI SRL",
+        "ABBVIE DEUTSCHLAND GMBH \u0026 CO. KG",
+        "ABBVIE S.R.L.",
+        "ABIOGEN PHARMA S.P.A."
+      ]
+    },
+    {
+      "position": 6,
+      "original_name": "Data inizio",
+      "normalized_name": "data_inizio",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 736,
+      "unique": false,
+      "min_length": 10,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "01/07/2026",
+          "count": 55
+        },
+        {
+          "value": "01/06/2026",
+          "count": 48
+        },
+        {
+          "value": "30/06/2026",
+          "count": 48
+        },
+        {
+          "value": "24/04/2026",
+          "count": 45
+        },
+        {
+          "value": "01/08/2026",
+          "count": 38
+        }
+      ],
+      "examples": [
+        "01/01/2019",
+        "01/01/2021",
+        "01/01/2022",
+        "01/01/2024",
+        "01/01/2025"
+      ]
+    },
+    {
+      "position": 7,
+      "original_name": "Fine presunta",
+      "normalized_name": "fine_presunta",
+      "inferred_type": "text",
+      "null_count": 1968,
+      "null_percent": 79.1315,
+      "distinct_count": 99,
+      "unique": false,
+      "min_length": 10,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "31/12/2026",
+          "count": 155
+        },
+        {
+          "value": "30/09/2026",
+          "count": 40
+        },
+        {
+          "value": "31/08/2026",
+          "count": 35
+        },
+        {
+          "value": "31/07/2026",
+          "count": 28
+        },
+        {
+          "value": "30/06/2026",
+          "count": 19
+        }
+      ],
+      "examples": [
+        "01/01/2027",
+        "01/03/2027",
+        "01/04/2027",
+        "01/05/2026",
+        "01/05/2027"
+      ]
+    },
+    {
+      "position": 8,
+      "original_name": "Equivalente",
+      "normalized_name": "equivalente",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2,
+      "unique": false,
+      "min_length": 2,
+      "max_length": 2,
+      "top_values": [
+        {
+          "value": "Sì",
+          "count": 1913
+        },
+        {
+          "value": "No",
+          "count": 574
+        }
+      ],
+      "examples": [
+        "No",
+        "Sì"
+      ]
+    },
+    {
+      "position": 9,
+      "original_name": "Motivazioni",
+      "normalized_name": "motivazioni",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 42,
+      "unique": false,
+      "min_length": 17,
+      "max_length": 161,
+      "top_values": [
+        {
+          "value": "Problemi produttivi",
+          "count": 979
+        },
+        {
+          "value": "Cessata commercializzazione definitiva",
+          "count": 337
+        },
+        {
+          "value": "Elevata richiesta",
+          "count": 327
+        },
+        {
+          "value": "Cessata commercializzazione temporanea",
+          "count": 182
+        },
+        {
+          "value": "Elevata richiesta/problemi produttivi",
+          "count": 90
+        }
+      ],
+      "examples": [
+        "Cessata commercializzazione definitiva",
+        "Cessata commercializzazione definitiva: disponibili solo confezioni prodotte da plasma in conto lavorazione",
+        "Cessata commercializzazione temporanea",
+        "Cessata commercializzazione temporanea: disponibili solo confezioni prodotte da plasma in conto lavorazione",
+        "Elevata richiesta"
+      ]
+    },
+    {
+      "position": 10,
+      "original_name": "Suggerimenti/Indicazioni AIFA",
+      "normalized_name": "suggerimenti_indicazioni_aifa",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 19,
+      "unique": false,
+      "min_length": 63,
+      "max_length": 473,
+      "top_values": [
+        {
+          "value": "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al M.M.G",
+          "count": 1745
+        },
+        {
+          "value": "Si rilascia autorizzazione all’importazione alle strutture sanitarie per analogo autorizzato all’estero, nel caso in cui le strutture interessate riscontrino discontinuità nella fornitura, a livello delle reti distributive cui hanno accesso",
+          "count": 436
+        },
+        {
+          "value": "Si rilascia autorizzazione all’importazione alle strutture sanitarie per analogo autorizzato all’estero",
+          "count": 203
+        },
+        {
+          "value": "Rilasciata determinazione per l’importazione al titolare A.I.C.",
+          "count": 51
+        },
+        {
+          "value": "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali con medesimo principio attivo, forma farmaceutica, via di somministrazione, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma formato differente",
+          "count": 10
+        }
+      ],
+      "examples": [
+        "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al M.M.G",
+        "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al M.M.G - Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali con medesimo principio attivo, forma farmaceutica, via di somministrazione, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma numero di unità posologiche differente",
+        "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia equivalenti e medicinali con medesimo principio attivo, forma farmaceutica, via di somministrazione, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma numero di unità posologiche differente",
+        "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali biosimilari.",
+        "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali con medesimo principio attivo, forma farmaceutica, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma numero di dosi unitarie differente."
+      ]
+    },
+    {
+      "position": 11,
+      "original_name": "Nota AIFA",
+      "normalized_name": "nota_aifa",
+      "inferred_type": "text",
+      "null_count": 2370,
+      "null_percent": 95.2955,
+      "distinct_count": 88,
+      "unique": false,
+      "min_length": 37,
+      "max_length": 496,
+      "top_values": [
+        {
+          "value": "Il medicinale è stato in carenza (distribuzione contingentata) dal 01/01/2021 al 01/04/2022",
+          "count": 6
+        },
+        {
+          "value": "Il titolare AIC si riserva, fino ad esaurimento effettivo delle scorte, di rifornire gli enti pubblici con i quali sussistono impegni di fornitura a seguito di aggiudicazioni di gare pubbliche o comunque contratti basati sul Codice degli Appalti",
+          "count": 6
+        },
+        {
+          "value": "La normalizzazione della distribuzione è prevista per novembre 2026: fino a tale data, potrebbero alternarsi periodi di carenza a periodi in cui il medicinale tornerà parzialmente disponibile. Malgrado le forniture discontinue, il Titolare attuerà una attenta distribuzione contingentata delle scorte disponibili, riservando comunque delle confezioni per ordini di emergenza, con l'obiettivo di garantire la continuità terapeutica sul territorio nazionale fino al ripristino di forniture regolari",
+          "count": 5
+        },
+        {
+          "value": "Data di inizio della cessata commercializzazione definitiva nel canale ospedaliero 31/12/2026; fino a tale data il titolare garantisce le forniture a strutture a seguito di gare aggiudicate ed in corso di validità",
+          "count": 3
+        },
+        {
+          "value": "Disponibili confezioni importate dal titolare",
+          "count": 3
+        }
+      ],
+      "examples": [
+        "- canale retail: cessata commercializzazione a partire dal 30 novembre 2026\n- canale ospedaliero: cessata commercializzazione a partire dal 31 dicembre 2026",
+        "- canale retail: in cessata commercializzazione definitiva; disponibili confezioni per ordini di emergenza\n- canale ospedaliero: il titolare garantisce le forniture per gli aggiudicatari di gare in essere fino a marzo 2027; da tale data il medicinale sarà  in cessata commercializzazione definitiva",
+        "- cessata commercializzazione per il canale retail a partire dal 31/01/2025\n- cessata commercializzazione per il canale ospedaliero a partire dal 31/08/2025",
+        "Canale retail: Cessata commercializzazione definitiva dal 13.06.2025\nCanale ospedaliero: Il titolare AIC si riserva, fino ad esaurimento effettivo delle scorte, di rifornire gli enti pubblici con i quali sussistono impegni di fornitura a seguito di aggiudicazioni di gare pubbliche o comunque contratti basati sul Codice degli Appalti",
+        "Carenza relativa a entrambi i canali:\ninizio carenza canale ospedaliero: 05/08/2024\ninizio carenza canale retail: 08/07/2024"
+      ]
+    },
+    {
+      "position": 12,
+      "original_name": "Classe di rimborsabilità",
+      "normalized_name": "classe_di_rimborsabilita",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 4,
+      "unique": false,
+      "min_length": 15,
+      "max_length": 30,
+      "top_values": [
+        {
+          "value": "A TOTALE CARICO DEL SSN.",
+          "count": 1431
+        },
+        {
+          "value": "A TOTALE CARICO DELL'ASSISTITO",
+          "count": 565
+        },
+        {
+          "value": "A CARICO DEL SSN AMBITO OSPED.",
+          "count": 464
+        },
+        {
+          "value": "C NON NEGOZIATA",
+          "count": 27
+        }
+      ],
+      "examples": [
+        "A CARICO DEL SSN AMBITO OSPED.",
+        "A TOTALE CARICO DEL SSN.",
+        "A TOTALE CARICO DELL'ASSISTITO",
+        "C NON NEGOZIATA"
+      ]
+    },
+    {
+      "position": 13,
+      "original_name": "Codice ATC",
+      "normalized_name": "codice_atc",
+      "inferred_type": "text",
+      "null_count": 2,
+      "null_percent": 0.0804,
+      "distinct_count": 733,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 13,
+      "top_values": [
+        {
+          "value": "N05AH04",
+          "count": 63
+        },
+        {
+          "value": "J06BA02",
+          "count": 30
+        },
+        {
+          "value": "G04BE08",
+          "count": 29
+        },
+        {
+          "value": "N02AB03",
+          "count": 29
+        },
+        {
+          "value": "B03XA01",
+          "count": 28
+        }
+      ],
+      "examples": [
+        "A01AB09",
+        "A01AD11",
+        "A02AD02",
+        "A02BA03",
+        "A02BC01"
+      ],
+      "patterns": [
+        "ATC_LEVEL_5"
+      ]
+    }
+  ]
+}

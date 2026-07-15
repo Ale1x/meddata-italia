@@ -1,0 +1,10 @@
+id: aifa-package-ingredients
+name: AIFA Package Active Substances
+authority: AIFA
+enabled: true
+index_url: https://www.aifa.gov.it/liste-dei-farmaci
+static_url_override: https://drive.aifa.gov.it/farmaci/PA_confezioni.csv
+declared_frequency: daily
+discovery: {type: html-link, preferred_formats: [csv], link_text_patterns: ["Principi Attivi"], url_patterns: ["PA_confezioni\\.csv"]}
+download: {timeout: 120s, max_size_bytes: 52428800}
+parser: {type: aifa-package-ingredients, encoding: utf-8, skip_records: 0}

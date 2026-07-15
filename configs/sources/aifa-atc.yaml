@@ -1,0 +1,10 @@
+id: aifa-atc
+name: AIFA ATC Register
+authority: AIFA
+enabled: true
+index_url: https://www.aifa.gov.it/liste-dei-farmaci
+static_url_override: https://drive.aifa.gov.it/farmaci/atc.csv
+declared_frequency: daily
+discovery: {type: html-link, preferred_formats: [csv], link_text_patterns: ["Anagrafica ATC"], url_patterns: ["atc\\.csv"]}
+download: {timeout: 60s, max_size_bytes: 10485760}
+parser: {type: aifa-atc, encoding: utf-8, skip_records: 0}

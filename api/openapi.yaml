@@ -1,0 +1,259 @@
+openapi: 3.1.0
+info:
+  title: Medicine Platform API
+  version: 1.0.0
+  description: Italian medicine catalog. Official equivalents are exclusively AIFA transparency-list co-memberships.
+  license: {name: Apache-2.0, identifier: Apache-2.0}
+servers:
+  - url: /api/v1
+security: []
+paths:
+  /official-equivalence/compare:
+    get:
+      summary: Compare two packages for official AIFA equivalence
+      operationId: compareOfficialEquivalence
+      description: Returns true only when both AICs are current members of the same AIFA_TRANSPARENCY_OFFICIAL group. Same substance or ATC is insufficient.
+      parameters:
+        - {name: left_aic, in: query, required: true, schema: {type: string, pattern: '^[0-9]{1,9}$'}}
+        - {name: right_aic, in: query, required: true, schema: {type: string, pattern: '^[0-9]{1,9}$'}}
+      responses:
+        '200':
+          description: Official equivalence comparison
+          content: {application/json: {schema: {$ref: '#/components/schemas/OfficialEquivalenceComparisonEnvelope'}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /medicines:
+    get:
+      summary: List medicinal products
+      operationId: listMedicines
+      parameters:
+        - {$ref: '#/components/parameters/Query'}
+        - {$ref: '#/components/parameters/Limit'}
+        - {$ref: '#/components/parameters/Offset'}
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /medicines/{id}:
+    get:
+      summary: Get a medicinal product
+      operationId: getMedicine
+      parameters: [{$ref: '#/components/parameters/ID'}]
+      responses: {'200': {$ref: '#/components/responses/Resource'}, '404': {$ref: '#/components/responses/NotFound'}}
+  /packages/{id}:
+    get:
+      summary: Get a package
+      operationId: getPackage
+      parameters:
+        - {$ref: '#/components/parameters/ID'}
+        - name: include
+          in: query
+          schema: {type: string, enum: [provenance]}
+      responses: {'200': {$ref: '#/components/responses/Package'}, '404': {$ref: '#/components/responses/NotFound'}}
+  /packages/by-aic/{aic}:
+    get:
+      summary: Look up a package by AIC
+      operationId: getPackageByAIC
+      parameters:
+        - name: aic
+          in: path
+          required: true
+          description: AIC with 1–9 digits; response contains canonical nine-digit form.
+          schema: {type: string, pattern: '^[0-9]{1,9}$'}
+        - name: include
+          in: query
+          schema: {type: string, enum: [provenance]}
+      responses: {'200': {$ref: '#/components/responses/Package'}, '400': {$ref: '#/components/responses/BadRequest'}, '404': {$ref: '#/components/responses/NotFound'}}
+  /packages/{id}/official-equivalents:
+    get:
+      summary: List official AIFA equivalents
+      operationId: listOfficialEquivalents
+      description: Returns only AIFA_TRANSPARENCY_OFFICIAL members; substance/ATC/A-H/shortage inference is excluded.
+      parameters: [{$ref: '#/components/parameters/ID'}]
+      responses:
+        '200':
+          description: Official group and other current members.
+          content: {application/json: {schema: {$ref: '#/components/schemas/Envelope'}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /active-substances:
+    get:
+      summary: List active substances
+      operationId: listActiveSubstances
+      parameters: [{$ref: '#/components/parameters/Limit'}, {$ref: '#/components/parameters/Offset'}]
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /active-substances/{id}:
+    get:
+      summary: Get an active substance
+      operationId: getActiveSubstance
+      parameters: [{$ref: '#/components/parameters/ID'}]
+      responses: {'200': {$ref: '#/components/responses/Resource'}, '404': {$ref: '#/components/responses/NotFound'}}
+  /active-substances/{id}/packages:
+    get:
+      summary: List packages by active substance
+      operationId: listPackagesByActiveSubstance
+      parameters: [{$ref: '#/components/parameters/ID'}, {$ref: '#/components/parameters/Limit'}, {$ref: '#/components/parameters/Offset'}]
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /atc/{code}:
+    get:
+      summary: Get an ATC classification
+      operationId: getATC
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema: {type: string, minLength: 1, maxLength: 16}
+      responses: {'200': {$ref: '#/components/responses/Resource'}, '404': {$ref: '#/components/responses/NotFound'}}
+  /shortages:
+    get:
+      summary: List current shortage episodes
+      operationId: listShortages
+      parameters: [{$ref: '#/components/parameters/Limit'}, {$ref: '#/components/parameters/Offset'}]
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /packages/{id}/shortages:
+    get:
+      summary: List shortage episodes for a package
+      operationId: listPackageShortages
+      parameters: [{$ref: '#/components/parameters/ID'}]
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /ingestions/latest:
+    get:
+      summary: List latest source ingestion states
+      operationId: listLatestIngestions
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /sources:
+    get:
+      summary: List configured sources
+      operationId: listSources
+      responses: {'200': {$ref: '#/components/responses/Collection'}}
+  /health/live:
+    get:
+      summary: Check process liveness
+      servers: [{url: /}]
+      operationId: live
+      responses: {'200': {description: Process is live}}
+  /health/ready:
+    get:
+      summary: Check dependency readiness
+      servers: [{url: /}]
+      operationId: ready
+      responses: {'200': {description: Dependencies initialized}, '503': {description: Not ready}}
+  /metrics:
+    get:
+      summary: Export Prometheus metrics
+      servers: [{url: /}]
+      operationId: metrics
+      responses: {'200': {description: Prometheus exposition}}
+components:
+  parameters:
+    ID: {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+    Query: {name: q, in: query, schema: {type: string}}
+    Limit: {name: limit, in: query, schema: {type: integer, minimum: 1, maximum: 200, default: 50}}
+    Offset: {name: offset, in: query, schema: {type: integer, minimum: 0, default: 0}}
+  headers:
+    RequestID: {schema: {type: string, format: uuid}}
+    DataObservedAt: {schema: {type: string, format: date-time}}
+    DataSource: {schema: {type: string}}
+  responses:
+    Resource:
+      description: Resource envelope
+      headers: {X-Request-ID: {$ref: '#/components/headers/RequestID'}}
+      content: {application/json: {schema: {$ref: '#/components/schemas/Envelope'}}}
+    Collection:
+      description: Collection envelope
+      headers: {X-Request-ID: {$ref: '#/components/headers/RequestID'}}
+      content: {application/json: {schema: {$ref: '#/components/schemas/Envelope'}}}
+    Package:
+      description: Canonical package with supported AIFA fields
+      headers:
+        X-Request-ID: {$ref: '#/components/headers/RequestID'}
+        X-Data-Observed-At: {$ref: '#/components/headers/DataObservedAt'}
+        X-Data-Source: {$ref: '#/components/headers/DataSource'}
+      content: {application/json: {schema: {$ref: '#/components/schemas/PackageEnvelope'}}}
+    BadRequest: {description: Invalid request, content: {application/json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    NotFound: {description: Resource not found, content: {application/json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+  schemas:
+    Envelope:
+      type: object
+      required: [data, meta]
+      properties: {data: {}, meta: {$ref: '#/components/schemas/Meta'}}
+    PackageEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: {$ref: '#/components/schemas/Package'}
+        meta: {$ref: '#/components/schemas/Meta'}
+    OfficialEquivalenceComparisonEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: {$ref: '#/components/schemas/OfficialEquivalenceComparison'}
+        meta: {$ref: '#/components/schemas/Meta'}
+    OfficialEquivalenceComparison:
+      type: object
+      required: [equivalent, semantics, reason, left, right]
+      properties:
+        equivalent: {type: boolean}
+        semantics: {type: string, const: AIFA_TRANSPARENCY_OFFICIAL}
+        reason: {type: string, enum: [SAME_OFFICIAL_GROUP, DIFFERENT_OFFICIAL_GROUPS, LEFT_NOT_IN_OFFICIAL_LIST, RIGHT_NOT_IN_OFFICIAL_LIST, NEITHER_IN_OFFICIAL_LIST]}
+        left: {$ref: '#/components/schemas/ComparedPackage'}
+        right: {$ref: '#/components/schemas/ComparedPackage'}
+        shared_official_group: {oneOf: [{$ref: '#/components/schemas/OfficialGroup'}, {type: 'null'}]}
+    ComparedPackage:
+      type: object
+      required: [id, aic, name, description]
+      properties:
+        id: {type: string, format: uuid}
+        aic: {type: string, pattern: '^[0-9]{9}$'}
+        name: {type: string}
+        description: {type: string}
+        official_group: {oneOf: [{$ref: '#/components/schemas/OfficialGroup'}, {type: 'null'}]}
+    OfficialGroup:
+      type: object
+      required: [id, authority, source, source_group_identifier, label, published_date, valid_from]
+      properties:
+        id: {type: string, format: uuid}
+        authority: {type: string, const: AIFA}
+        source: {type: string}
+        source_group_identifier: {type: string}
+        label: {type: string}
+        published_date: {type: string, format: date}
+        valid_from: {type: string, format: date-time}
+        valid_to: {type: [string, 'null'], format: date-time}
+    Package:
+      type: object
+      required: [id, aic, medicine, package_description, active_substances, atc, observed_at]
+      properties:
+        id: {type: string, format: uuid}
+        aic: {type: string, pattern: '^[0-9]{9}$'}
+        medicine: {$ref: '#/components/schemas/NamedEntity'}
+        package_description: {type: string}
+        active_substances: {type: array, items: {$ref: '#/components/schemas/Ingredient'}}
+        pharmaceutical_form: {oneOf: [{$ref: '#/components/schemas/NamedEntity'}, {type: 'null'}]}
+        administration_route: {oneOf: [{$ref: '#/components/schemas/NamedEntity'}, {type: 'null'}]}
+        authorization_holder: {oneOf: [{$ref: '#/components/schemas/NamedEntity'}, {type: 'null'}]}
+        administrative_status: {type: [string, 'null']}
+        supply_regime: {type: [string, 'null']}
+        atc: {type: array, items: {type: object}}
+        official_equivalence: {type: [object, 'null']}
+        provenance: {type: array, items: {$ref: '#/components/schemas/Provenance'}}
+        observed_at: {type: string, format: date-time}
+    NamedEntity:
+      type: object
+      required: [id, name]
+      properties: {id: {type: string, format: uuid}, name: {type: string}}
+    Ingredient:
+      type: object
+      required: [id, name]
+      properties: {id: {type: string, format: uuid}, name: {type: string}, quantity: {type: [number, 'null']}, unit: {type: [string, 'null']}, quantity_raw: {type: [string, 'null']}, unit_raw: {type: [string, 'null']}}
+    Provenance:
+      type: object
+      properties: {source: {type: [string, 'null']}, artifact_hash: {type: [string, 'null'], pattern: '^[0-9a-f]{64}$'}, source_published_at: {type: [string, 'null'], format: date-time}, downloaded_at: {type: [string, 'null'], format: date-time}, observed_at: {type: [string, 'null'], format: date-time}, valid_from: {type: [string, 'null'], format: date-time}, valid_to: {type: [string, 'null'], format: date-time}}
+    Meta:
+      type: object
+      required: [request_id]
+      properties: {request_id: {type: string}, data_freshness: {type: object}, limit: {type: integer}, offset: {type: integer}}
+    Problem:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, detail]
+          properties: {code: {type: string}, detail: {type: string}}

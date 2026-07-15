@@ -1,0 +1,66 @@
+{
+  "artifact": "/tmp/med-discovery/shortages-2025.zip",
+  "first": {
+    "header": [
+      "Nome medicinale",
+      "Codice AIC",
+      "Principio attivo",
+      "Forma farmaceutica e dosaggio",
+      "Titolare AIC",
+      "Data inizio",
+      "Fine presunta",
+      "Equivalente",
+      "Motivazioni",
+      "Suggerimenti/Indicazioni AIFA",
+      "Nota AIFA",
+      "Classe di rimborsabilità",
+      "Codice ATC"
+    ],
+    "name": "01_03.01.2025/6_Elenco_farmaci_carenti_03.01.2025.xlsx",
+    "rows": 3896
+  },
+  "header_variants": [
+    {
+      "header": [
+        "Nome medicinale",
+        "Codice AIC",
+        "Principio attivo",
+        "Forma farmaceutica e dosaggio",
+        "Titolare AIC",
+        "Data inizio",
+        "Fine presunta",
+        "Equivalente",
+        "Motivazioni",
+        "Suggerimenti/Indicazioni AIFA",
+        "Nota AIFA",
+        "Classe di rimborsabilità",
+        "Codice ATC"
+      ],
+      "snapshots": 100
+    }
+  ],
+  "last": {
+    "header": [
+      "Nome medicinale",
+      "Codice AIC",
+      "Principio attivo",
+      "Forma farmaceutica e dosaggio",
+      "Titolare AIC",
+      "Data inizio",
+      "Fine presunta",
+      "Equivalente",
+      "Motivazioni",
+      "Suggerimenti/Indicazioni AIFA",
+      "Nota AIFA",
+      "Classe di rimborsabilità",
+      "Codice ATC"
+    ],
+    "name": "100_30.12.2025/6_Elenco_farmaci_carenti 30.12.2025.xlsx",
+    "rows": 4107
+  },
+  "max_rows": 4136,
+  "min_rows": 3883,
+  "sha256": "25bccaaaaceabef8ac758d0d7035b91c9bfe5f44196c9edb2452eea02d45dd78",
+  "size_bytes": 88083779,
+  "snapshot_count": 100
+}

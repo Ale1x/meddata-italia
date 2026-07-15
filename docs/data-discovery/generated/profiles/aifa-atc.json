@@ -1,0 +1,105 @@
+{
+  "dataset_id": "aifa-atc",
+  "artifact_url": "https://drive.aifa.gov.it/farmaci/atc.csv",
+  "sha256": "5ca623359301f79fead225aa7e4953b20af8d437daa071b50df21ccbcb29ca9a",
+  "size_bytes": 198401,
+  "encoding": "UTF-8/ASCII",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "LF",
+  "bom": false,
+  "row_count": 7209,
+  "column_count": 2,
+  "malformed_rows": 0,
+  "duplicate_rows": 0,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "CODICE_ATC",
+      "normalized_name": "codice_atc",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 7209,
+      "unique": true,
+      "min_length": 1,
+      "max_length": 7,
+      "top_values": [
+        {
+          "value": "A",
+          "count": 1
+        },
+        {
+          "value": "A01",
+          "count": 1
+        },
+        {
+          "value": "A01A",
+          "count": 1
+        },
+        {
+          "value": "A01AA",
+          "count": 1
+        },
+        {
+          "value": "A01AA01",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "A",
+        "A01",
+        "A01A",
+        "A01AA",
+        "A01AA01"
+      ],
+      "patterns": [
+        "ATC_LEVEL_5"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "DESCRIZIONE",
+      "normalized_name": "descrizione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 6132,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 100,
+      "top_values": [
+        {
+          "value": "ASSOCIAZIONI",
+          "count": 39
+        },
+        {
+          "value": "BETAMETASONE",
+          "count": 11
+        },
+        {
+          "value": "DESAMETASONE",
+          "count": 11
+        },
+        {
+          "value": "PREDNISOLONE",
+          "count": 11
+        },
+        {
+          "value": "IDROCORTISONE",
+          "count": 10
+        }
+      ],
+      "examples": [
+        "(2-BENZIDRILOSSIETIL)DIETIL-METILAMMONIO IODURO",
+        "13C-UREA",
+        "18F-FET (FLUORO-ETIL-TIROSINA)",
+        "2-(4-CLORFENOSSI)-ETANOLO",
+        "4-DIMETILAMINOFENOLO"
+      ],
+      "patterns": [
+        "ATC_LEVEL_5"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+id: aifa-packages
+name: AIFA Package Register
+authority: AIFA
+enabled: true
+index_url: https://www.aifa.gov.it/liste-dei-farmaci
+static_url_override: https://drive.aifa.gov.it/farmaci/confezioni_fornitura.csv
+declared_frequency: daily
+discovery: {type: html-link, preferred_formats: [csv], link_text_patterns: ["Anagrafica Farmaci AIFA"], url_patterns: ["confezioni_fornitura\\.csv"]}
+download: {timeout: 120s, max_size_bytes: 157286400}
+parser: {type: aifa-packages, encoding: utf-8, skip_records: 0}

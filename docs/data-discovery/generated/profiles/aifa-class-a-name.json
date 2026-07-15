@@ -1,0 +1,400 @@
+{
+  "dataset_id": "aifa-class-a-name",
+  "artifact_url": "https://www.aifa.gov.it/documents/20142/3815901/Classe_A_per_nome_commerciale_28-02-2026.csv",
+  "sha256": "737e180c7a9d10f171d28ba7809f9d41c089a8f13b79b9b2677e0b1285ba9d98",
+  "size_bytes": 1496599,
+  "encoding": "Windows-1252",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "CRLF",
+  "bom": false,
+  "row_count": 10617,
+  "column_count": 10,
+  "malformed_rows": 0,
+  "duplicate_rows": 0,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "Principio Attivo",
+      "normalized_name": "principio_attivo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 852,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 104,
+      "top_values": [
+        {
+          "value": "Ossigeno",
+          "count": 360
+        },
+        {
+          "value": "Pantoprazolo",
+          "count": 226
+        },
+        {
+          "value": "Colecalciferolo",
+          "count": 165
+        },
+        {
+          "value": "Lansoprazolo",
+          "count": 137
+        },
+        {
+          "value": "Atorvastatina",
+          "count": 129
+        }
+      ],
+      "examples": [
+        "ATORVASTATINA",
+        "Abaloparatide",
+        "Acamprosato",
+        "Acarbosio",
+        "Acebutololo"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "Descrizione Gruppo",
+      "normalized_name": "descrizione_gruppo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2602,
+      "unique": false,
+      "min_length": 27,
+      "max_length": 120,
+      "top_values": [
+        {
+          "value": "AMOXICILLINA+ACIDO CLAVULANICO 875+125MG 12 UNITA' USO ORALE",
+          "count": 88
+        },
+        {
+          "value": "PANTOPRAZOLO 40MG 28 UNITA' USO ORALE",
+          "count": 66
+        },
+        {
+          "value": "OSSIGENO GAS COMPRESSO 200 BAR 5 LT METRI CUBI SVOLTI 1,10",
+          "count": 55
+        },
+        {
+          "value": "PANTOPRAZOLO 20MG 14 UNITA' USO ORALE",
+          "count": 55
+        },
+        {
+          "value": "OSSIGENO GAS COMPRESSO 200 BAR 14 LT METRI CUBI SVOLTI 3,08",
+          "count": 54
+        }
+      ],
+      "examples": [
+        "ABALOPARATIDE 3MG/1,5ML 1 UNITA' USO PARENTERALE",
+        "ACAMPROSATO 333MG 84 UNITA' USO ORALE",
+        "ACARBOSIO 100MG 40 UNITA' USO ORALE",
+        "ACARBOSIO 50MG 40 UNITA' USO ORALE",
+        "ACEBUTOLOLO 400MG 30 UNITA' USO ORALE"
+      ]
+    },
+    {
+      "position": 3,
+      "original_name": "Denominazione e Confezione",
+      "normalized_name": "denominazione_e_confezione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 6578,
+      "unique": false,
+      "min_length": 15,
+      "max_length": 173,
+      "top_values": [
+        {
+          "value": "OSSIGENO*200 bar gas med compresso bomb 14 litri",
+          "count": 43
+        },
+        {
+          "value": "OSSIGENO*200 bar gas med compresso bomb 5 litri",
+          "count": 40
+        },
+        {
+          "value": "OSSIGENO*200 bar gas med compresso bomb 7 litri",
+          "count": 39
+        },
+        {
+          "value": "OSSIGENO*200 bar gas med compresso bomb 10 litri",
+          "count": 30
+        },
+        {
+          "value": "PANTORC*28 cpr gastroresistenti 40 mg",
+          "count": 26
+        }
+      ],
+      "examples": [
+        "ABASAGLAR*5 cartucce SC 100 U/ml 3 ml",
+        "ABASAGLAR*5 penne preriempite SC 100 U/ml 3 ml",
+        "ABBA*12 cpr rivestite 875 mg + 125 mg",
+        "ABBA*orale polv 12 bust 875 mg + 125 mg",
+        "ABERIPRA*28x1 cpr 10 mg"
+      ]
+    },
+    {
+      "position": 4,
+      "original_name": "Prezzo al pubblico €",
+      "normalized_name": "prezzo_al_pubblico",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2511,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 8,
+      "top_values": [
+        {
+          "value": "10,94",
+          "count": 66
+        },
+        {
+          "value": "6,32",
+          "count": 66
+        },
+        {
+          "value": "7,90",
+          "count": 61
+        },
+        {
+          "value": "5,63",
+          "count": 58
+        },
+        {
+          "value": "4,50",
+          "count": 55
+        }
+      ],
+      "examples": [
+        "0,17",
+        "0,22",
+        "0,23",
+        "0,26",
+        "0,27"
+      ]
+    },
+    {
+      "position": 5,
+      "original_name": "Titolare AIC",
+      "normalized_name": "titolare_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 438,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 31,
+      "top_values": [
+        {
+          "value": "DOC GENERICI Srl",
+          "count": 585
+        },
+        {
+          "value": "EG SpA",
+          "count": 566
+        },
+        {
+          "value": "SANDOZ SpA",
+          "count": 487
+        },
+        {
+          "value": "MYLAN SpA",
+          "count": 473
+        },
+        {
+          "value": "AUROBINDO PHARMA ITALIA Srl",
+          "count": 347
+        }
+      ],
+      "examples": [
+        "A.G.F. Srl",
+        "A.MENARINI IND.FARM.RIUN.Srl",
+        "ABACUS MEDICINE A/S COPENHAGEN",
+        "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG",
+        "ABBVIE Srl"
+      ]
+    },
+    {
+      "position": 6,
+      "original_name": "AIC",
+      "normalized_name": "aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 10617,
+      "unique": true,
+      "min_length": 9,
+      "max_length": 9,
+      "top_values": [
+        {
+          "value": "002129017",
+          "count": 1
+        },
+        {
+          "value": "002309033",
+          "count": 1
+        },
+        {
+          "value": "002309045",
+          "count": 1
+        },
+        {
+          "value": "002309058",
+          "count": 1
+        },
+        {
+          "value": "002309060",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "002129017",
+        "002309033",
+        "002309045",
+        "002309058",
+        "002309060"
+      ],
+      "patterns": [
+        "AIC_9_DIGITS"
+      ]
+    },
+    {
+      "position": 7,
+      "original_name": "Codice Gruppo Equivalenza",
+      "normalized_name": "codice_gruppo_equivalenza",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2605,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 3,
+      "top_values": [
+        {
+          "value": "CJA",
+          "count": 88
+        },
+        {
+          "value": "HCJ",
+          "count": 66
+        },
+        {
+          "value": "009",
+          "count": 55
+        },
+        {
+          "value": "CTA",
+          "count": 55
+        },
+        {
+          "value": "010",
+          "count": 54
+        }
+      ],
+      "examples": [
+        "002",
+        "005",
+        "009",
+        "010",
+        "011"
+      ]
+    },
+    {
+      "position": 8,
+      "original_name": "X=in lista di trasparenza Aifa 16/2/2026",
+      "normalized_name": "x_in_lista_di_trasparenza_aifa_16_2_2026",
+      "inferred_type": "text",
+      "null_count": 2276,
+      "null_percent": 21.4373,
+      "distinct_count": 1,
+      "unique": false,
+      "min_length": 1,
+      "max_length": 1,
+      "top_values": [
+        {
+          "value": "X",
+          "count": 8341
+        }
+      ],
+      "examples": [
+        "X"
+      ]
+    },
+    {
+      "position": 9,
+      "original_name": "Solo in lista di Regione:",
+      "normalized_name": "solo_in_lista_di_regione",
+      "inferred_type": "text",
+      "null_count": 10561,
+      "null_percent": 99.4725,
+      "distinct_count": 3,
+      "unique": false,
+      "min_length": 7,
+      "max_length": 22,
+      "top_values": [
+        {
+          "value": "Toscana",
+          "count": 51
+        },
+        {
+          "value": "Basilicata",
+          "count": 3
+        },
+        {
+          "value": "Lazio,Campania,Sicilia",
+          "count": 2
+        }
+      ],
+      "examples": [
+        "Basilicata",
+        "Lazio,Campania,Sicilia",
+        "Toscana"
+      ]
+    },
+    {
+      "position": 10,
+      "original_name": "Metri cubi ossigeno",
+      "normalized_name": "metri_cubi_ossigeno",
+      "inferred_type": "text",
+      "null_count": 10257,
+      "null_percent": 96.6092,
+      "distinct_count": 38,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 5,
+      "top_values": [
+        {
+          "value": "1,10",
+          "count": 55
+        },
+        {
+          "value": "1,54",
+          "count": 54
+        },
+        {
+          "value": "3,08",
+          "count": 54
+        },
+        {
+          "value": "2,20",
+          "count": 40
+        },
+        {
+          "value": "5,94",
+          "count": 28
+        }
+      ],
+      "examples": [
+        "1,10",
+        "1,16",
+        "1,54",
+        "2,20",
+        "2,32"
+      ]
+    }
+  ]
+}

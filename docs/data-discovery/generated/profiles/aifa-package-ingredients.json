@@ -1,0 +1,187 @@
+{
+  "dataset_id": "aifa-package-ingredients",
+  "artifact_url": "https://drive.aifa.gov.it/farmaci/PA_confezioni.csv",
+  "sha256": "1ff88f43d1e060935232df5237b63758bec2ddd85e2601f542993955644a20a9",
+  "size_bytes": 11543496,
+  "encoding": "UTF-8/ASCII",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "LF",
+  "bom": false,
+  "row_count": 337651,
+  "column_count": 4,
+  "malformed_rows": 0,
+  "duplicate_rows": 0,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "CODICE_AIC",
+      "normalized_name": "codice_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 299299,
+      "unique": false,
+      "min_length": 9,
+      "max_length": 9,
+      "top_values": [
+        {
+          "value": "047094014",
+          "count": 30
+        },
+        {
+          "value": "047101011",
+          "count": 29
+        },
+        {
+          "value": "047607015",
+          "count": 29
+        },
+        {
+          "value": "052600018",
+          "count": 29
+        },
+        {
+          "value": "052600020",
+          "count": 29
+        }
+      ],
+      "examples": [
+        "000140018",
+        "000152013",
+        "000152025",
+        "000152037",
+        "000152049"
+      ],
+      "patterns": [
+        "AIC_9_DIGITS"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "PRINCIPIO_ATTIVO",
+      "normalized_name": "principio_attivo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 5732,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 346,
+      "top_values": [
+        {
+          "value": "N.D.",
+          "count": 52926
+        },
+        {
+          "value": "IDROCLOROTIAZIDE",
+          "count": 4922
+        },
+        {
+          "value": "SODIO CLORURO",
+          "count": 4119
+        },
+        {
+          "value": "VALSARTAN",
+          "count": 2832
+        },
+        {
+          "value": "POTASSIO CLORURO",
+          "count": 2538
+        }
+      ],
+      "examples": [
+        "131-I IODOMETHYL NORCHOLESTEROL",
+        "2-IDROSSIETIL METACRILATO",
+        "A/DARWIN/9/2021 (H3N2) ? CEPPO EQUIVALENTE (A/DARWIN/9/2021, SAN-010)",
+        "A/VICTORIA/2570/2019 (H1N1)PDM09-CEPPO EQUIVALENTE (A/VICTORIA/2570/2019, IVR-215)",
+        "ABACAVIR"
+      ]
+    },
+    {
+      "position": 3,
+      "original_name": "QUANTITA",
+      "normalized_name": "quantita",
+      "inferred_type": "text",
+      "null_count": 156331,
+      "null_percent": 46.2996,
+      "distinct_count": 1967,
+      "unique": false,
+      "min_length": 1,
+      "max_length": 17,
+      "top_values": [
+        {
+          "value": "0.0",
+          "count": 51819
+        },
+        {
+          "value": "10",
+          "count": 11978
+        },
+        {
+          "value": "5",
+          "count": 8851
+        },
+        {
+          "value": "20",
+          "count": 8634
+        },
+        {
+          "value": "100",
+          "count": 6733
+        }
+      ],
+      "examples": [
+        "0.0",
+        "0.1",
+        "0.2",
+        "0.3",
+        "0.4"
+      ],
+      "patterns": [
+        "AIC_9_DIGITS"
+      ]
+    },
+    {
+      "position": 4,
+      "original_name": "UNITA_MISURA",
+      "normalized_name": "unita_misura",
+      "inferred_type": "text",
+      "null_count": 133262,
+      "null_percent": 39.4674,
+      "distinct_count": 95,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 28,
+      "top_values": [
+        {
+          "value": "milligrammi",
+          "count": 102983
+        },
+        {
+          "value": "N.D.",
+          "count": 82767
+        },
+        {
+          "value": "milligram(s)/millilitre",
+          "count": 5606
+        },
+        {
+          "value": "grammi",
+          "count": 2579
+        },
+        {
+          "value": "microgrammi",
+          "count": 2569
+        }
+      ],
+      "examples": [
+        "Centimetro quadrato",
+        "Chilogrammi",
+        "Colony forming unit",
+        "DICT 50",
+        "DOSE       TEST MODIFICA CO#"
+      ]
+    }
+  ]
+}

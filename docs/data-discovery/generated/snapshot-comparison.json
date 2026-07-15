@@ -1,0 +1,38 @@
+[
+  {
+    "from": "2025-01-15",
+    "to": "2026-03-16",
+    "header_changed": true,
+    "added": 557,
+    "removed": 350,
+    "modified": 725,
+    "unchanged": 7131,
+    "groups_added": 39,
+    "groups_removed": 15,
+    "membership_changes": 0
+  },
+  {
+    "from": "2026-03-16",
+    "to": "2026-04-15",
+    "header_changed": true,
+    "added": 51,
+    "removed": 11,
+    "modified": 24,
+    "unchanged": 8378,
+    "groups_added": 3,
+    "groups_removed": 1,
+    "membership_changes": 0
+  },
+  {
+    "from": "2026-04-15",
+    "to": "2026-07-15",
+    "header_changed": true,
+    "added": 137,
+    "removed": 82,
+    "modified": 136,
+    "unchanged": 8235,
+    "groups_added": 9,
+    "groups_removed": 3,
+    "membership_changes": 0
+  }
+]

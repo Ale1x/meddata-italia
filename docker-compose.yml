@@ -1,0 +1,69 @@
+name: medicine-platform
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: medicine
+      POSTGRES_USER: medicine
+      POSTGRES_PASSWORD: medicine
+    ports: ["5432:5432"]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U medicine -d medicine"], interval: 5s, timeout: 3s, retries: 20}
+    volumes: [postgres-data:/var/lib/postgresql/data]
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment: {RABBITMQ_DEFAULT_USER: medicine, RABBITMQ_DEFAULT_PASS: medicine}
+    ports: ["5672:5672", "15672:15672"]
+    healthcheck: {test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"], interval: 5s, timeout: 5s, retries: 20}
+    volumes: [rabbitmq-data:/var/lib/rabbitmq]
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address :9001
+    environment: {MINIO_ROOT_USER: minioadmin, MINIO_ROOT_PASSWORD: minioadmin}
+    ports: ["9000:9000", "9001:9001"]
+    healthcheck: {test: ["CMD", "mc", "ready", "local"], interval: 5s, timeout: 3s, retries: 20}
+    volumes: [minio-data:/data]
+  minio-init:
+    image: minio/mc:latest
+    depends_on: {minio: {condition: service_healthy}}
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["mc alias set local http://minio:9000 minioadmin minioadmin && mc mb --ignore-existing local/medicine-data"]
+  migrate:
+    build: {context: ., dockerfile: deployments/docker/Dockerfile, args: {SERVICE: migrate}}
+    environment: {MEDICINE_DATABASE_URL: "postgres://medicine:medicine@postgres:5432/medicine?sslmode=disable"}
+    depends_on: {postgres: {condition: service_healthy}}
+  public-api:
+    build: {context: ., dockerfile: deployments/docker/Dockerfile, args: {SERVICE: public-api}}
+    environment: &app-env
+      MEDICINE_DATABASE_URL: "postgres://medicine:medicine@postgres:5432/medicine?sslmode=disable"
+      MEDICINE_RABBIT_MQ_URL: "amqp://medicine:medicine@rabbitmq:5672/"
+      MEDICINE_MINIO_ENDPOINT: minio:9000
+      MEDICINE_MINIO_ACCESS_KEY: minioadmin
+      MEDICINE_MINIO_SECRET_KEY: minioadmin
+      MEDICINE_SOURCES_DIR: /app/configs/sources
+    ports: ["8080:8080"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+    healthcheck: {test: ["CMD", "/busybox/wget", "-q", "-O", "-", "http://localhost:8080/health/live"], interval: 10s, timeout: 3s, retries: 10}
+  frontend:
+    build: {context: ./frontend, dockerfile: Dockerfile}
+    ports: ["3000:80"]
+    depends_on: {public-api: {condition: service_healthy}}
+    healthcheck: {test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1/"], interval: 10s, timeout: 3s, retries: 10}
+  ingestion-worker:
+    build: {context: ., dockerfile: deployments/docker/Dockerfile, args: {SERVICE: ingestion-worker}}
+    environment: *app-env
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      rabbitmq: {condition: service_healthy}
+      minio-init: {condition: service_completed_successfully}
+  ingestion-scheduler:
+    profiles: [tools]
+    build: {context: ., dockerfile: deployments/docker/Dockerfile, args: {SERVICE: ingestion-scheduler}}
+    environment: *app-env
+    depends_on: {rabbitmq: {condition: service_healthy}}
+  prometheus:
+    profiles: [observability]
+    image: prom/prometheus:latest
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    volumes: ["./deployments/docker/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+    ports: ["9090:9090"]
+volumes: {postgres-data: {}, rabbitmq-data: {}, minio-data: {}}

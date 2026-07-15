@@ -1,0 +1,43 @@
+# macOS and editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+
+# Go build and test output
+/bin/
+/coverage/
+coverage.out
+*.test
+*.prof
+
+# Frontend dependencies and output
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.tsbuildinfo
+
+# Runtime and temporary data
+.cache/
+.tmp/
+tmp/
+data/
+*.log
+
+# Infrastructure local state
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Local raw acquisitions are immutable in object storage, not Git
+medicine-data/

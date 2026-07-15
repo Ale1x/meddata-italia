@@ -1,0 +1,3874 @@
+{
+  "joins": [
+    {
+      "left_dataset": "aifa-packages",
+      "right_dataset": "aifa-package-ingredients",
+      "left_column": "CODICE_AIC",
+      "right_column": "CODICE_AIC",
+      "left_distinct": 159858,
+      "right_distinct": 299299,
+      "common_keys": 159858,
+      "missing_left": 0,
+      "missing_right": 139441,
+      "left_duplicate_keys": 0,
+      "right_duplicate_keys": 24391,
+      "left_match_percent": 100,
+      "right_match_percent": 53.41080324357916,
+      "observed_cardinality": "one-to-many",
+      "unmatched_left_examples": null,
+      "unmatched_right_examples": [
+        "000140018",
+        "000152013",
+        "000152025",
+        "000152037",
+        "000152049",
+        "000152064",
+        "000152076",
+        "000188019",
+        "000188021",
+        "000188033"
+      ]
+    },
+    {
+      "left_dataset": "aifa-packages",
+      "right_dataset": "aifa-atc",
+      "left_column": "CODICE_ATC",
+      "right_column": "CODICE_ATC",
+      "left_distinct": 2261,
+      "right_distinct": 7209,
+      "common_keys": 2261,
+      "missing_left": 0,
+      "missing_right": 4948,
+      "left_duplicate_keys": 1900,
+      "right_duplicate_keys": 0,
+      "left_match_percent": 100,
+      "right_match_percent": 31.363573311138854,
+      "observed_cardinality": "many-to-one",
+      "unmatched_left_examples": null,
+      "unmatched_right_examples": [
+        "A",
+        "A01",
+        "A01A",
+        "A01AA02",
+        "A01AA03",
+        "A01AA04",
+        "A01AA51",
+        "A01AB",
+        "A01AB02",
+        "A01AB04"
+      ]
+    },
+    {
+      "left_dataset": "aifa-transparency-list",
+      "right_dataset": "aifa-packages",
+      "left_column": "AIC",
+      "right_column": "CODICE_AIC",
+      "left_distinct": 8508,
+      "right_distinct": 159858,
+      "common_keys": 8409,
+      "missing_left": 99,
+      "missing_right": 151449,
+      "left_duplicate_keys": 0,
+      "right_duplicate_keys": 0,
+      "left_match_percent": 98.83638928067701,
+      "right_match_percent": 5.26029351049056,
+      "observed_cardinality": "one-to-one",
+      "unmatched_left_examples": [
+        "022803074",
+        "023183193",
+        "023401021",
+        "023401108",
+        "023401110",
+        "025298050",
+        "025298074",
+        "025298124",
+        "026664096",
+        "026917031"
+      ],
+      "unmatched_right_examples": [
+        "000367045",
+        "000367058",
+        "000367060",
+        "000367072",
+        "000367108",
+        "000527034",
+        "000527061",
+        "000590012",
+        "000590051",
+        "000917017"
+      ]
+    },
+    {
+      "left_dataset": "aifa-shortages",
+      "right_dataset": "aifa-packages",
+      "left_column": "Codice AIC",
+      "right_column": "CODICE_AIC",
+      "left_distinct": 2485,
+      "right_distinct": 159858,
+      "common_keys": 2485,
+      "missing_left": 0,
+      "missing_right": 157373,
+      "left_duplicate_keys": 2,
+      "right_duplicate_keys": 0,
+      "left_match_percent": 100,
+      "right_match_percent": 1.554504622852782,
+      "observed_cardinality": "many-to-one",
+      "unmatched_left_examples": null,
+      "unmatched_right_examples": [
+        "000367045",
+        "000367058",
+        "000367060",
+        "000367072",
+        "000367108",
+        "000527034",
+        "000527061",
+        "000590051",
+        "000917017",
+        "001328020"
+      ]
+    },
+    {
+      "left_dataset": "aifa-class-a-pa",
+      "right_dataset": "aifa-packages",
+      "left_column": "AIC",
+      "right_column": "CODICE_AIC",
+      "left_distinct": 10617,
+      "right_distinct": 159858,
+      "common_keys": 10494,
+      "missing_left": 123,
+      "missing_right": 149364,
+      "left_duplicate_keys": 0,
+      "right_duplicate_keys": 0,
+      "left_match_percent": 98.84148064424978,
+      "right_match_percent": 6.564576061254363,
+      "observed_cardinality": "one-to-one",
+      "unmatched_left_examples": [
+        "022803074",
+        "023183193",
+        "023401021",
+        "023401108",
+        "023401110",
+        "025298050",
+        "025298074",
+        "025298124",
+        "026664096",
+        "026737039"
+      ],
+      "unmatched_right_examples": [
+        "000367045",
+        "000367058",
+        "000367060",
+        "000367072",
+        "000367108",
+        "000527034",
+        "000527061",
+        "000590012",
+        "000590051",
+        "000917017"
+      ]
+    },
+    {
+      "left_dataset": "aifa-class-h-pa",
+      "right_dataset": "aifa-packages",
+      "left_column": "Codice  AIC",
+      "right_column": "CODICE_AIC",
+      "left_distinct": 2407,
+      "right_distinct": 159858,
+      "common_keys": 2383,
+      "missing_left": 24,
+      "missing_right": 157475,
+      "left_duplicate_keys": 0,
+      "right_duplicate_keys": 0,
+      "left_match_percent": 99.00290818446199,
+      "right_match_percent": 1.4906979944700922,
+      "observed_cardinality": "one-to-one",
+      "unmatched_left_examples": [
+        "020782037",
+        "022999041",
+        "023401096",
+        "027865082",
+        "027865094",
+        "038059034",
+        "038059046",
+        "040245021",
+        "040245045",
+        "042333017"
+      ],
+      "unmatched_right_examples": [
+        "000367045",
+        "000367058",
+        "000367060",
+        "000367072",
+        "000367108",
+        "000527034",
+        "000527061",
+        "000590012",
+        "000590051",
+        "000917017"
+      ]
+    }
+  ],
+  "profiles": {
+    "aifa-atc": {
+      "dataset_id": "aifa-atc",
+      "artifact_url": "https://drive.aifa.gov.it/farmaci/atc.csv",
+      "sha256": "5ca623359301f79fead225aa7e4953b20af8d437daa071b50df21ccbcb29ca9a",
+      "size_bytes": 198401,
+      "encoding": "UTF-8/ASCII",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "LF",
+      "bom": false,
+      "row_count": 7209,
+      "column_count": 2,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "CODICE_ATC",
+          "normalized_name": "codice_atc",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 7209,
+          "unique": true,
+          "min_length": 1,
+          "max_length": 7,
+          "top_values": [
+            {
+              "value": "A",
+              "count": 1
+            },
+            {
+              "value": "A01",
+              "count": 1
+            },
+            {
+              "value": "A01A",
+              "count": 1
+            },
+            {
+              "value": "A01AA",
+              "count": 1
+            },
+            {
+              "value": "A01AA01",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "A",
+            "A01",
+            "A01A",
+            "A01AA",
+            "A01AA01"
+          ],
+          "patterns": [
+            "ATC_LEVEL_5"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "DESCRIZIONE",
+          "normalized_name": "descrizione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 6132,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 100,
+          "top_values": [
+            {
+              "value": "ASSOCIAZIONI",
+              "count": 39
+            },
+            {
+              "value": "BETAMETASONE",
+              "count": 11
+            },
+            {
+              "value": "DESAMETASONE",
+              "count": 11
+            },
+            {
+              "value": "PREDNISOLONE",
+              "count": 11
+            },
+            {
+              "value": "IDROCORTISONE",
+              "count": 10
+            }
+          ],
+          "examples": [
+            "(2-BENZIDRILOSSIETIL)DIETIL-METILAMMONIO IODURO",
+            "13C-UREA",
+            "18F-FET (FLUORO-ETIL-TIROSINA)",
+            "2-(4-CLORFENOSSI)-ETANOLO",
+            "4-DIMETILAMINOFENOLO"
+          ],
+          "patterns": [
+            "ATC_LEVEL_5"
+          ]
+        }
+      ]
+    },
+    "aifa-class-a-name": {
+      "dataset_id": "aifa-class-a-name",
+      "artifact_url": "https://www.aifa.gov.it/documents/20142/3815901/Classe_A_per_nome_commerciale_28-02-2026.csv",
+      "sha256": "737e180c7a9d10f171d28ba7809f9d41c089a8f13b79b9b2677e0b1285ba9d98",
+      "size_bytes": 1496599,
+      "encoding": "Windows-1252",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "CRLF",
+      "bom": false,
+      "row_count": 10617,
+      "column_count": 10,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "Principio Attivo",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 852,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 104,
+          "top_values": [
+            {
+              "value": "Ossigeno",
+              "count": 360
+            },
+            {
+              "value": "Pantoprazolo",
+              "count": 226
+            },
+            {
+              "value": "Colecalciferolo",
+              "count": 165
+            },
+            {
+              "value": "Lansoprazolo",
+              "count": 137
+            },
+            {
+              "value": "Atorvastatina",
+              "count": 129
+            }
+          ],
+          "examples": [
+            "ATORVASTATINA",
+            "Abaloparatide",
+            "Acamprosato",
+            "Acarbosio",
+            "Acebutololo"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "Descrizione Gruppo",
+          "normalized_name": "descrizione_gruppo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2602,
+          "unique": false,
+          "min_length": 27,
+          "max_length": 120,
+          "top_values": [
+            {
+              "value": "AMOXICILLINA+ACIDO CLAVULANICO 875+125MG 12 UNITA' USO ORALE",
+              "count": 88
+            },
+            {
+              "value": "PANTOPRAZOLO 40MG 28 UNITA' USO ORALE",
+              "count": 66
+            },
+            {
+              "value": "OSSIGENO GAS COMPRESSO 200 BAR 5 LT METRI CUBI SVOLTI 1,10",
+              "count": 55
+            },
+            {
+              "value": "PANTOPRAZOLO 20MG 14 UNITA' USO ORALE",
+              "count": 55
+            },
+            {
+              "value": "OSSIGENO GAS COMPRESSO 200 BAR 14 LT METRI CUBI SVOLTI 3,08",
+              "count": 54
+            }
+          ],
+          "examples": [
+            "ABALOPARATIDE 3MG/1,5ML 1 UNITA' USO PARENTERALE",
+            "ACAMPROSATO 333MG 84 UNITA' USO ORALE",
+            "ACARBOSIO 100MG 40 UNITA' USO ORALE",
+            "ACARBOSIO 50MG 40 UNITA' USO ORALE",
+            "ACEBUTOLOLO 400MG 30 UNITA' USO ORALE"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "Denominazione e Confezione",
+          "normalized_name": "denominazione_e_confezione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 6578,
+          "unique": false,
+          "min_length": 15,
+          "max_length": 173,
+          "top_values": [
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 14 litri",
+              "count": 43
+            },
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 5 litri",
+              "count": 40
+            },
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 7 litri",
+              "count": 39
+            },
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 10 litri",
+              "count": 30
+            },
+            {
+              "value": "PANTORC*28 cpr gastroresistenti 40 mg",
+              "count": 26
+            }
+          ],
+          "examples": [
+            "ABASAGLAR*5 cartucce SC 100 U/ml 3 ml",
+            "ABASAGLAR*5 penne preriempite SC 100 U/ml 3 ml",
+            "ABBA*12 cpr rivestite 875 mg + 125 mg",
+            "ABBA*orale polv 12 bust 875 mg + 125 mg",
+            "ABERIPRA*28x1 cpr 10 mg"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "Prezzo al pubblico €",
+          "normalized_name": "prezzo_al_pubblico",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2511,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "10,94",
+              "count": 66
+            },
+            {
+              "value": "6,32",
+              "count": 66
+            },
+            {
+              "value": "7,90",
+              "count": 61
+            },
+            {
+              "value": "5,63",
+              "count": 58
+            },
+            {
+              "value": "4,50",
+              "count": 55
+            }
+          ],
+          "examples": [
+            "0,17",
+            "0,22",
+            "0,23",
+            "0,26",
+            "0,27"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "Titolare AIC",
+          "normalized_name": "titolare_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 438,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 31,
+          "top_values": [
+            {
+              "value": "DOC GENERICI Srl",
+              "count": 585
+            },
+            {
+              "value": "EG SpA",
+              "count": 566
+            },
+            {
+              "value": "SANDOZ SpA",
+              "count": 487
+            },
+            {
+              "value": "MYLAN SpA",
+              "count": 473
+            },
+            {
+              "value": "AUROBINDO PHARMA ITALIA Srl",
+              "count": 347
+            }
+          ],
+          "examples": [
+            "A.G.F. Srl",
+            "A.MENARINI IND.FARM.RIUN.Srl",
+            "ABACUS MEDICINE A/S COPENHAGEN",
+            "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG",
+            "ABBVIE Srl"
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "AIC",
+          "normalized_name": "aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 10617,
+          "unique": true,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "002129017",
+              "count": 1
+            },
+            {
+              "value": "002309033",
+              "count": 1
+            },
+            {
+              "value": "002309045",
+              "count": 1
+            },
+            {
+              "value": "002309058",
+              "count": 1
+            },
+            {
+              "value": "002309060",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "002129017",
+            "002309033",
+            "002309045",
+            "002309058",
+            "002309060"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "Codice Gruppo Equivalenza",
+          "normalized_name": "codice_gruppo_equivalenza",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2605,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 3,
+          "top_values": [
+            {
+              "value": "CJA",
+              "count": 88
+            },
+            {
+              "value": "HCJ",
+              "count": 66
+            },
+            {
+              "value": "009",
+              "count": 55
+            },
+            {
+              "value": "CTA",
+              "count": 55
+            },
+            {
+              "value": "010",
+              "count": 54
+            }
+          ],
+          "examples": [
+            "002",
+            "005",
+            "009",
+            "010",
+            "011"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "X=in lista di trasparenza Aifa 16/2/2026",
+          "normalized_name": "x_in_lista_di_trasparenza_aifa_16_2_2026",
+          "inferred_type": "text",
+          "null_count": 2276,
+          "null_percent": 21.4373,
+          "distinct_count": 1,
+          "unique": false,
+          "min_length": 1,
+          "max_length": 1,
+          "top_values": [
+            {
+              "value": "X",
+              "count": 8341
+            }
+          ],
+          "examples": [
+            "X"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "Solo in lista di Regione:",
+          "normalized_name": "solo_in_lista_di_regione",
+          "inferred_type": "text",
+          "null_count": 10561,
+          "null_percent": 99.4725,
+          "distinct_count": 3,
+          "unique": false,
+          "min_length": 7,
+          "max_length": 22,
+          "top_values": [
+            {
+              "value": "Toscana",
+              "count": 51
+            },
+            {
+              "value": "Basilicata",
+              "count": 3
+            },
+            {
+              "value": "Lazio,Campania,Sicilia",
+              "count": 2
+            }
+          ],
+          "examples": [
+            "Basilicata",
+            "Lazio,Campania,Sicilia",
+            "Toscana"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "Metri cubi ossigeno",
+          "normalized_name": "metri_cubi_ossigeno",
+          "inferred_type": "text",
+          "null_count": 10257,
+          "null_percent": 96.6092,
+          "distinct_count": 38,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 5,
+          "top_values": [
+            {
+              "value": "1,10",
+              "count": 55
+            },
+            {
+              "value": "1,54",
+              "count": 54
+            },
+            {
+              "value": "3,08",
+              "count": 54
+            },
+            {
+              "value": "2,20",
+              "count": 40
+            },
+            {
+              "value": "5,94",
+              "count": 28
+            }
+          ],
+          "examples": [
+            "1,10",
+            "1,16",
+            "1,54",
+            "2,20",
+            "2,32"
+          ]
+        }
+      ]
+    },
+    "aifa-class-a-pa": {
+      "dataset_id": "aifa-class-a-pa",
+      "artifact_url": "https://www.aifa.gov.it/documents/20142/3815901/Classe_A_per_principio_attivo_28-02-2026.csv",
+      "sha256": "b365f0a3b0d37abaebf807927ef552c9d46838ba399e8c8765fb7e4e966133e8",
+      "size_bytes": 1496599,
+      "encoding": "Windows-1252",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "CRLF",
+      "bom": false,
+      "row_count": 10617,
+      "column_count": 10,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "Principio Attivo",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 852,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 104,
+          "top_values": [
+            {
+              "value": "Ossigeno",
+              "count": 360
+            },
+            {
+              "value": "Pantoprazolo",
+              "count": 226
+            },
+            {
+              "value": "Colecalciferolo",
+              "count": 165
+            },
+            {
+              "value": "Lansoprazolo",
+              "count": 137
+            },
+            {
+              "value": "Atorvastatina",
+              "count": 129
+            }
+          ],
+          "examples": [
+            "ATORVASTATINA",
+            "Abaloparatide",
+            "Acamprosato",
+            "Acarbosio",
+            "Acebutololo"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "Descrizione Gruppo",
+          "normalized_name": "descrizione_gruppo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2602,
+          "unique": false,
+          "min_length": 27,
+          "max_length": 120,
+          "top_values": [
+            {
+              "value": "AMOXICILLINA+ACIDO CLAVULANICO 875+125MG 12 UNITA' USO ORALE",
+              "count": 88
+            },
+            {
+              "value": "PANTOPRAZOLO 40MG 28 UNITA' USO ORALE",
+              "count": 66
+            },
+            {
+              "value": "OSSIGENO GAS COMPRESSO 200 BAR 5 LT METRI CUBI SVOLTI 1,10",
+              "count": 55
+            },
+            {
+              "value": "PANTOPRAZOLO 20MG 14 UNITA' USO ORALE",
+              "count": 55
+            },
+            {
+              "value": "OSSIGENO GAS COMPRESSO 200 BAR 14 LT METRI CUBI SVOLTI 3,08",
+              "count": 54
+            }
+          ],
+          "examples": [
+            "ABALOPARATIDE 3MG/1,5ML 1 UNITA' USO PARENTERALE",
+            "ACAMPROSATO 333MG 84 UNITA' USO ORALE",
+            "ACARBOSIO 100MG 40 UNITA' USO ORALE",
+            "ACARBOSIO 50MG 40 UNITA' USO ORALE",
+            "ACEBUTOLOLO 400MG 30 UNITA' USO ORALE"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "Denominazione e Confezione",
+          "normalized_name": "denominazione_e_confezione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 6578,
+          "unique": false,
+          "min_length": 15,
+          "max_length": 173,
+          "top_values": [
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 14 litri",
+              "count": 43
+            },
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 5 litri",
+              "count": 40
+            },
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 7 litri",
+              "count": 39
+            },
+            {
+              "value": "OSSIGENO*200 bar gas med compresso bomb 10 litri",
+              "count": 30
+            },
+            {
+              "value": "PANTORC*28 cpr gastroresistenti 40 mg",
+              "count": 26
+            }
+          ],
+          "examples": [
+            "ABASAGLAR*5 cartucce SC 100 U/ml 3 ml",
+            "ABASAGLAR*5 penne preriempite SC 100 U/ml 3 ml",
+            "ABBA*12 cpr rivestite 875 mg + 125 mg",
+            "ABBA*orale polv 12 bust 875 mg + 125 mg",
+            "ABERIPRA*28x1 cpr 10 mg"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "Prezzo al pubblico €",
+          "normalized_name": "prezzo_al_pubblico",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2511,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "10,94",
+              "count": 66
+            },
+            {
+              "value": "6,32",
+              "count": 66
+            },
+            {
+              "value": "7,90",
+              "count": 61
+            },
+            {
+              "value": "5,63",
+              "count": 58
+            },
+            {
+              "value": "4,50",
+              "count": 55
+            }
+          ],
+          "examples": [
+            "0,17",
+            "0,22",
+            "0,23",
+            "0,26",
+            "0,27"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "Titolare AIC",
+          "normalized_name": "titolare_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 438,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 31,
+          "top_values": [
+            {
+              "value": "DOC GENERICI Srl",
+              "count": 585
+            },
+            {
+              "value": "EG SpA",
+              "count": 566
+            },
+            {
+              "value": "SANDOZ SpA",
+              "count": 487
+            },
+            {
+              "value": "MYLAN SpA",
+              "count": 473
+            },
+            {
+              "value": "AUROBINDO PHARMA ITALIA Srl",
+              "count": 347
+            }
+          ],
+          "examples": [
+            "A.G.F. Srl",
+            "A.MENARINI IND.FARM.RIUN.Srl",
+            "ABACUS MEDICINE A/S COPENHAGEN",
+            "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG",
+            "ABBVIE Srl"
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "AIC",
+          "normalized_name": "aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 10617,
+          "unique": true,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "002129017",
+              "count": 1
+            },
+            {
+              "value": "002309033",
+              "count": 1
+            },
+            {
+              "value": "002309045",
+              "count": 1
+            },
+            {
+              "value": "002309058",
+              "count": 1
+            },
+            {
+              "value": "002309060",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "002129017",
+            "002309033",
+            "002309045",
+            "002309058",
+            "002309060"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "Codice Gruppo Equivalenza",
+          "normalized_name": "codice_gruppo_equivalenza",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2605,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 3,
+          "top_values": [
+            {
+              "value": "CJA",
+              "count": 88
+            },
+            {
+              "value": "HCJ",
+              "count": 66
+            },
+            {
+              "value": "009",
+              "count": 55
+            },
+            {
+              "value": "CTA",
+              "count": 55
+            },
+            {
+              "value": "010",
+              "count": 54
+            }
+          ],
+          "examples": [
+            "002",
+            "005",
+            "009",
+            "010",
+            "011"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "X=in lista di trasparenza Aifa 16/2/2026",
+          "normalized_name": "x_in_lista_di_trasparenza_aifa_16_2_2026",
+          "inferred_type": "text",
+          "null_count": 2276,
+          "null_percent": 21.4373,
+          "distinct_count": 1,
+          "unique": false,
+          "min_length": 1,
+          "max_length": 1,
+          "top_values": [
+            {
+              "value": "X",
+              "count": 8341
+            }
+          ],
+          "examples": [
+            "X"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "Solo in lista di Regione:",
+          "normalized_name": "solo_in_lista_di_regione",
+          "inferred_type": "text",
+          "null_count": 10561,
+          "null_percent": 99.4725,
+          "distinct_count": 3,
+          "unique": false,
+          "min_length": 7,
+          "max_length": 22,
+          "top_values": [
+            {
+              "value": "Toscana",
+              "count": 51
+            },
+            {
+              "value": "Basilicata",
+              "count": 3
+            },
+            {
+              "value": "Lazio,Campania,Sicilia",
+              "count": 2
+            }
+          ],
+          "examples": [
+            "Basilicata",
+            "Lazio,Campania,Sicilia",
+            "Toscana"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "Metri cubi ossigeno",
+          "normalized_name": "metri_cubi_ossigeno",
+          "inferred_type": "text",
+          "null_count": 10257,
+          "null_percent": 96.6092,
+          "distinct_count": 38,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 5,
+          "top_values": [
+            {
+              "value": "1,10",
+              "count": 55
+            },
+            {
+              "value": "1,54",
+              "count": 54
+            },
+            {
+              "value": "3,08",
+              "count": 54
+            },
+            {
+              "value": "2,20",
+              "count": 40
+            },
+            {
+              "value": "5,94",
+              "count": 28
+            }
+          ],
+          "examples": [
+            "1,10",
+            "1,16",
+            "1,54",
+            "2,20",
+            "2,32"
+          ]
+        }
+      ]
+    },
+    "aifa-class-h-name": {
+      "dataset_id": "aifa-class-h-name",
+      "artifact_url": "https://www.aifa.gov.it/documents/20142/3815901/Classe_H_per_nome_commerciale_28-02-2026.csv",
+      "sha256": "38cdfb881a7f31edccff82b96169a32e67123e3472927943ec72c03b64b90b49",
+      "size_bytes": 384540,
+      "encoding": "Windows-1252",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "MIXED",
+      "bom": false,
+      "row_count": 2407,
+      "column_count": 10,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "Principio Attivo",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 606,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 152,
+          "top_values": [
+            {
+              "value": "Ossigeno",
+              "count": 133
+            },
+            {
+              "value": "Lenalidomide",
+              "count": 79
+            },
+            {
+              "value": "Immunoglobulina Umana Normale",
+              "count": 67
+            },
+            {
+              "value": "Pomalidomide",
+              "count": 55
+            },
+            {
+              "value": "Adalimumab",
+              "count": 31
+            }
+          ],
+          "examples": [
+            "Abacavir",
+            "Abacavir/Lamivudina",
+            "Abacavir/lamivudina",
+            "Abacavir/lamivudina/zidovudina",
+            "Abatacept"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "Descrizione Gruppo",
+          "normalized_name": "descrizione_gruppo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1291,
+          "unique": false,
+          "min_length": 29,
+          "max_length": 120,
+          "top_values": [
+            {
+              "value": "ADALIMUMAB 40MG 2 UNITA' USO PARENTERALE",
+              "count": 15
+            },
+            {
+              "value": "SUGAMMADEX 200MG 2ML 10 UNITA' USO PARENTERALE",
+              "count": 15
+            },
+            {
+              "value": "SUGAMMADEX 500MG 5ML 10 UNITA' USO PARENTERALE",
+              "count": 14
+            },
+            {
+              "value": "LENALIDOMIDE 5MG 21 UNITA' USO ORALE",
+              "count": 12
+            },
+            {
+              "value": "BORTEZOMIB 3,5MG 1 UNITA' USO PARENTERALE",
+              "count": 11
+            }
+          ],
+          "examples": [
+            "ABACAVIR 20MG/ML 240ML USO ORALE",
+            "ABACAVIR 300MG 60 UNITA' USO ORALE",
+            "ABACAVIR+LAMIVUDINA 600+300MG 30 UNITA' USO ORALE",
+            "ABACAVIR+LAMIVUDINA+ZIDOVUDINA 300+150+300MG 60 UNITA' USO ORALE",
+            "ABATACEPT 125MG 4 UNITA' USO PARENTERALE"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "Denominazione e Confezione",
+          "normalized_name": "denominazione_e_confezione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1950,
+          "unique": false,
+          "min_length": 17,
+          "max_length": 153,
+          "top_values": [
+            {
+              "value": "SUGAMMADEX*10 flaconcini EV 2 ml 100 mg/ml",
+              "count": 13
+            },
+            {
+              "value": "SUGAMMADEX*10 flaconcini EV 5 ml 100 mg/ml",
+              "count": 13
+            },
+            {
+              "value": "OSSIGENO*gas med criogenico contenitore fisso 10.000 litri",
+              "count": 11
+            },
+            {
+              "value": "OSSIGENO*gas med criogenico contenitore fisso 1.500 litri",
+              "count": 10
+            },
+            {
+              "value": "OSSIGENO*gas med criogenico contenitore fisso 3.000 litri",
+              "count": 10
+            }
+          ],
+          "examples": [
+            "ABACAVIR E LAMIVUDINA*30 cpr rivestite 600 mg + 300 mg",
+            "ABACAVIR LAMIVUDINA ZIDOVUDINA*60x1 cpr rivestite 300 mg + 150 mg + 300 mg",
+            "ABACAVIR*60 cpr rivestite 300 mg",
+            "ABECMA*EV 260-500x10 alla sesta cellule dispersione per infusione SACCA specifica per paziente 1 o piu' sacche",
+            "ABEVMY*1 flaconcino EV 16 ml 25 mg/ml"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "Prezzo al pubblico €",
+          "normalized_name": "prezzo_al_pubblico",
+          "inferred_type": "text",
+          "null_count": 31,
+          "null_percent": 1.2879,
+          "distinct_count": 1282,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "6,55/m³",
+              "count": 86
+            },
+            {
+              "value": "9780,88",
+              "count": 37
+            },
+            {
+              "value": "3210027,99",
+              "count": 22
+            },
+            {
+              "value": "2815,14",
+              "count": 17
+            },
+            {
+              "value": "3985,10",
+              "count": 16
+            }
+          ],
+          "examples": [
+            "10,67",
+            "10,76",
+            "10,93",
+            "100,13",
+            "100,15"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "Prezzo Ex-factory €",
+          "normalized_name": "prezzo_ex_factory",
+          "inferred_type": "text",
+          "null_count": 26,
+          "null_percent": 1.0802,
+          "distinct_count": 1258,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "4,20/m³",
+              "count": 86
+            },
+            {
+              "value": "5926,38",
+              "count": 37
+            },
+            {
+              "value": "1945000,00",
+              "count": 22
+            },
+            {
+              "value": "1705,73",
+              "count": 17
+            },
+            {
+              "value": "2414,63",
+              "count": 16
+            }
+          ],
+          "examples": [
+            "1,34",
+            "1,52",
+            "1,62",
+            "1,66",
+            "1,72"
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "Prezzo massimo di cessione €",
+          "normalized_name": "prezzo_massimo_di_cessione",
+          "inferred_type": "text",
+          "null_count": 2389,
+          "null_percent": 99.2522,
+          "distinct_count": 5,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 6,
+          "top_values": [
+            {
+              "value": "165,00",
+              "count": 6
+            },
+            {
+              "value": "330,00",
+              "count": 6
+            },
+            {
+              "value": "75,00",
+              "count": 3
+            },
+            {
+              "value": "155,11",
+              "count": 2
+            },
+            {
+              "value": "875,00",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "155,11",
+            "165,00",
+            "330,00",
+            "75,00",
+            "875,00"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "Titolare AIC",
+          "normalized_name": "titolare_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 322,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 62,
+          "top_values": [
+            {
+              "value": "ACCORD HEALTHCARE SLU",
+              "count": 123
+            },
+            {
+              "value": "NOVARTIS EUROPHARM LTD",
+              "count": 75
+            },
+            {
+              "value": "HIKMA FARMACEUTICA S.A.",
+              "count": 71
+            },
+            {
+              "value": "SANDOZ SpA",
+              "count": 61
+            },
+            {
+              "value": "JANSSEN CILAG INTERNAT.N.V.",
+              "count": 60
+            }
+          ],
+          "examples": [
+            "A.MENARINI IND.FARM.RIUN.Srl",
+            "AB ANALITICA Srl",
+            "ABACUS MEDICINE A/S COPENHAGEN",
+            "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG",
+            "ABBVIE Srl"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "Codice  AIC",
+          "normalized_name": "codice_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2407,
+          "unique": true,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "006035024",
+              "count": 1
+            },
+            {
+              "value": "006035051",
+              "count": 1
+            },
+            {
+              "value": "006105011",
+              "count": 1
+            },
+            {
+              "value": "014684029",
+              "count": 1
+            },
+            {
+              "value": "015628074",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "006035024",
+            "006035051",
+            "006105011",
+            "014684029",
+            "015628074"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "Codice Gruppo Equivalenza",
+          "normalized_name": "codice_gruppo_equivalenza",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1296,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 3,
+          "top_values": [
+            {
+              "value": "ACG",
+              "count": 15
+            },
+            {
+              "value": "BLK",
+              "count": 15
+            },
+            {
+              "value": "BLL",
+              "count": 14
+            },
+            {
+              "value": "BCQ",
+              "count": 12
+            },
+            {
+              "value": "057",
+              "count": 11
+            }
+          ],
+          "examples": [
+            "040",
+            "041",
+            "042",
+            "043",
+            "044"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "Metri cubi ossigeno",
+          "normalized_name": "metri_cubi_ossigeno",
+          "inferred_type": "text",
+          "null_count": 2274,
+          "null_percent": 94.4744,
+          "distinct_count": 27,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "2.566,62",
+              "count": 11
+            },
+            {
+              "value": "8.555,40",
+              "count": 11
+            },
+            {
+              "value": "1.283,31",
+              "count": 10
+            },
+            {
+              "value": "105,60",
+              "count": 10
+            },
+            {
+              "value": "140,80",
+              "count": 10
+            }
+          ],
+          "examples": [
+            "1.112,20",
+            "1.283,31",
+            "1.539,97",
+            "1.711,08",
+            "10.266,48"
+          ]
+        }
+      ]
+    },
+    "aifa-class-h-pa": {
+      "dataset_id": "aifa-class-h-pa",
+      "artifact_url": "https://www.aifa.gov.it/documents/20142/3815901/Classe_H_per_principio_attivo_28-02-2026.csv",
+      "sha256": "15051349623ce14f9df587f5f047960c50c40338aaccadc23585f02f69cf36ac",
+      "size_bytes": 384540,
+      "encoding": "Windows-1252",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "MIXED",
+      "bom": false,
+      "row_count": 2407,
+      "column_count": 10,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "Principio Attivo",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 606,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 152,
+          "top_values": [
+            {
+              "value": "Ossigeno",
+              "count": 133
+            },
+            {
+              "value": "Lenalidomide",
+              "count": 79
+            },
+            {
+              "value": "Immunoglobulina Umana Normale",
+              "count": 67
+            },
+            {
+              "value": "Pomalidomide",
+              "count": 55
+            },
+            {
+              "value": "Adalimumab",
+              "count": 31
+            }
+          ],
+          "examples": [
+            "Abacavir",
+            "Abacavir/Lamivudina",
+            "Abacavir/lamivudina",
+            "Abacavir/lamivudina/zidovudina",
+            "Abatacept"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "Descrizione Gruppo",
+          "normalized_name": "descrizione_gruppo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1291,
+          "unique": false,
+          "min_length": 29,
+          "max_length": 120,
+          "top_values": [
+            {
+              "value": "ADALIMUMAB 40MG 2 UNITA' USO PARENTERALE",
+              "count": 15
+            },
+            {
+              "value": "SUGAMMADEX 200MG 2ML 10 UNITA' USO PARENTERALE",
+              "count": 15
+            },
+            {
+              "value": "SUGAMMADEX 500MG 5ML 10 UNITA' USO PARENTERALE",
+              "count": 14
+            },
+            {
+              "value": "LENALIDOMIDE 5MG 21 UNITA' USO ORALE",
+              "count": 12
+            },
+            {
+              "value": "BORTEZOMIB 3,5MG 1 UNITA' USO PARENTERALE",
+              "count": 11
+            }
+          ],
+          "examples": [
+            "ABACAVIR 20MG/ML 240ML USO ORALE",
+            "ABACAVIR 300MG 60 UNITA' USO ORALE",
+            "ABACAVIR+LAMIVUDINA 600+300MG 30 UNITA' USO ORALE",
+            "ABACAVIR+LAMIVUDINA+ZIDOVUDINA 300+150+300MG 60 UNITA' USO ORALE",
+            "ABATACEPT 125MG 4 UNITA' USO PARENTERALE"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "Denominazione e Confezione",
+          "normalized_name": "denominazione_e_confezione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1950,
+          "unique": false,
+          "min_length": 17,
+          "max_length": 153,
+          "top_values": [
+            {
+              "value": "SUGAMMADEX*10 flaconcini EV 2 ml 100 mg/ml",
+              "count": 13
+            },
+            {
+              "value": "SUGAMMADEX*10 flaconcini EV 5 ml 100 mg/ml",
+              "count": 13
+            },
+            {
+              "value": "OSSIGENO*gas med criogenico contenitore fisso 10.000 litri",
+              "count": 11
+            },
+            {
+              "value": "OSSIGENO*gas med criogenico contenitore fisso 1.500 litri",
+              "count": 10
+            },
+            {
+              "value": "OSSIGENO*gas med criogenico contenitore fisso 3.000 litri",
+              "count": 10
+            }
+          ],
+          "examples": [
+            "ABACAVIR E LAMIVUDINA*30 cpr rivestite 600 mg + 300 mg",
+            "ABACAVIR LAMIVUDINA ZIDOVUDINA*60x1 cpr rivestite 300 mg + 150 mg + 300 mg",
+            "ABACAVIR*60 cpr rivestite 300 mg",
+            "ABECMA*EV 260-500x10 alla sesta cellule dispersione per infusione SACCA specifica per paziente 1 o piu' sacche",
+            "ABEVMY*1 flaconcino EV 16 ml 25 mg/ml"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "Prezzo al pubblico €",
+          "normalized_name": "prezzo_al_pubblico",
+          "inferred_type": "text",
+          "null_count": 31,
+          "null_percent": 1.2879,
+          "distinct_count": 1282,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "6,55/m³",
+              "count": 86
+            },
+            {
+              "value": "9780,88",
+              "count": 37
+            },
+            {
+              "value": "3210027,99",
+              "count": 22
+            },
+            {
+              "value": "2815,14",
+              "count": 17
+            },
+            {
+              "value": "3985,10",
+              "count": 16
+            }
+          ],
+          "examples": [
+            "10,67",
+            "10,76",
+            "10,93",
+            "100,13",
+            "100,15"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "Prezzo Ex-factory €",
+          "normalized_name": "prezzo_ex_factory",
+          "inferred_type": "text",
+          "null_count": 26,
+          "null_percent": 1.0802,
+          "distinct_count": 1258,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "4,20/m³",
+              "count": 86
+            },
+            {
+              "value": "5926,38",
+              "count": 37
+            },
+            {
+              "value": "1945000,00",
+              "count": 22
+            },
+            {
+              "value": "1705,73",
+              "count": 17
+            },
+            {
+              "value": "2414,63",
+              "count": 16
+            }
+          ],
+          "examples": [
+            "1,34",
+            "1,52",
+            "1,62",
+            "1,66",
+            "1,72"
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "Prezzo massimo di cessione €",
+          "normalized_name": "prezzo_massimo_di_cessione",
+          "inferred_type": "text",
+          "null_count": 2389,
+          "null_percent": 99.2522,
+          "distinct_count": 5,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 6,
+          "top_values": [
+            {
+              "value": "165,00",
+              "count": 6
+            },
+            {
+              "value": "330,00",
+              "count": 6
+            },
+            {
+              "value": "75,00",
+              "count": 3
+            },
+            {
+              "value": "155,11",
+              "count": 2
+            },
+            {
+              "value": "875,00",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "155,11",
+            "165,00",
+            "330,00",
+            "75,00",
+            "875,00"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "Titolare AIC",
+          "normalized_name": "titolare_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 322,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 62,
+          "top_values": [
+            {
+              "value": "ACCORD HEALTHCARE SLU",
+              "count": 123
+            },
+            {
+              "value": "NOVARTIS EUROPHARM LTD",
+              "count": 75
+            },
+            {
+              "value": "HIKMA FARMACEUTICA S.A.",
+              "count": 71
+            },
+            {
+              "value": "SANDOZ SpA",
+              "count": 61
+            },
+            {
+              "value": "JANSSEN CILAG INTERNAT.N.V.",
+              "count": 60
+            }
+          ],
+          "examples": [
+            "A.MENARINI IND.FARM.RIUN.Srl",
+            "AB ANALITICA Srl",
+            "ABACUS MEDICINE A/S COPENHAGEN",
+            "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG",
+            "ABBVIE Srl"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "Codice  AIC",
+          "normalized_name": "codice_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2407,
+          "unique": true,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "006035024",
+              "count": 1
+            },
+            {
+              "value": "006035051",
+              "count": 1
+            },
+            {
+              "value": "006105011",
+              "count": 1
+            },
+            {
+              "value": "014684029",
+              "count": 1
+            },
+            {
+              "value": "015628074",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "006035024",
+            "006035051",
+            "006105011",
+            "014684029",
+            "015628074"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "Codice Gruppo Equivalenza",
+          "normalized_name": "codice_gruppo_equivalenza",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1296,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 3,
+          "top_values": [
+            {
+              "value": "ACG",
+              "count": 15
+            },
+            {
+              "value": "BLK",
+              "count": 15
+            },
+            {
+              "value": "BLL",
+              "count": 14
+            },
+            {
+              "value": "BCQ",
+              "count": 12
+            },
+            {
+              "value": "057",
+              "count": 11
+            }
+          ],
+          "examples": [
+            "040",
+            "041",
+            "042",
+            "043",
+            "044"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "Metri cubi ossigeno",
+          "normalized_name": "metri_cubi_ossigeno",
+          "inferred_type": "text",
+          "null_count": 2274,
+          "null_percent": 94.4744,
+          "distinct_count": 27,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "2.566,62",
+              "count": 11
+            },
+            {
+              "value": "8.555,40",
+              "count": 11
+            },
+            {
+              "value": "1.283,31",
+              "count": 10
+            },
+            {
+              "value": "105,60",
+              "count": 10
+            },
+            {
+              "value": "140,80",
+              "count": 10
+            }
+          ],
+          "examples": [
+            "1.112,20",
+            "1.283,31",
+            "1.539,97",
+            "1.711,08",
+            "10.266,48"
+          ]
+        }
+      ]
+    },
+    "aifa-package-ingredients": {
+      "dataset_id": "aifa-package-ingredients",
+      "artifact_url": "https://drive.aifa.gov.it/farmaci/PA_confezioni.csv",
+      "sha256": "1ff88f43d1e060935232df5237b63758bec2ddd85e2601f542993955644a20a9",
+      "size_bytes": 11543496,
+      "encoding": "UTF-8/ASCII",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "LF",
+      "bom": false,
+      "row_count": 337651,
+      "column_count": 4,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "CODICE_AIC",
+          "normalized_name": "codice_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 299299,
+          "unique": false,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "047094014",
+              "count": 30
+            },
+            {
+              "value": "047101011",
+              "count": 29
+            },
+            {
+              "value": "047607015",
+              "count": 29
+            },
+            {
+              "value": "052600018",
+              "count": 29
+            },
+            {
+              "value": "052600020",
+              "count": 29
+            }
+          ],
+          "examples": [
+            "000140018",
+            "000152013",
+            "000152025",
+            "000152037",
+            "000152049"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "PRINCIPIO_ATTIVO",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 5732,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 346,
+          "top_values": [
+            {
+              "value": "N.D.",
+              "count": 52926
+            },
+            {
+              "value": "IDROCLOROTIAZIDE",
+              "count": 4922
+            },
+            {
+              "value": "SODIO CLORURO",
+              "count": 4119
+            },
+            {
+              "value": "VALSARTAN",
+              "count": 2832
+            },
+            {
+              "value": "POTASSIO CLORURO",
+              "count": 2538
+            }
+          ],
+          "examples": [
+            "131-I IODOMETHYL NORCHOLESTEROL",
+            "2-IDROSSIETIL METACRILATO",
+            "A/DARWIN/9/2021 (H3N2) ? CEPPO EQUIVALENTE (A/DARWIN/9/2021, SAN-010)",
+            "A/VICTORIA/2570/2019 (H1N1)PDM09-CEPPO EQUIVALENTE (A/VICTORIA/2570/2019, IVR-215)",
+            "ABACAVIR"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "QUANTITA",
+          "normalized_name": "quantita",
+          "inferred_type": "text",
+          "null_count": 156331,
+          "null_percent": 46.2996,
+          "distinct_count": 1967,
+          "unique": false,
+          "min_length": 1,
+          "max_length": 17,
+          "top_values": [
+            {
+              "value": "0.0",
+              "count": 51819
+            },
+            {
+              "value": "10",
+              "count": 11978
+            },
+            {
+              "value": "5",
+              "count": 8851
+            },
+            {
+              "value": "20",
+              "count": 8634
+            },
+            {
+              "value": "100",
+              "count": 6733
+            }
+          ],
+          "examples": [
+            "0.0",
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "UNITA_MISURA",
+          "normalized_name": "unita_misura",
+          "inferred_type": "text",
+          "null_count": 133262,
+          "null_percent": 39.4674,
+          "distinct_count": 95,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 28,
+          "top_values": [
+            {
+              "value": "milligrammi",
+              "count": 102983
+            },
+            {
+              "value": "N.D.",
+              "count": 82767
+            },
+            {
+              "value": "milligram(s)/millilitre",
+              "count": 5606
+            },
+            {
+              "value": "grammi",
+              "count": 2579
+            },
+            {
+              "value": "microgrammi",
+              "count": 2569
+            }
+          ],
+          "examples": [
+            "Centimetro quadrato",
+            "Chilogrammi",
+            "Colony forming unit",
+            "DICT 50",
+            "DOSE       TEST MODIFICA CO#"
+          ]
+        }
+      ]
+    },
+    "aifa-packages": {
+      "dataset_id": "aifa-packages",
+      "artifact_url": "https://drive.aifa.gov.it/farmaci/confezioni_fornitura.csv",
+      "sha256": "f8cee096705b51e25add493ad698671c7107f90dee825f095ec7749c5f5befdc",
+      "size_bytes": 82381940,
+      "encoding": "UTF-8/ASCII",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "LF",
+      "bom": false,
+      "row_count": 159858,
+      "column_count": 15,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "CODICE_AIC",
+          "normalized_name": "codice_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 159858,
+          "unique": true,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "000367045",
+              "count": 1
+            },
+            {
+              "value": "000367058",
+              "count": 1
+            },
+            {
+              "value": "000367060",
+              "count": 1
+            },
+            {
+              "value": "000367072",
+              "count": 1
+            },
+            {
+              "value": "000367108",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "000367045",
+            "000367058",
+            "000367060",
+            "000367072",
+            "000367108"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "COD_FARMACO",
+          "normalized_name": "cod_farmaco",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 12619,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 6,
+          "top_values": [
+            {
+              "value": "028824",
+              "count": 99
+            },
+            {
+              "value": "029863",
+              "count": 99
+            },
+            {
+              "value": "030793",
+              "count": 99
+            },
+            {
+              "value": "036555",
+              "count": 99
+            },
+            {
+              "value": "036780",
+              "count": 99
+            }
+          ],
+          "examples": [
+            "000367",
+            "000527",
+            "000590",
+            "000917",
+            "001328"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "COD_CONFEZIONE",
+          "normalized_name": "cod_confezione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 990,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 3,
+          "top_values": [
+            {
+              "value": "013",
+              "count": 1127
+            },
+            {
+              "value": "016",
+              "count": 1119
+            },
+            {
+              "value": "018",
+              "count": 1111
+            },
+            {
+              "value": "015",
+              "count": 1102
+            },
+            {
+              "value": "011",
+              "count": 1098
+            }
+          ],
+          "examples": [
+            "010",
+            "011",
+            "012",
+            "013",
+            "014"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "DENOMINAZIONE",
+          "normalized_name": "denominazione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 10526,
+          "unique": false,
+          "min_length": 2,
+          "max_length": 96,
+          "top_values": [
+            {
+              "value": "NUX VOMICA",
+              "count": 622
+            },
+            {
+              "value": "ARSENICUM ALBUM",
+              "count": 464
+            },
+            {
+              "value": "SULFUR DYNAMIS",
+              "count": 410
+            },
+            {
+              "value": "IGNATIA AMARA",
+              "count": 406
+            },
+            {
+              "value": "GELSEMIUM SEMPERVIRENS",
+              "count": 400
+            }
+          ],
+          "examples": [
+            "ABACAVIR E LAMIVUDINA AUROBINDO",
+            "ABACAVIR E LAMIVUDINA SUN",
+            "ABACAVIR MYLAN",
+            "ABACAVIR/LAMIVUDINA/ZIDOVUDINA MYLAN",
+            "ABASAGLAR"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "DESCRIZIONE",
+          "normalized_name": "descrizione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 66571,
+          "unique": false,
+          "min_length": 10,
+          "max_length": 437,
+          "top_values": [
+            {
+              "value": "200 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+              "count": 519
+            },
+            {
+              "value": "15 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+              "count": 418
+            },
+            {
+              "value": "7 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+              "count": 418
+            },
+            {
+              "value": "30 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+              "count": 417
+            },
+            {
+              "value": "9 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+              "count": 417
+            }
+          ],
+          "examples": [
+            "!24 MG CAPSULE RIGIDE- 50 CAPSULE",
+            "''POLVERE E SOLVENTE PER SOSPENSIONE INIETTABILE- - 1 FLACONCINO DI POLVERE + 1 SIRINGA PRERIEMPITA DI SOLVENTE SENZA AGO",
+            "''POLVERE E SOLVENTE PER SOSPENSIONE INIETTABILE- 10 FLACONCINI DI POLVERE + 10 SIRINGHE PRERIEMPITE DI SOLVENTE SENZA AGO",
+            "(300 UI / 150 UI)/ 0,48 ML - SOLUZIONE INIETTABILE - USO SOTTOCUTANEO - CARTUCCIA (VETRO) IN UNA PENNA PRERIEMPITA - 0,48 ML (22MCG R-HFSH / 6 MCG R-HLF) - 1 PENNA PRERIEMPITA + 5 AGHI",
+            "(4 CH, 9 CH, 30 CH) SOLUZIONE PER MUCOSA ORALE- 20 FIALE IN VETRO IN SOLUZIONE FISIOLOGICA DA 2 ML"
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "CODICE_DITTA",
+          "normalized_name": "codice_ditta",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 862,
+          "unique": false,
+          "min_length": 2,
+          "max_length": 4,
+          "top_values": [
+            {
+              "value": "1196",
+              "count": 34042
+            },
+            {
+              "value": "3420",
+              "count": 17293
+            },
+            {
+              "value": "3917",
+              "count": 12591
+            },
+            {
+              "value": "2397",
+              "count": 7165
+            },
+            {
+              "value": "1561",
+              "count": 5614
+            }
+          ],
+          "examples": [
+            "1002",
+            "1012",
+            "1016",
+            "1024",
+            "1040"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "RAGIONE_SOCIALE",
+          "normalized_name": "ragione_sociale",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 862,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 78,
+          "top_values": [
+            {
+              "value": "CE.M.O.N. CENTRO DI MEDICINA OMEOPATICA NAPOLETANOS.R.L.",
+              "count": 34042
+            },
+            {
+              "value": "HERING S.R.L",
+              "count": 17293
+            },
+            {
+              "value": "BOIRON",
+              "count": 12591
+            },
+            {
+              "value": "LABORATORIO SODINI S.R.L.",
+              "count": 7165
+            },
+            {
+              "value": "EG S.P.A.",
+              "count": 5614
+            }
+          ],
+          "examples": [
+            "4PHARMA S.R.L. IN BREVE DETTA ANCHE FP S.R.L.",
+            "A. MENARINI FARMACEUTICA INTERNAZIONALE S.R.L.",
+            "A. MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L.",
+            "A.G.F. SRL",
+            "A.G.I.P.S. FARMACEUTICI SRL"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "STATO_AMMINISTRATIVO",
+          "normalized_name": "stato_amministrativo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2,
+          "unique": false,
+          "min_length": 7,
+          "max_length": 11,
+          "top_values": [
+            {
+              "value": "Autorizzata",
+              "count": 159804
+            },
+            {
+              "value": "Sospesa",
+              "count": 54
+            }
+          ],
+          "examples": [
+            "Autorizzata",
+            "Sospesa"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "TIPO_PROCEDURA",
+          "normalized_name": "tipo_procedura",
+          "inferred_type": "text",
+          "null_count": 1,
+          "null_percent": 0.0006,
+          "distinct_count": 7,
+          "unique": false,
+          "min_length": 10,
+          "max_length": 43,
+          "top_values": [
+            {
+              "value": "Omeopatico",
+              "count": 74310
+            },
+            {
+              "value": "Procedura Mutuo riconoscimento o Decentrata",
+              "count": 55694
+            },
+            {
+              "value": "Procedura Nazionale",
+              "count": 14897
+            },
+            {
+              "value": "Procedura Centralizzata",
+              "count": 12379
+            },
+            {
+              "value": "Importazione Parallela",
+              "count": 2535
+            }
+          ],
+          "examples": [
+            "Importazione Parallela",
+            "Omeopatico",
+            "Procedura Centralizzata",
+            "Procedura Mutuo riconoscimento o Decentrata",
+            "Procedura Nazionale"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "FORMA",
+          "normalized_name": "forma",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 292,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 77,
+          "top_values": [
+            {
+              "value": "Granuli",
+              "count": 45321
+            },
+            {
+              "value": "Compressa rivestita con film",
+              "count": 31206
+            },
+            {
+              "value": "Gocce orali, soluzione",
+              "count": 16866
+            },
+            {
+              "value": "Compressa",
+              "count": 12171
+            },
+            {
+              "value": "Non nota",
+              "count": 10722
+            }
+          ],
+          "examples": [
+            "AEROSOL",
+            "Adesivo tissutale",
+            "Bagno oculare",
+            "Bastoncino nasale",
+            "CAPSULA"
+          ]
+        },
+        {
+          "position": 11,
+          "original_name": "CODICE_ATC",
+          "normalized_name": "codice_atc",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2261,
+          "unique": false,
+          "min_length": 1,
+          "max_length": 7,
+          "top_values": [
+            {
+              "value": "V03AX",
+              "count": 74312
+            },
+            {
+              "value": "C10AA05",
+              "count": 1299
+            },
+            {
+              "value": "C10AA07",
+              "count": 1265
+            },
+            {
+              "value": "N05AH04",
+              "count": 974
+            },
+            {
+              "value": "V03AN01",
+              "count": 915
+            }
+          ],
+          "examples": [
+            "A01AA",
+            "A01AA01",
+            "A01AA30",
+            "A01AB03",
+            "A01AB09"
+          ],
+          "patterns": [
+            "ATC_LEVEL_5"
+          ]
+        },
+        {
+          "position": 12,
+          "original_name": "PA_ASSOCIATI",
+          "normalized_name": "pa_associati",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 3930,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 1659,
+          "top_values": [
+            {
+              "value": "N.D.",
+              "count": 20836
+            },
+            {
+              "value": "OLMESARTAN MEDOXOMIL",
+              "count": 1259
+            },
+            {
+              "value": "OSSIGENO",
+              "count": 1004
+            },
+            {
+              "value": "ROSUVASTATINA SALE DI CALCIO",
+              "count": 999
+            },
+            {
+              "value": "ATORVASTATINA",
+              "count": 954
+            }
+          ],
+          "examples": [
+            "131-I IODOMETHYL NORCHOLESTEROL",
+            "ABACAVIR",
+            "ABACAVIR SOLFATO",
+            "ABACAVIR SOLFATO/LAMIVUDINA/ZIDOVUDINA",
+            "ABACAVIR/LAMIVUDINE"
+          ]
+        },
+        {
+          "position": 13,
+          "original_name": "FORNITURA",
+          "normalized_name": "fornitura",
+          "inferred_type": "text",
+          "null_count": 5,
+          "null_percent": 0.0031,
+          "distinct_count": 10,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 160,
+          "top_values": [
+            {
+              "value": "Medicinali non soggetti a prescrizione medica ma non da banco",
+              "count": 76052
+            },
+            {
+              "value": "Medicinali soggetti a prescrizione medica",
+              "count": 55719
+            },
+            {
+              "value": "Medicinali soggetti a prescrizione medica limitativa, utilizzabili esclusivamente in ambiente ospedaliero o in una struttura ad esso assimilabile",
+              "count": 7265
+            },
+            {
+              "value": "Medicinali soggetti a prescrizione medica limitativa, vendibili al pubblico su prescrizione di centri ospedalieri o di specialisti",
+              "count": 7093
+            },
+            {
+              "value": "Medicinali soggetti a prescrizione medica limitativa, da rinnovare volta per volta, vendibili al pubblico su prescrizione di centri ospedalieri o di specialisti",
+              "count": 5626
+            }
+          ],
+          "examples": [
+            "Medicinali non soggetti a prescrizione medica ma non da banco",
+            "Medicinali non soggetti a prescrizione medica, da banco.",
+            "Medicinali soggetti a prescrizione medica",
+            "Medicinali soggetti a prescrizione medica da rinnovare volta per volta",
+            "Medicinali soggetti a prescrizione medica limitativa, da rinnovare volta per volta, vendibili al pubblico su prescrizione di centri ospedalieri o di specialisti"
+          ]
+        },
+        {
+          "position": 14,
+          "original_name": "LINK_FI",
+          "normalized_name": "link_fi",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 12619,
+          "unique": false,
+          "min_length": 91,
+          "max_length": 94,
+          "top_values": [
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46573/stampati?ts=FI",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46574/stampati?ts=FI",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46742/stampati?ts=FI",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46743/stampati?ts=FI",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46806/stampati?ts=FI",
+              "count": 99
+            }
+          ],
+          "examples": [
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/12437/stampati?ts=FI",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/32010/stampati?ts=FI",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/38943/stampati?ts=FI",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39291/stampati?ts=FI",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39601/stampati?ts=FI"
+          ]
+        },
+        {
+          "position": 15,
+          "original_name": "LINK_RCP",
+          "normalized_name": "link_rcp",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 12619,
+          "unique": false,
+          "min_length": 92,
+          "max_length": 95,
+          "top_values": [
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46573/stampati?ts=RCP",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46574/stampati?ts=RCP",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46742/stampati?ts=RCP",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46743/stampati?ts=RCP",
+              "count": 99
+            },
+            {
+              "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46806/stampati?ts=RCP",
+              "count": 99
+            }
+          ],
+          "examples": [
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/12437/stampati?ts=RCP",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/32010/stampati?ts=RCP",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/38943/stampati?ts=RCP",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39291/stampati?ts=RCP",
+            "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39601/stampati?ts=RCP"
+          ]
+        }
+      ]
+    },
+    "aifa-shortages": {
+      "dataset_id": "aifa-shortages",
+      "artifact_url": "https://www.aifa.gov.it/documents/20142/847339/elenco_medicinali_carenti.csv",
+      "sha256": "dfb33dcbfe3492cf8f5d250d0a66ccfaec31dd227565e445af016ccd7887689d",
+      "size_bytes": 884824,
+      "encoding": "Windows-1252",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "MIXED",
+      "bom": false,
+      "row_count": 2487,
+      "column_count": 13,
+      "malformed_rows": 0,
+      "duplicate_rows": 2,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "Nome medicinale",
+          "normalized_name": "nome_medicinale",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1576,
+          "unique": false,
+          "min_length": 4,
+          "max_length": 58,
+          "top_values": [
+            {
+              "value": "IOMERON",
+              "count": 12
+            },
+            {
+              "value": "BINOCRIT",
+              "count": 11
+            },
+            {
+              "value": "DOTAREM",
+              "count": 9
+            },
+            {
+              "value": "EPREX",
+              "count": 9
+            },
+            {
+              "value": "EFFENTORA",
+              "count": 8
+            }
+          ],
+          "examples": [
+            "ABACAVIR E LAMIVUDINA SUN",
+            "ABIOCLAV",
+            "ABIRATERONE MEDICAL VALLEY",
+            "ABIRATERONE SUN",
+            "ACARBOSIO AUROBINDO"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "Codice AIC",
+          "normalized_name": "codice_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2485,
+          "unique": false,
+          "min_length": 9,
+          "max_length": 9,
+          "top_values": [
+            {
+              "value": "035320023",
+              "count": 2
+            },
+            {
+              "value": "043857022",
+              "count": 2
+            },
+            {
+              "value": "000590012",
+              "count": 1
+            },
+            {
+              "value": "002918047",
+              "count": 1
+            },
+            {
+              "value": "002918050",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "000590012",
+            "002918047",
+            "002918050",
+            "003671106",
+            "003763240"
+          ],
+          "patterns": [
+            "AIC_9_DIGITS"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "Principio attivo",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 846,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 373,
+          "top_values": [
+            {
+              "value": "IMMUNOGLOBULINA UMANA NORMALE",
+              "count": 46
+            },
+            {
+              "value": "QUETIAPINA FUMARATO",
+              "count": 32
+            },
+            {
+              "value": "QUETIAPINA",
+              "count": 31
+            },
+            {
+              "value": "TADALAFIL",
+              "count": 29
+            },
+            {
+              "value": "PREGABALIN",
+              "count": 27
+            }
+          ],
+          "examples": [
+            "ABACAVIR + LAMIVUDINE",
+            "ABACAVIR SOLFATO + LAMIVUDINA + ZIDOVUDINA",
+            "ABIRATERONE ACETATO",
+            "ACALABRUTINIB",
+            "ACARBOSIO"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "Forma farmaceutica e dosaggio",
+          "normalized_name": "forma_farmaceutica_e_dosaggio",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2315,
+          "unique": false,
+          "min_length": 13,
+          "max_length": 263,
+          "top_values": [
+            {
+              "value": "\"10 MG/ML GOCCE ORALI, SOLUZIONE\" 1 FLACONE IN VETRO DA 60 ML CON CONTAGOCCE",
+              "count": 5
+            },
+            {
+              "value": "\"10 MG COMPRESSE\" 30 COMPRESSE IN BLISTER PVC/PVDC/AL",
+              "count": 4
+            },
+            {
+              "value": "\"10 MG/10 MG COMPRESSE\" 30 COMPRESSE IN BLISTER OPA/AL/PVC/AL",
+              "count": 4
+            },
+            {
+              "value": "\"25 MG COMPRESSE RIVESTITE CON FILM\" 30 COMPRESSE IN BLISTER PVC/AL",
+              "count": 4
+            },
+            {
+              "value": "\"5 MG COMPRESSE RIVESTITE CON FILM\" 20 COMPRESSE IN BLISTER PCTFE/PVC/AL",
+              "count": 4
+            }
+          ],
+          "examples": [
+            "\"  875 MG + 125 MG COMPRESSE RIVESTITE CON FILM \" 12 COMPRESSE",
+            "\" 0,005 % COLLIRIO, SOLUZIONE \" 1 FLACONE DA 2,5 ML",
+            "\" 0,015 % + 0,15 % SOLUZIONE CUTANEA \" BUSTA DA 25 ML",
+            "\" 0,015% + 0,15% SOLUZIONE CUTANEA \" 400 BUSTE 25 ML",
+            "\" 0,05 % SOLUZIONE CUTANEA \" 400 BUSTINE 25 ML"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "Titolare AIC",
+          "normalized_name": "titolare_aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 295,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 78,
+          "top_values": [
+            {
+              "value": "ZENTIVA ITALIA S.R.L.",
+              "count": 218
+            },
+            {
+              "value": "MYLAN S.P.A.",
+              "count": 188
+            },
+            {
+              "value": "ACCORD HEALTHCARE, S.L.U.",
+              "count": 156
+            },
+            {
+              "value": "EG S.P.A.",
+              "count": 113
+            },
+            {
+              "value": "AUROBINDO PHARMA (ITALIA) S.R.L.",
+              "count": 109
+            }
+          ],
+          "examples": [
+            "A. MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L.",
+            "A.G.I.P.S. FARMACEUTICI SRL",
+            "ABBVIE DEUTSCHLAND GMBH \u0026 CO. KG",
+            "ABBVIE S.R.L.",
+            "ABIOGEN PHARMA S.P.A."
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "Data inizio",
+          "normalized_name": "data_inizio",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 736,
+          "unique": false,
+          "min_length": 10,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "01/07/2026",
+              "count": 55
+            },
+            {
+              "value": "01/06/2026",
+              "count": 48
+            },
+            {
+              "value": "30/06/2026",
+              "count": 48
+            },
+            {
+              "value": "24/04/2026",
+              "count": 45
+            },
+            {
+              "value": "01/08/2026",
+              "count": 38
+            }
+          ],
+          "examples": [
+            "01/01/2019",
+            "01/01/2021",
+            "01/01/2022",
+            "01/01/2024",
+            "01/01/2025"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "Fine presunta",
+          "normalized_name": "fine_presunta",
+          "inferred_type": "text",
+          "null_count": 1968,
+          "null_percent": 79.1315,
+          "distinct_count": 99,
+          "unique": false,
+          "min_length": 10,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "31/12/2026",
+              "count": 155
+            },
+            {
+              "value": "30/09/2026",
+              "count": 40
+            },
+            {
+              "value": "31/08/2026",
+              "count": 35
+            },
+            {
+              "value": "31/07/2026",
+              "count": 28
+            },
+            {
+              "value": "30/06/2026",
+              "count": 19
+            }
+          ],
+          "examples": [
+            "01/01/2027",
+            "01/03/2027",
+            "01/04/2027",
+            "01/05/2026",
+            "01/05/2027"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "Equivalente",
+          "normalized_name": "equivalente",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 2,
+          "unique": false,
+          "min_length": 2,
+          "max_length": 2,
+          "top_values": [
+            {
+              "value": "Sì",
+              "count": 1913
+            },
+            {
+              "value": "No",
+              "count": 574
+            }
+          ],
+          "examples": [
+            "No",
+            "Sì"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "Motivazioni",
+          "normalized_name": "motivazioni",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 42,
+          "unique": false,
+          "min_length": 17,
+          "max_length": 161,
+          "top_values": [
+            {
+              "value": "Problemi produttivi",
+              "count": 979
+            },
+            {
+              "value": "Cessata commercializzazione definitiva",
+              "count": 337
+            },
+            {
+              "value": "Elevata richiesta",
+              "count": 327
+            },
+            {
+              "value": "Cessata commercializzazione temporanea",
+              "count": 182
+            },
+            {
+              "value": "Elevata richiesta/problemi produttivi",
+              "count": 90
+            }
+          ],
+          "examples": [
+            "Cessata commercializzazione definitiva",
+            "Cessata commercializzazione definitiva: disponibili solo confezioni prodotte da plasma in conto lavorazione",
+            "Cessata commercializzazione temporanea",
+            "Cessata commercializzazione temporanea: disponibili solo confezioni prodotte da plasma in conto lavorazione",
+            "Elevata richiesta"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "Suggerimenti/Indicazioni AIFA",
+          "normalized_name": "suggerimenti_indicazioni_aifa",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 19,
+          "unique": false,
+          "min_length": 63,
+          "max_length": 473,
+          "top_values": [
+            {
+              "value": "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al M.M.G",
+              "count": 1745
+            },
+            {
+              "value": "Si rilascia autorizzazione all’importazione alle strutture sanitarie per analogo autorizzato all’estero, nel caso in cui le strutture interessate riscontrino discontinuità nella fornitura, a livello delle reti distributive cui hanno accesso",
+              "count": 436
+            },
+            {
+              "value": "Si rilascia autorizzazione all’importazione alle strutture sanitarie per analogo autorizzato all’estero",
+              "count": 203
+            },
+            {
+              "value": "Rilasciata determinazione per l’importazione al titolare A.I.C.",
+              "count": 51
+            },
+            {
+              "value": "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali con medesimo principio attivo, forma farmaceutica, via di somministrazione, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma formato differente",
+              "count": 10
+            }
+          ],
+          "examples": [
+            "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al M.M.G",
+            "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al M.M.G - Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali con medesimo principio attivo, forma farmaceutica, via di somministrazione, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma numero di unità posologiche differente",
+            "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia equivalenti e medicinali con medesimo principio attivo, forma farmaceutica, via di somministrazione, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma numero di unità posologiche differente",
+            "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali biosimilari.",
+            "Per trattamento alternativo si consiglia di rivolgersi allo specialista o al MMG. Sono autorizzati e commercializzati in Italia medicinali con medesimo principio attivo, forma farmaceutica, modalità di rilascio, dosaggio, e indicazioni terapeutiche ma numero di dosi unitarie differente."
+          ]
+        },
+        {
+          "position": 11,
+          "original_name": "Nota AIFA",
+          "normalized_name": "nota_aifa",
+          "inferred_type": "text",
+          "null_count": 2370,
+          "null_percent": 95.2955,
+          "distinct_count": 88,
+          "unique": false,
+          "min_length": 37,
+          "max_length": 496,
+          "top_values": [
+            {
+              "value": "Il medicinale è stato in carenza (distribuzione contingentata) dal 01/01/2021 al 01/04/2022",
+              "count": 6
+            },
+            {
+              "value": "Il titolare AIC si riserva, fino ad esaurimento effettivo delle scorte, di rifornire gli enti pubblici con i quali sussistono impegni di fornitura a seguito di aggiudicazioni di gare pubbliche o comunque contratti basati sul Codice degli Appalti",
+              "count": 6
+            },
+            {
+              "value": "La normalizzazione della distribuzione è prevista per novembre 2026: fino a tale data, potrebbero alternarsi periodi di carenza a periodi in cui il medicinale tornerà parzialmente disponibile. Malgrado le forniture discontinue, il Titolare attuerà una attenta distribuzione contingentata delle scorte disponibili, riservando comunque delle confezioni per ordini di emergenza, con l'obiettivo di garantire la continuità terapeutica sul territorio nazionale fino al ripristino di forniture regolari",
+              "count": 5
+            },
+            {
+              "value": "Data di inizio della cessata commercializzazione definitiva nel canale ospedaliero 31/12/2026; fino a tale data il titolare garantisce le forniture a strutture a seguito di gare aggiudicate ed in corso di validità",
+              "count": 3
+            },
+            {
+              "value": "Disponibili confezioni importate dal titolare",
+              "count": 3
+            }
+          ],
+          "examples": [
+            "- canale retail: cessata commercializzazione a partire dal 30 novembre 2026\n- canale ospedaliero: cessata commercializzazione a partire dal 31 dicembre 2026",
+            "- canale retail: in cessata commercializzazione definitiva; disponibili confezioni per ordini di emergenza\n- canale ospedaliero: il titolare garantisce le forniture per gli aggiudicatari di gare in essere fino a marzo 2027; da tale data il medicinale sarà  in cessata commercializzazione definitiva",
+            "- cessata commercializzazione per il canale retail a partire dal 31/01/2025\n- cessata commercializzazione per il canale ospedaliero a partire dal 31/08/2025",
+            "Canale retail: Cessata commercializzazione definitiva dal 13.06.2025\nCanale ospedaliero: Il titolare AIC si riserva, fino ad esaurimento effettivo delle scorte, di rifornire gli enti pubblici con i quali sussistono impegni di fornitura a seguito di aggiudicazioni di gare pubbliche o comunque contratti basati sul Codice degli Appalti",
+            "Carenza relativa a entrambi i canali:\ninizio carenza canale ospedaliero: 05/08/2024\ninizio carenza canale retail: 08/07/2024"
+          ]
+        },
+        {
+          "position": 12,
+          "original_name": "Classe di rimborsabilità",
+          "normalized_name": "classe_di_rimborsabilita",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 4,
+          "unique": false,
+          "min_length": 15,
+          "max_length": 30,
+          "top_values": [
+            {
+              "value": "A TOTALE CARICO DEL SSN.",
+              "count": 1431
+            },
+            {
+              "value": "A TOTALE CARICO DELL'ASSISTITO",
+              "count": 565
+            },
+            {
+              "value": "A CARICO DEL SSN AMBITO OSPED.",
+              "count": 464
+            },
+            {
+              "value": "C NON NEGOZIATA",
+              "count": 27
+            }
+          ],
+          "examples": [
+            "A CARICO DEL SSN AMBITO OSPED.",
+            "A TOTALE CARICO DEL SSN.",
+            "A TOTALE CARICO DELL'ASSISTITO",
+            "C NON NEGOZIATA"
+          ]
+        },
+        {
+          "position": 13,
+          "original_name": "Codice ATC",
+          "normalized_name": "codice_atc",
+          "inferred_type": "text",
+          "null_count": 2,
+          "null_percent": 0.0804,
+          "distinct_count": 733,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 13,
+          "top_values": [
+            {
+              "value": "N05AH04",
+              "count": 63
+            },
+            {
+              "value": "J06BA02",
+              "count": 30
+            },
+            {
+              "value": "G04BE08",
+              "count": 29
+            },
+            {
+              "value": "N02AB03",
+              "count": 29
+            },
+            {
+              "value": "B03XA01",
+              "count": 28
+            }
+          ],
+          "examples": [
+            "A01AB09",
+            "A01AD11",
+            "A02AD02",
+            "A02BA03",
+            "A02BC01"
+          ],
+          "patterns": [
+            "ATC_LEVEL_5"
+          ]
+        }
+      ]
+    },
+    "aifa-transparency-list": {
+      "dataset_id": "aifa-transparency-list",
+      "artifact_url": "https://www.aifa.gov.it/documents/20142/825643/Lista_farmaci_equivalenti.csv",
+      "sha256": "b84a0471f93f0bd8f469da10476dd9138be2c35dd27fbab7af240e9ac9365bcd",
+      "size_bytes": 1741268,
+      "encoding": "Windows-1252",
+      "delimiter": ";",
+      "quoting": "RFC4180 double-quote",
+      "newline": "MIXED",
+      "bom": false,
+      "row_count": 8508,
+      "column_count": 12,
+      "malformed_rows": 0,
+      "duplicate_rows": 0,
+      "columns": [
+        {
+          "position": 1,
+          "original_name": "Principio attivo",
+          "normalized_name": "principio_attivo",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 374,
+          "unique": false,
+          "min_length": 7,
+          "max_length": 62,
+          "top_values": [
+            {
+              "value": "Pantoprazolo",
+              "count": 233
+            },
+            {
+              "value": "Colecalciferolo",
+              "count": 160
+            },
+            {
+              "value": "Atorvastatina",
+              "count": 138
+            },
+            {
+              "value": "Lansoprazolo",
+              "count": 137
+            },
+            {
+              "value": "Rosuvastatina",
+              "count": 130
+            }
+          ],
+          "examples": [
+            "Acarbosio",
+            "Aceclofenac",
+            "Aciclovir",
+            "Acido Micofenolico",
+            "Acido acetilsalicilico"
+          ]
+        },
+        {
+          "position": 2,
+          "original_name": "Confezione di riferimento",
+          "normalized_name": "confezione_di_riferimento",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 752,
+          "unique": false,
+          "min_length": 20,
+          "max_length": 68,
+          "top_values": [
+            {
+              "value": "28 UNITA' 20 MG - USO ORALE",
+              "count": 351
+            },
+            {
+              "value": "28 UNITA' 10 MG - USO ORALE",
+              "count": 259
+            },
+            {
+              "value": "28 UNITA' 5 MG - USO ORALE",
+              "count": 236
+            },
+            {
+              "value": "28 UNITA' 40 MG - USO ORALE",
+              "count": 186
+            },
+            {
+              "value": "14 UNITA' 20 MG - USO ORALE",
+              "count": 164
+            }
+          ],
+          "examples": [
+            "1 UNITA' (2+0,25) G - USO PARENTERALE",
+            "1 UNITA' (2+0,25) G - USO PARENTERALE (EV)",
+            "1 UNITA' 1 MG - USO PARENTERALE",
+            "1 UNITA' 10 ML - USO PARENTERALE",
+            "1 UNITA' 1000 MG - USO PARENTERALE"
+          ]
+        },
+        {
+          "position": 3,
+          "original_name": "ATC",
+          "normalized_name": "atc",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 369,
+          "unique": false,
+          "min_length": 5,
+          "max_length": 7,
+          "top_values": [
+            {
+              "value": "A02BC02",
+              "count": 233
+            },
+            {
+              "value": "A11CC05",
+              "count": 160
+            },
+            {
+              "value": "C10AA05",
+              "count": 138
+            },
+            {
+              "value": "A02BC03",
+              "count": 137
+            },
+            {
+              "value": "C10AA07",
+              "count": 130
+            }
+          ],
+          "examples": [
+            "A02AD02",
+            "A02BA03",
+            "A02BC01",
+            "A02BC02",
+            "A02BC03"
+          ],
+          "patterns": [
+            "ATC_LEVEL_5"
+          ]
+        },
+        {
+          "position": 4,
+          "original_name": "AIC",
+          "normalized_name": "aic",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 8508,
+          "unique": true,
+          "min_length": 7,
+          "max_length": 8,
+          "top_values": [
+            {
+              "value": "10089011",
+              "count": 1
+            },
+            {
+              "value": "10089035",
+              "count": 1
+            },
+            {
+              "value": "10089047",
+              "count": 1
+            },
+            {
+              "value": "13967056",
+              "count": 1
+            },
+            {
+              "value": "14159040",
+              "count": 1
+            }
+          ],
+          "examples": [
+            "10089011",
+            "10089035",
+            "10089047",
+            "13967056",
+            "14159040"
+          ]
+        },
+        {
+          "position": 5,
+          "original_name": "Farmaco",
+          "normalized_name": "farmaco",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 3684,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 54,
+          "top_values": [
+            {
+              "value": "PANTORC",
+              "count": 84
+            },
+            {
+              "value": "AUGMENTIN",
+              "count": 36
+            },
+            {
+              "value": "CONGESCOR",
+              "count": 36
+            },
+            {
+              "value": "ZIRTEC",
+              "count": 35
+            },
+            {
+              "value": "NORVASC",
+              "count": 33
+            }
+          ],
+          "examples": [
+            "ABBA",
+            "ABERIPRA",
+            "ABESART",
+            "ABIGERD",
+            "ABILIFY"
+          ]
+        },
+        {
+          "position": 6,
+          "original_name": "Confezione",
+          "normalized_name": "confezione",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 5076,
+          "unique": false,
+          "min_length": 11,
+          "max_length": 218,
+          "top_values": [
+            {
+              "value": "\"40 MG COMPRESSE GASTRORESISTENTI\" 28 COMPRESSE IN BLISTER AL/AL",
+              "count": 39
+            },
+            {
+              "value": "\"10 MG COMPRESSE\" 14 COMPRESSE",
+              "count": 34
+            },
+            {
+              "value": "\"875 MG + 125 MG COMPRESSE RIVESTITE CON FILM\" 12 COMPRESSE",
+              "count": 34
+            },
+            {
+              "value": "\"500 MG COMPRESSE RIVESTITE CON FILM\" 6 COMPRESSE",
+              "count": 32
+            },
+            {
+              "value": "\"20 MG COMPRESSE GASTRORESISTENTI\" 28 COMPRESSE IN BLISTER AL/AL",
+              "count": 31
+            }
+          ],
+          "examples": [
+            "\"'10 MG + 10 MG CAPSULE RIGIDE\" 28 CAPSULE IN BLISTER PA/AL/PVC/AL",
+            "\"'10 MG/20 MG COMPRESSE\" 30 COMPRESSE IN BLISTER OPA/AL/PVC/AL",
+            "\"'40 MG COMPRESSE GASTRORESISTENTI\" 14 COMPRESSE IN BLISTER AL/AL",
+            "\"'5 MG/5 MG CAPSULE RIGIDE\" 30 CAPSULE IN BLISTER PA/AL/PVC/AL",
+            "\"0, 5MG COMPRESSE\" 90 COMPRESSE IN BLISTER PA/AL/PVC-AL"
+          ]
+        },
+        {
+          "position": 7,
+          "original_name": "Ditta",
+          "normalized_name": "ditta",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 336,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 69,
+          "top_values": [
+            {
+              "value": "DOC GENERICI S.R.L.",
+              "count": 597
+            },
+            {
+              "value": "EG S.P.A.",
+              "count": 543
+            },
+            {
+              "value": "MYLAN S.P.A.",
+              "count": 488
+            },
+            {
+              "value": "SANDOZ S.P.A.",
+              "count": 440
+            },
+            {
+              "value": "AUROBINDO PHARMA ITALIA S.R.L.",
+              "count": 347
+            }
+          ],
+          "examples": [
+            "A.G.F. S.R.L.",
+            "A.G.I.P.S. FARMACEUTICI S.R.L.",
+            "A.MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L.",
+            "ABACUS MEDICINE A/S COPENHAGEN",
+            "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG"
+          ]
+        },
+        {
+          "position": 8,
+          "original_name": "Prezzo riferimento SSN",
+          "normalized_name": "prezzo_riferimento_ssn",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 743,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "7,90 €",
+              "count": 96
+            },
+            {
+              "value": "19,50 €",
+              "count": 81
+            },
+            {
+              "value": "7,80 €",
+              "count": 71
+            },
+            {
+              "value": "10,94 €",
+              "count": 70
+            },
+            {
+              "value": "5,63 €",
+              "count": 69
+            }
+          ],
+          "examples": [
+            "0,23 €",
+            "0,27 €",
+            "1,01 €",
+            "1,17 €",
+            "1,25 €"
+          ]
+        },
+        {
+          "position": 9,
+          "original_name": "Prezzo Pubblico 15 luglio 2026",
+          "normalized_name": "prezzo_pubblico_15_luglio_2026",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1546,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "10,94 €",
+              "count": 70
+            },
+            {
+              "value": "6,32 €",
+              "count": 66
+            },
+            {
+              "value": "7,90 €",
+              "count": 62
+            },
+            {
+              "value": "5,63 €",
+              "count": 57
+            },
+            {
+              "value": "4,50 €",
+              "count": 54
+            }
+          ],
+          "examples": [
+            "0,23 €",
+            "0,26 €",
+            "0,27 €",
+            "0,29 €",
+            "1,01 €"
+          ]
+        },
+        {
+          "position": 10,
+          "original_name": "Differenza",
+          "normalized_name": "differenza",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 663,
+          "unique": false,
+          "min_length": 6,
+          "max_length": 10,
+          "top_values": [
+            {
+              "value": "0,00 €",
+              "count": 5802
+            },
+            {
+              "value": "2,00 €",
+              "count": 111
+            },
+            {
+              "value": "2,50 €",
+              "count": 58
+            },
+            {
+              "value": "3,00 €",
+              "count": 54
+            },
+            {
+              "value": "1,00 €",
+              "count": 41
+            }
+          ],
+          "examples": [
+            "0,00 €",
+            "0,01 €",
+            "0,02 €",
+            "0,03 €",
+            "0,04 €"
+          ]
+        },
+        {
+          "position": 11,
+          "original_name": "Nota",
+          "normalized_name": "nota",
+          "inferred_type": "text",
+          "null_count": 7228,
+          "null_percent": 84.9553,
+          "distinct_count": 10,
+          "unique": false,
+          "min_length": 36,
+          "max_length": 119,
+          "top_values": [
+            {
+              "value": "In distribuzione diretta da parte delle Regioni",
+              "count": 1077
+            },
+            {
+              "value": "Vedi precisazioni del 17 settembre 2012 pubblicate sul sito AIFA.",
+              "count": 95
+            },
+            {
+              "value": "*esclusivamente per uso sottocutaneo",
+              "count": 37
+            },
+            {
+              "value": "Vedi precisazioni del 22 luglio 2011 pubblicate sul sito AIFA. In distribuzione diretta da parte delle Regioni.",
+              "count": 21
+            },
+            {
+              "value": "Vedi precisazioni del comunicato AIFA del 15 dicembre 2014 pubblicate sul sito AIFA",
+              "count": 20
+            }
+          ],
+          "examples": [
+            "*Medico prescrittore e farmacista sono tenuti ad istruire il paziente sulle modalità di utilizzo del farmaco prescritto",
+            "*Vedi Nota informativa del 27/7/2017 pubblicata sul sito Aifa",
+            "*Vedi aggiornamento comunicato del 15 settembre 2023 pubblicato sul sito AIFA",
+            "*esclusivamente per uso sottocutaneo",
+            "*non sostituibile con Adalat Crono, Nifedipina Doc, Nifedipina Mylan Generics"
+          ]
+        },
+        {
+          "position": 12,
+          "original_name": "Codice gruppo equivalenza",
+          "normalized_name": "codice_gruppo_equivalenza",
+          "inferred_type": "text",
+          "null_count": 0,
+          "null_percent": 0,
+          "distinct_count": 1006,
+          "unique": false,
+          "min_length": 3,
+          "max_length": 3,
+          "top_values": [
+            {
+              "value": "CJA",
+              "count": 92
+            },
+            {
+              "value": "HCJ",
+              "count": 70
+            },
+            {
+              "value": "CTA",
+              "count": 55
+            },
+            {
+              "value": "CTB",
+              "count": 55
+            },
+            {
+              "value": "HCF",
+              "count": 53
+            }
+          ],
+          "examples": [
+            "01A",
+            "01B",
+            "01C",
+            "01D",
+            "02A"
+          ]
+        }
+      ]
+    }
+  },
+  "snapshot_diffs": [
+    {
+      "from": "2025-01-15",
+      "to": "2026-03-16",
+      "header_changed": true,
+      "added": 557,
+      "removed": 350,
+      "modified": 725,
+      "unchanged": 7131,
+      "groups_added": 39,
+      "groups_removed": 15,
+      "membership_changes": 0
+    },
+    {
+      "from": "2026-03-16",
+      "to": "2026-04-15",
+      "header_changed": true,
+      "added": 51,
+      "removed": 11,
+      "modified": 24,
+      "unchanged": 8378,
+      "groups_added": 3,
+      "groups_removed": 1,
+      "membership_changes": 0
+    },
+    {
+      "from": "2026-04-15",
+      "to": "2026-07-15",
+      "header_changed": true,
+      "added": 137,
+      "removed": 82,
+      "modified": 136,
+      "unchanged": 8235,
+      "groups_added": 9,
+      "groups_removed": 3,
+      "membership_changes": 0
+    }
+  ]
+}

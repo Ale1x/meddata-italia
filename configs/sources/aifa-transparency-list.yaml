@@ -1,0 +1,13 @@
+id: aifa-transparency-list
+name: AIFA Transparency List
+authority: AIFA
+enabled: true
+index_url: https://www.aifa.gov.it/liste-di-trasparenza
+declared_frequency: monthly
+discovery:
+  type: html-link
+  preferred_formats: [csv, xls]
+  link_text_patterns: ["Elenco in formato .csv", "Elenco in formato tabellare"]
+  url_patterns: ["Lista_farmaci_equivalenti"]
+download: {timeout: 60s, max_size_bytes: 52428800}
+parser: {type: aifa-transparency, encoding: windows-1252, skip_records: 0}

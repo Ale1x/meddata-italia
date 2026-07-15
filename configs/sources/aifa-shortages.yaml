@@ -1,0 +1,9 @@
+id: aifa-shortages
+name: AIFA Shortages
+authority: AIFA
+enabled: true
+index_url: https://www.aifa.gov.it/farmaci-carenti
+declared_frequency: periodic
+discovery: {type: html-link, preferred_formats: [csv], link_text_patterns: ["Elenco farmaci carenti"], url_patterns: ["elenco_medicinali_carenti\\.csv"]}
+download: {timeout: 60s, max_size_bytes: 52428800}
+parser: {type: aifa-shortages, encoding: windows-1252, skip_records: 2}

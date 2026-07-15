@@ -1,0 +1,22 @@
+erDiagram
+  sources ||--o{ source_discoveries : has
+  sources ||--o{ source_artifacts : publishes
+  sources ||--o{ ingestion_runs : ingested_by
+  source_artifacts ||--o{ source_snapshots : parsed
+  source_snapshots ||--o{ source_records : contains
+  source_snapshots ||--o{ staging_records : stages
+  ingestion_runs ||--o{ normalization_warnings : records
+  medicinal_products ||--o{ marketing_authorizations : has
+  organizations ||--o{ marketing_authorizations : holder
+  marketing_authorizations ||--|| packages : identifies
+  pharmaceutical_forms ||--o{ packages : form
+  packages ||--o{ package_ingredients : contains
+  active_substances ||--o{ package_ingredients : substance
+  packages ||--o{ package_atc : classified
+  atc_classifications ||--o{ package_atc : classifies
+  official_equivalence_groups ||--o{ official_equivalence_memberships : has
+  packages ||--o{ official_equivalence_memberships : member
+  official_equivalence_groups ||--o{ price_observations : priced
+  packages ||--o{ price_observations : priced
+  packages ||--o{ shortage_episodes : shortage
+  ingestion_runs ||--o{ outbox_events : emits

@@ -1,0 +1,623 @@
+{
+  "dataset_id": "aifa-packages",
+  "artifact_url": "https://drive.aifa.gov.it/farmaci/confezioni_fornitura.csv",
+  "sha256": "f8cee096705b51e25add493ad698671c7107f90dee825f095ec7749c5f5befdc",
+  "size_bytes": 82381940,
+  "encoding": "UTF-8/ASCII",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "LF",
+  "bom": false,
+  "row_count": 159858,
+  "column_count": 15,
+  "malformed_rows": 0,
+  "duplicate_rows": 0,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "CODICE_AIC",
+      "normalized_name": "codice_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 159858,
+      "unique": true,
+      "min_length": 9,
+      "max_length": 9,
+      "top_values": [
+        {
+          "value": "000367045",
+          "count": 1
+        },
+        {
+          "value": "000367058",
+          "count": 1
+        },
+        {
+          "value": "000367060",
+          "count": 1
+        },
+        {
+          "value": "000367072",
+          "count": 1
+        },
+        {
+          "value": "000367108",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "000367045",
+        "000367058",
+        "000367060",
+        "000367072",
+        "000367108"
+      ],
+      "patterns": [
+        "AIC_9_DIGITS"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "COD_FARMACO",
+      "normalized_name": "cod_farmaco",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 12619,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 6,
+      "top_values": [
+        {
+          "value": "028824",
+          "count": 99
+        },
+        {
+          "value": "029863",
+          "count": 99
+        },
+        {
+          "value": "030793",
+          "count": 99
+        },
+        {
+          "value": "036555",
+          "count": 99
+        },
+        {
+          "value": "036780",
+          "count": 99
+        }
+      ],
+      "examples": [
+        "000367",
+        "000527",
+        "000590",
+        "000917",
+        "001328"
+      ]
+    },
+    {
+      "position": 3,
+      "original_name": "COD_CONFEZIONE",
+      "normalized_name": "cod_confezione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 990,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 3,
+      "top_values": [
+        {
+          "value": "013",
+          "count": 1127
+        },
+        {
+          "value": "016",
+          "count": 1119
+        },
+        {
+          "value": "018",
+          "count": 1111
+        },
+        {
+          "value": "015",
+          "count": 1102
+        },
+        {
+          "value": "011",
+          "count": 1098
+        }
+      ],
+      "examples": [
+        "010",
+        "011",
+        "012",
+        "013",
+        "014"
+      ]
+    },
+    {
+      "position": 4,
+      "original_name": "DENOMINAZIONE",
+      "normalized_name": "denominazione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 10526,
+      "unique": false,
+      "min_length": 2,
+      "max_length": 96,
+      "top_values": [
+        {
+          "value": "NUX VOMICA",
+          "count": 622
+        },
+        {
+          "value": "ARSENICUM ALBUM",
+          "count": 464
+        },
+        {
+          "value": "SULFUR DYNAMIS",
+          "count": 410
+        },
+        {
+          "value": "IGNATIA AMARA",
+          "count": 406
+        },
+        {
+          "value": "GELSEMIUM SEMPERVIRENS",
+          "count": 400
+        }
+      ],
+      "examples": [
+        "ABACAVIR E LAMIVUDINA AUROBINDO",
+        "ABACAVIR E LAMIVUDINA SUN",
+        "ABACAVIR MYLAN",
+        "ABACAVIR/LAMIVUDINA/ZIDOVUDINA MYLAN",
+        "ABASAGLAR"
+      ]
+    },
+    {
+      "position": 5,
+      "original_name": "DESCRIZIONE",
+      "normalized_name": "descrizione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 66571,
+      "unique": false,
+      "min_length": 10,
+      "max_length": 437,
+      "top_values": [
+        {
+          "value": "200 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+          "count": 519
+        },
+        {
+          "value": "15 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+          "count": 418
+        },
+        {
+          "value": "7 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+          "count": 418
+        },
+        {
+          "value": "30 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+          "count": 417
+        },
+        {
+          "value": "9 CH GRANULI- 1 CONTENITORE MONODOSE IN PP DA 1 G",
+          "count": 417
+        }
+      ],
+      "examples": [
+        "!24 MG CAPSULE RIGIDE- 50 CAPSULE",
+        "''POLVERE E SOLVENTE PER SOSPENSIONE INIETTABILE- - 1 FLACONCINO DI POLVERE + 1 SIRINGA PRERIEMPITA DI SOLVENTE SENZA AGO",
+        "''POLVERE E SOLVENTE PER SOSPENSIONE INIETTABILE- 10 FLACONCINI DI POLVERE + 10 SIRINGHE PRERIEMPITE DI SOLVENTE SENZA AGO",
+        "(300 UI / 150 UI)/ 0,48 ML - SOLUZIONE INIETTABILE - USO SOTTOCUTANEO - CARTUCCIA (VETRO) IN UNA PENNA PRERIEMPITA - 0,48 ML (22MCG R-HFSH / 6 MCG R-HLF) - 1 PENNA PRERIEMPITA + 5 AGHI",
+        "(4 CH, 9 CH, 30 CH) SOLUZIONE PER MUCOSA ORALE- 20 FIALE IN VETRO IN SOLUZIONE FISIOLOGICA DA 2 ML"
+      ]
+    },
+    {
+      "position": 6,
+      "original_name": "CODICE_DITTA",
+      "normalized_name": "codice_ditta",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 862,
+      "unique": false,
+      "min_length": 2,
+      "max_length": 4,
+      "top_values": [
+        {
+          "value": "1196",
+          "count": 34042
+        },
+        {
+          "value": "3420",
+          "count": 17293
+        },
+        {
+          "value": "3917",
+          "count": 12591
+        },
+        {
+          "value": "2397",
+          "count": 7165
+        },
+        {
+          "value": "1561",
+          "count": 5614
+        }
+      ],
+      "examples": [
+        "1002",
+        "1012",
+        "1016",
+        "1024",
+        "1040"
+      ]
+    },
+    {
+      "position": 7,
+      "original_name": "RAGIONE_SOCIALE",
+      "normalized_name": "ragione_sociale",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 862,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 78,
+      "top_values": [
+        {
+          "value": "CE.M.O.N. CENTRO DI MEDICINA OMEOPATICA NAPOLETANOS.R.L.",
+          "count": 34042
+        },
+        {
+          "value": "HERING S.R.L",
+          "count": 17293
+        },
+        {
+          "value": "BOIRON",
+          "count": 12591
+        },
+        {
+          "value": "LABORATORIO SODINI S.R.L.",
+          "count": 7165
+        },
+        {
+          "value": "EG S.P.A.",
+          "count": 5614
+        }
+      ],
+      "examples": [
+        "4PHARMA S.R.L. IN BREVE DETTA ANCHE FP S.R.L.",
+        "A. MENARINI FARMACEUTICA INTERNAZIONALE S.R.L.",
+        "A. MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L.",
+        "A.G.F. SRL",
+        "A.G.I.P.S. FARMACEUTICI SRL"
+      ]
+    },
+    {
+      "position": 8,
+      "original_name": "STATO_AMMINISTRATIVO",
+      "normalized_name": "stato_amministrativo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2,
+      "unique": false,
+      "min_length": 7,
+      "max_length": 11,
+      "top_values": [
+        {
+          "value": "Autorizzata",
+          "count": 159804
+        },
+        {
+          "value": "Sospesa",
+          "count": 54
+        }
+      ],
+      "examples": [
+        "Autorizzata",
+        "Sospesa"
+      ]
+    },
+    {
+      "position": 9,
+      "original_name": "TIPO_PROCEDURA",
+      "normalized_name": "tipo_procedura",
+      "inferred_type": "text",
+      "null_count": 1,
+      "null_percent": 0.0006,
+      "distinct_count": 7,
+      "unique": false,
+      "min_length": 10,
+      "max_length": 43,
+      "top_values": [
+        {
+          "value": "Omeopatico",
+          "count": 74310
+        },
+        {
+          "value": "Procedura Mutuo riconoscimento o Decentrata",
+          "count": 55694
+        },
+        {
+          "value": "Procedura Nazionale",
+          "count": 14897
+        },
+        {
+          "value": "Procedura Centralizzata",
+          "count": 12379
+        },
+        {
+          "value": "Importazione Parallela",
+          "count": 2535
+        }
+      ],
+      "examples": [
+        "Importazione Parallela",
+        "Omeopatico",
+        "Procedura Centralizzata",
+        "Procedura Mutuo riconoscimento o Decentrata",
+        "Procedura Nazionale"
+      ]
+    },
+    {
+      "position": 10,
+      "original_name": "FORMA",
+      "normalized_name": "forma",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 292,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 77,
+      "top_values": [
+        {
+          "value": "Granuli",
+          "count": 45321
+        },
+        {
+          "value": "Compressa rivestita con film",
+          "count": 31206
+        },
+        {
+          "value": "Gocce orali, soluzione",
+          "count": 16866
+        },
+        {
+          "value": "Compressa",
+          "count": 12171
+        },
+        {
+          "value": "Non nota",
+          "count": 10722
+        }
+      ],
+      "examples": [
+        "AEROSOL",
+        "Adesivo tissutale",
+        "Bagno oculare",
+        "Bastoncino nasale",
+        "CAPSULA"
+      ]
+    },
+    {
+      "position": 11,
+      "original_name": "CODICE_ATC",
+      "normalized_name": "codice_atc",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2261,
+      "unique": false,
+      "min_length": 1,
+      "max_length": 7,
+      "top_values": [
+        {
+          "value": "V03AX",
+          "count": 74312
+        },
+        {
+          "value": "C10AA05",
+          "count": 1299
+        },
+        {
+          "value": "C10AA07",
+          "count": 1265
+        },
+        {
+          "value": "N05AH04",
+          "count": 974
+        },
+        {
+          "value": "V03AN01",
+          "count": 915
+        }
+      ],
+      "examples": [
+        "A01AA",
+        "A01AA01",
+        "A01AA30",
+        "A01AB03",
+        "A01AB09"
+      ],
+      "patterns": [
+        "ATC_LEVEL_5"
+      ]
+    },
+    {
+      "position": 12,
+      "original_name": "PA_ASSOCIATI",
+      "normalized_name": "pa_associati",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 3930,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 1659,
+      "top_values": [
+        {
+          "value": "N.D.",
+          "count": 20836
+        },
+        {
+          "value": "OLMESARTAN MEDOXOMIL",
+          "count": 1259
+        },
+        {
+          "value": "OSSIGENO",
+          "count": 1004
+        },
+        {
+          "value": "ROSUVASTATINA SALE DI CALCIO",
+          "count": 999
+        },
+        {
+          "value": "ATORVASTATINA",
+          "count": 954
+        }
+      ],
+      "examples": [
+        "131-I IODOMETHYL NORCHOLESTEROL",
+        "ABACAVIR",
+        "ABACAVIR SOLFATO",
+        "ABACAVIR SOLFATO/LAMIVUDINA/ZIDOVUDINA",
+        "ABACAVIR/LAMIVUDINE"
+      ]
+    },
+    {
+      "position": 13,
+      "original_name": "FORNITURA",
+      "normalized_name": "fornitura",
+      "inferred_type": "text",
+      "null_count": 5,
+      "null_percent": 0.0031,
+      "distinct_count": 10,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 160,
+      "top_values": [
+        {
+          "value": "Medicinali non soggetti a prescrizione medica ma non da banco",
+          "count": 76052
+        },
+        {
+          "value": "Medicinali soggetti a prescrizione medica",
+          "count": 55719
+        },
+        {
+          "value": "Medicinali soggetti a prescrizione medica limitativa, utilizzabili esclusivamente in ambiente ospedaliero o in una struttura ad esso assimilabile",
+          "count": 7265
+        },
+        {
+          "value": "Medicinali soggetti a prescrizione medica limitativa, vendibili al pubblico su prescrizione di centri ospedalieri o di specialisti",
+          "count": 7093
+        },
+        {
+          "value": "Medicinali soggetti a prescrizione medica limitativa, da rinnovare volta per volta, vendibili al pubblico su prescrizione di centri ospedalieri o di specialisti",
+          "count": 5626
+        }
+      ],
+      "examples": [
+        "Medicinali non soggetti a prescrizione medica ma non da banco",
+        "Medicinali non soggetti a prescrizione medica, da banco.",
+        "Medicinali soggetti a prescrizione medica",
+        "Medicinali soggetti a prescrizione medica da rinnovare volta per volta",
+        "Medicinali soggetti a prescrizione medica limitativa, da rinnovare volta per volta, vendibili al pubblico su prescrizione di centri ospedalieri o di specialisti"
+      ]
+    },
+    {
+      "position": 14,
+      "original_name": "LINK_FI",
+      "normalized_name": "link_fi",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 12619,
+      "unique": false,
+      "min_length": 91,
+      "max_length": 94,
+      "top_values": [
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46573/stampati?ts=FI",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46574/stampati?ts=FI",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46742/stampati?ts=FI",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46743/stampati?ts=FI",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46806/stampati?ts=FI",
+          "count": 99
+        }
+      ],
+      "examples": [
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/12437/stampati?ts=FI",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/32010/stampati?ts=FI",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/38943/stampati?ts=FI",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39291/stampati?ts=FI",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39601/stampati?ts=FI"
+      ]
+    },
+    {
+      "position": 15,
+      "original_name": "LINK_RCP",
+      "normalized_name": "link_rcp",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 12619,
+      "unique": false,
+      "min_length": 92,
+      "max_length": 95,
+      "top_values": [
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46573/stampati?ts=RCP",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46574/stampati?ts=RCP",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46742/stampati?ts=RCP",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46743/stampati?ts=RCP",
+          "count": 99
+        },
+        {
+          "value": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1196/farmaci/46806/stampati?ts=RCP",
+          "count": 99
+        }
+      ],
+      "examples": [
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/12437/stampati?ts=RCP",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1002/farmaci/32010/stampati?ts=RCP",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/38943/stampati?ts=RCP",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39291/stampati?ts=RCP",
+        "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/1012/farmaci/39601/stampati?ts=RCP"
+      ]
+    }
+  ]
+}

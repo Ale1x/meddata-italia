@@ -1,0 +1,142 @@
+apiVersion: v1
+kind: Namespace
+metadata: {name: medicine-platform}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: medicine-platform, namespace: medicine-platform}
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata: {name: medicine-platform, namespace: medicine-platform}
+data:
+  MEDICINE_ENVIRONMENT: production
+  MEDICINE_HTTP_ADDRESS: :8080
+  MEDICINE_METRICS_ADDRESS: :9091
+  MEDICINE_RABBIT_MQ_PREFETCH: "10"
+  MEDICINE_MINIO_ENDPOINT: minio.storage.svc.cluster.local:9000
+  MEDICINE_MINIO_BUCKET: medicine-data
+  MEDICINE_MINIO_USE_SSL: "false"
+  MEDICINE_SOURCES_DIR: /app/configs/sources
+---
+apiVersion: v1
+kind: Secret
+metadata: {name: medicine-platform, namespace: medicine-platform}
+type: Opaque
+stringData:
+  MEDICINE_DATABASE_URL: replace-me
+  MEDICINE_RABBIT_MQ_URL: replace-me
+  MEDICINE_MINIO_ACCESS_KEY: replace-me
+  MEDICINE_MINIO_SECRET_KEY: replace-me
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: public-api, namespace: medicine-platform}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: public-api}}
+  template:
+    metadata: {labels: {app: public-api}}
+    spec:
+      serviceAccountName: medicine-platform
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: public-api
+          image: ghcr.io/example/medicine-platform-public-api:latest
+          ports: [{name: http, containerPort: 8080}]
+          envFrom: [{configMapRef: {name: medicine-platform}}, {secretRef: {name: medicine-platform}}]
+          readinessProbe: {httpGet: {path: /health/ready, port: http}, periodSeconds: 10}
+          livenessProbe: {httpGet: {path: /health/live, port: http}, periodSeconds: 20}
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: "1", memory: 512Mi}}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: public-api, namespace: medicine-platform}
+spec: {selector: {app: public-api}, ports: [{name: http, port: 80, targetPort: http}]}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: public-api
+  namespace: medicine-platform
+  annotations: {nginx.ingress.kubernetes.io/proxy-body-size: 1m}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: medicine.example.it
+      http: {paths: [{path: /, pathType: Prefix, backend: {service: {name: public-api, port: {name: http}}}}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: ingestion-worker, namespace: medicine-platform}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: ingestion-worker}}
+  template:
+    metadata: {labels: {app: ingestion-worker}}
+    spec:
+      serviceAccountName: medicine-platform
+      terminationGracePeriodSeconds: 30
+      securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: worker
+          image: ghcr.io/example/medicine-platform-ingestion-worker:latest
+          envFrom: [{configMapRef: {name: medicine-platform}}, {secretRef: {name: medicine-platform}}]
+          ports: [{name: metrics, containerPort: 9091}]
+          resources: {requests: {cpu: 250m, memory: 512Mi}, limits: {cpu: "2", memory: 2Gi}}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata: {name: ingestion-scheduler, namespace: medicine-platform}
+spec:
+  schedule: "0 3 * * *"
+  timeZone: Europe/Rome
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata: {labels: {app: ingestion-scheduler}}
+        spec:
+          serviceAccountName: medicine-platform
+          restartPolicy: Never
+          securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}
+          containers:
+            - name: scheduler
+              image: ghcr.io/example/medicine-platform-ingestion-scheduler:latest
+              args: ["--all-due"]
+              envFrom: [{configMapRef: {name: medicine-platform}}, {secretRef: {name: medicine-platform}}]
+              resources: {requests: {cpu: 25m, memory: 32Mi}, limits: {cpu: 250m, memory: 128Mi}}
+              securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: public-api, namespace: medicine-platform}
+spec: {minAvailable: 1, selector: {matchLabels: {app: public-api}}}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: default-deny, namespace: medicine-platform}
+spec: {podSelector: {}, policyTypes: [Ingress, Egress]}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: platform-allowed, namespace: medicine-platform}
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from: [{namespaceSelector: {}}]
+      ports: [{protocol: TCP, port: 8080}]
+  egress:
+    - to: [{namespaceSelector: {}}]
+      ports: [{protocol: TCP, port: 5432}, {protocol: TCP, port: 5672}, {protocol: TCP, port: 9000}]
+    - to: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}}]
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+    - to: [{ipBlock: {cidr: 0.0.0.0/0}}]
+      ports: [{protocol: TCP, port: 443}]

@@ -1,0 +1,430 @@
+{
+  "dataset_id": "aifa-class-h-name",
+  "artifact_url": "https://www.aifa.gov.it/documents/20142/3815901/Classe_H_per_nome_commerciale_28-02-2026.csv",
+  "sha256": "38cdfb881a7f31edccff82b96169a32e67123e3472927943ec72c03b64b90b49",
+  "size_bytes": 384540,
+  "encoding": "Windows-1252",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "MIXED",
+  "bom": false,
+  "row_count": 2407,
+  "column_count": 10,
+  "malformed_rows": 0,
+  "duplicate_rows": 0,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "Principio Attivo",
+      "normalized_name": "principio_attivo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 606,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 152,
+      "top_values": [
+        {
+          "value": "Ossigeno",
+          "count": 133
+        },
+        {
+          "value": "Lenalidomide",
+          "count": 79
+        },
+        {
+          "value": "Immunoglobulina Umana Normale",
+          "count": 67
+        },
+        {
+          "value": "Pomalidomide",
+          "count": 55
+        },
+        {
+          "value": "Adalimumab",
+          "count": 31
+        }
+      ],
+      "examples": [
+        "Abacavir",
+        "Abacavir/Lamivudina",
+        "Abacavir/lamivudina",
+        "Abacavir/lamivudina/zidovudina",
+        "Abatacept"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "Descrizione Gruppo",
+      "normalized_name": "descrizione_gruppo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 1291,
+      "unique": false,
+      "min_length": 29,
+      "max_length": 120,
+      "top_values": [
+        {
+          "value": "ADALIMUMAB 40MG 2 UNITA' USO PARENTERALE",
+          "count": 15
+        },
+        {
+          "value": "SUGAMMADEX 200MG 2ML 10 UNITA' USO PARENTERALE",
+          "count": 15
+        },
+        {
+          "value": "SUGAMMADEX 500MG 5ML 10 UNITA' USO PARENTERALE",
+          "count": 14
+        },
+        {
+          "value": "LENALIDOMIDE 5MG 21 UNITA' USO ORALE",
+          "count": 12
+        },
+        {
+          "value": "BORTEZOMIB 3,5MG 1 UNITA' USO PARENTERALE",
+          "count": 11
+        }
+      ],
+      "examples": [
+        "ABACAVIR 20MG/ML 240ML USO ORALE",
+        "ABACAVIR 300MG 60 UNITA' USO ORALE",
+        "ABACAVIR+LAMIVUDINA 600+300MG 30 UNITA' USO ORALE",
+        "ABACAVIR+LAMIVUDINA+ZIDOVUDINA 300+150+300MG 60 UNITA' USO ORALE",
+        "ABATACEPT 125MG 4 UNITA' USO PARENTERALE"
+      ]
+    },
+    {
+      "position": 3,
+      "original_name": "Denominazione e Confezione",
+      "normalized_name": "denominazione_e_confezione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 1950,
+      "unique": false,
+      "min_length": 17,
+      "max_length": 153,
+      "top_values": [
+        {
+          "value": "SUGAMMADEX*10 flaconcini EV 2 ml 100 mg/ml",
+          "count": 13
+        },
+        {
+          "value": "SUGAMMADEX*10 flaconcini EV 5 ml 100 mg/ml",
+          "count": 13
+        },
+        {
+          "value": "OSSIGENO*gas med criogenico contenitore fisso 10.000 litri",
+          "count": 11
+        },
+        {
+          "value": "OSSIGENO*gas med criogenico contenitore fisso 1.500 litri",
+          "count": 10
+        },
+        {
+          "value": "OSSIGENO*gas med criogenico contenitore fisso 3.000 litri",
+          "count": 10
+        }
+      ],
+      "examples": [
+        "ABACAVIR E LAMIVUDINA*30 cpr rivestite 600 mg + 300 mg",
+        "ABACAVIR LAMIVUDINA ZIDOVUDINA*60x1 cpr rivestite 300 mg + 150 mg + 300 mg",
+        "ABACAVIR*60 cpr rivestite 300 mg",
+        "ABECMA*EV 260-500x10 alla sesta cellule dispersione per infusione SACCA specifica per paziente 1 o piu' sacche",
+        "ABEVMY*1 flaconcino EV 16 ml 25 mg/ml"
+      ]
+    },
+    {
+      "position": 4,
+      "original_name": "Prezzo al pubblico €",
+      "normalized_name": "prezzo_al_pubblico",
+      "inferred_type": "text",
+      "null_count": 31,
+      "null_percent": 1.2879,
+      "distinct_count": 1282,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "6,55/m³",
+          "count": 86
+        },
+        {
+          "value": "9780,88",
+          "count": 37
+        },
+        {
+          "value": "3210027,99",
+          "count": 22
+        },
+        {
+          "value": "2815,14",
+          "count": 17
+        },
+        {
+          "value": "3985,10",
+          "count": 16
+        }
+      ],
+      "examples": [
+        "10,67",
+        "10,76",
+        "10,93",
+        "100,13",
+        "100,15"
+      ]
+    },
+    {
+      "position": 5,
+      "original_name": "Prezzo Ex-factory €",
+      "normalized_name": "prezzo_ex_factory",
+      "inferred_type": "text",
+      "null_count": 26,
+      "null_percent": 1.0802,
+      "distinct_count": 1258,
+      "unique": false,
+      "min_length": 4,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "4,20/m³",
+          "count": 86
+        },
+        {
+          "value": "5926,38",
+          "count": 37
+        },
+        {
+          "value": "1945000,00",
+          "count": 22
+        },
+        {
+          "value": "1705,73",
+          "count": 17
+        },
+        {
+          "value": "2414,63",
+          "count": 16
+        }
+      ],
+      "examples": [
+        "1,34",
+        "1,52",
+        "1,62",
+        "1,66",
+        "1,72"
+      ]
+    },
+    {
+      "position": 6,
+      "original_name": "Prezzo massimo di cessione €",
+      "normalized_name": "prezzo_massimo_di_cessione",
+      "inferred_type": "text",
+      "null_count": 2389,
+      "null_percent": 99.2522,
+      "distinct_count": 5,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 6,
+      "top_values": [
+        {
+          "value": "165,00",
+          "count": 6
+        },
+        {
+          "value": "330,00",
+          "count": 6
+        },
+        {
+          "value": "75,00",
+          "count": 3
+        },
+        {
+          "value": "155,11",
+          "count": 2
+        },
+        {
+          "value": "875,00",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "155,11",
+        "165,00",
+        "330,00",
+        "75,00",
+        "875,00"
+      ]
+    },
+    {
+      "position": 7,
+      "original_name": "Titolare AIC",
+      "normalized_name": "titolare_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 322,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 62,
+      "top_values": [
+        {
+          "value": "ACCORD HEALTHCARE SLU",
+          "count": 123
+        },
+        {
+          "value": "NOVARTIS EUROPHARM LTD",
+          "count": 75
+        },
+        {
+          "value": "HIKMA FARMACEUTICA S.A.",
+          "count": 71
+        },
+        {
+          "value": "SANDOZ SpA",
+          "count": 61
+        },
+        {
+          "value": "JANSSEN CILAG INTERNAT.N.V.",
+          "count": 60
+        }
+      ],
+      "examples": [
+        "A.MENARINI IND.FARM.RIUN.Srl",
+        "AB ANALITICA Srl",
+        "ABACUS MEDICINE A/S COPENHAGEN",
+        "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG",
+        "ABBVIE Srl"
+      ]
+    },
+    {
+      "position": 8,
+      "original_name": "Codice  AIC",
+      "normalized_name": "codice_aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 2407,
+      "unique": true,
+      "min_length": 9,
+      "max_length": 9,
+      "top_values": [
+        {
+          "value": "006035024",
+          "count": 1
+        },
+        {
+          "value": "006035051",
+          "count": 1
+        },
+        {
+          "value": "006105011",
+          "count": 1
+        },
+        {
+          "value": "014684029",
+          "count": 1
+        },
+        {
+          "value": "015628074",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "006035024",
+        "006035051",
+        "006105011",
+        "014684029",
+        "015628074"
+      ],
+      "patterns": [
+        "AIC_9_DIGITS"
+      ]
+    },
+    {
+      "position": 9,
+      "original_name": "Codice Gruppo Equivalenza",
+      "normalized_name": "codice_gruppo_equivalenza",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 1296,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 3,
+      "top_values": [
+        {
+          "value": "ACG",
+          "count": 15
+        },
+        {
+          "value": "BLK",
+          "count": 15
+        },
+        {
+          "value": "BLL",
+          "count": 14
+        },
+        {
+          "value": "BCQ",
+          "count": 12
+        },
+        {
+          "value": "057",
+          "count": 11
+        }
+      ],
+      "examples": [
+        "040",
+        "041",
+        "042",
+        "043",
+        "044"
+      ]
+    },
+    {
+      "position": 10,
+      "original_name": "Metri cubi ossigeno",
+      "normalized_name": "metri_cubi_ossigeno",
+      "inferred_type": "text",
+      "null_count": 2274,
+      "null_percent": 94.4744,
+      "distinct_count": 27,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 9,
+      "top_values": [
+        {
+          "value": "2.566,62",
+          "count": 11
+        },
+        {
+          "value": "8.555,40",
+          "count": 11
+        },
+        {
+          "value": "1.283,31",
+          "count": 10
+        },
+        {
+          "value": "105,60",
+          "count": 10
+        },
+        {
+          "value": "140,80",
+          "count": 10
+        }
+      ],
+      "examples": [
+        "1.112,20",
+        "1.283,31",
+        "1.539,97",
+        "1.711,08",
+        "10.266,48"
+      ]
+    }
+  ]
+}

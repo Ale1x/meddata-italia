@@ -1,0 +1,512 @@
+{
+  "dataset_id": "aifa-transparency-list",
+  "artifact_url": "https://www.aifa.gov.it/documents/20142/825643/Lista_farmaci_equivalenti.csv",
+  "sha256": "b84a0471f93f0bd8f469da10476dd9138be2c35dd27fbab7af240e9ac9365bcd",
+  "size_bytes": 1741268,
+  "encoding": "Windows-1252",
+  "delimiter": ";",
+  "quoting": "RFC4180 double-quote",
+  "newline": "MIXED",
+  "bom": false,
+  "row_count": 8508,
+  "column_count": 12,
+  "malformed_rows": 0,
+  "duplicate_rows": 0,
+  "columns": [
+    {
+      "position": 1,
+      "original_name": "Principio attivo",
+      "normalized_name": "principio_attivo",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 374,
+      "unique": false,
+      "min_length": 7,
+      "max_length": 62,
+      "top_values": [
+        {
+          "value": "Pantoprazolo",
+          "count": 233
+        },
+        {
+          "value": "Colecalciferolo",
+          "count": 160
+        },
+        {
+          "value": "Atorvastatina",
+          "count": 138
+        },
+        {
+          "value": "Lansoprazolo",
+          "count": 137
+        },
+        {
+          "value": "Rosuvastatina",
+          "count": 130
+        }
+      ],
+      "examples": [
+        "Acarbosio",
+        "Aceclofenac",
+        "Aciclovir",
+        "Acido Micofenolico",
+        "Acido acetilsalicilico"
+      ]
+    },
+    {
+      "position": 2,
+      "original_name": "Confezione di riferimento",
+      "normalized_name": "confezione_di_riferimento",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 752,
+      "unique": false,
+      "min_length": 20,
+      "max_length": 68,
+      "top_values": [
+        {
+          "value": "28 UNITA' 20 MG - USO ORALE",
+          "count": 351
+        },
+        {
+          "value": "28 UNITA' 10 MG - USO ORALE",
+          "count": 259
+        },
+        {
+          "value": "28 UNITA' 5 MG - USO ORALE",
+          "count": 236
+        },
+        {
+          "value": "28 UNITA' 40 MG - USO ORALE",
+          "count": 186
+        },
+        {
+          "value": "14 UNITA' 20 MG - USO ORALE",
+          "count": 164
+        }
+      ],
+      "examples": [
+        "1 UNITA' (2+0,25) G - USO PARENTERALE",
+        "1 UNITA' (2+0,25) G - USO PARENTERALE (EV)",
+        "1 UNITA' 1 MG - USO PARENTERALE",
+        "1 UNITA' 10 ML - USO PARENTERALE",
+        "1 UNITA' 1000 MG - USO PARENTERALE"
+      ]
+    },
+    {
+      "position": 3,
+      "original_name": "ATC",
+      "normalized_name": "atc",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 369,
+      "unique": false,
+      "min_length": 5,
+      "max_length": 7,
+      "top_values": [
+        {
+          "value": "A02BC02",
+          "count": 233
+        },
+        {
+          "value": "A11CC05",
+          "count": 160
+        },
+        {
+          "value": "C10AA05",
+          "count": 138
+        },
+        {
+          "value": "A02BC03",
+          "count": 137
+        },
+        {
+          "value": "C10AA07",
+          "count": 130
+        }
+      ],
+      "examples": [
+        "A02AD02",
+        "A02BA03",
+        "A02BC01",
+        "A02BC02",
+        "A02BC03"
+      ],
+      "patterns": [
+        "ATC_LEVEL_5"
+      ]
+    },
+    {
+      "position": 4,
+      "original_name": "AIC",
+      "normalized_name": "aic",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 8508,
+      "unique": true,
+      "min_length": 7,
+      "max_length": 8,
+      "top_values": [
+        {
+          "value": "10089011",
+          "count": 1
+        },
+        {
+          "value": "10089035",
+          "count": 1
+        },
+        {
+          "value": "10089047",
+          "count": 1
+        },
+        {
+          "value": "13967056",
+          "count": 1
+        },
+        {
+          "value": "14159040",
+          "count": 1
+        }
+      ],
+      "examples": [
+        "10089011",
+        "10089035",
+        "10089047",
+        "13967056",
+        "14159040"
+      ]
+    },
+    {
+      "position": 5,
+      "original_name": "Farmaco",
+      "normalized_name": "farmaco",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 3684,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 54,
+      "top_values": [
+        {
+          "value": "PANTORC",
+          "count": 84
+        },
+        {
+          "value": "AUGMENTIN",
+          "count": 36
+        },
+        {
+          "value": "CONGESCOR",
+          "count": 36
+        },
+        {
+          "value": "ZIRTEC",
+          "count": 35
+        },
+        {
+          "value": "NORVASC",
+          "count": 33
+        }
+      ],
+      "examples": [
+        "ABBA",
+        "ABERIPRA",
+        "ABESART",
+        "ABIGERD",
+        "ABILIFY"
+      ]
+    },
+    {
+      "position": 6,
+      "original_name": "Confezione",
+      "normalized_name": "confezione",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 5076,
+      "unique": false,
+      "min_length": 11,
+      "max_length": 218,
+      "top_values": [
+        {
+          "value": "\"40 MG COMPRESSE GASTRORESISTENTI\" 28 COMPRESSE IN BLISTER AL/AL",
+          "count": 39
+        },
+        {
+          "value": "\"10 MG COMPRESSE\" 14 COMPRESSE",
+          "count": 34
+        },
+        {
+          "value": "\"875 MG + 125 MG COMPRESSE RIVESTITE CON FILM\" 12 COMPRESSE",
+          "count": 34
+        },
+        {
+          "value": "\"500 MG COMPRESSE RIVESTITE CON FILM\" 6 COMPRESSE",
+          "count": 32
+        },
+        {
+          "value": "\"20 MG COMPRESSE GASTRORESISTENTI\" 28 COMPRESSE IN BLISTER AL/AL",
+          "count": 31
+        }
+      ],
+      "examples": [
+        "\"'10 MG + 10 MG CAPSULE RIGIDE\" 28 CAPSULE IN BLISTER PA/AL/PVC/AL",
+        "\"'10 MG/20 MG COMPRESSE\" 30 COMPRESSE IN BLISTER OPA/AL/PVC/AL",
+        "\"'40 MG COMPRESSE GASTRORESISTENTI\" 14 COMPRESSE IN BLISTER AL/AL",
+        "\"'5 MG/5 MG CAPSULE RIGIDE\" 30 CAPSULE IN BLISTER PA/AL/PVC/AL",
+        "\"0, 5MG COMPRESSE\" 90 COMPRESSE IN BLISTER PA/AL/PVC-AL"
+      ]
+    },
+    {
+      "position": 7,
+      "original_name": "Ditta",
+      "normalized_name": "ditta",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 336,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 69,
+      "top_values": [
+        {
+          "value": "DOC GENERICI S.R.L.",
+          "count": 597
+        },
+        {
+          "value": "EG S.P.A.",
+          "count": 543
+        },
+        {
+          "value": "MYLAN S.P.A.",
+          "count": 488
+        },
+        {
+          "value": "SANDOZ S.P.A.",
+          "count": 440
+        },
+        {
+          "value": "AUROBINDO PHARMA ITALIA S.R.L.",
+          "count": 347
+        }
+      ],
+      "examples": [
+        "A.G.F. S.R.L.",
+        "A.G.I.P.S. FARMACEUTICI S.R.L.",
+        "A.MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L.",
+        "ABACUS MEDICINE A/S COPENHAGEN",
+        "ABBVIE DEUTSCHLAND GmbH\u0026CO.KG"
+      ]
+    },
+    {
+      "position": 8,
+      "original_name": "Prezzo riferimento SSN",
+      "normalized_name": "prezzo_riferimento_ssn",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 743,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "7,90 €",
+          "count": 96
+        },
+        {
+          "value": "19,50 €",
+          "count": 81
+        },
+        {
+          "value": "7,80 €",
+          "count": 71
+        },
+        {
+          "value": "10,94 €",
+          "count": 70
+        },
+        {
+          "value": "5,63 €",
+          "count": 69
+        }
+      ],
+      "examples": [
+        "0,23 €",
+        "0,27 €",
+        "1,01 €",
+        "1,17 €",
+        "1,25 €"
+      ]
+    },
+    {
+      "position": 9,
+      "original_name": "Prezzo Pubblico 15 luglio 2026",
+      "normalized_name": "prezzo_pubblico_15_luglio_2026",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 1546,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "10,94 €",
+          "count": 70
+        },
+        {
+          "value": "6,32 €",
+          "count": 66
+        },
+        {
+          "value": "7,90 €",
+          "count": 62
+        },
+        {
+          "value": "5,63 €",
+          "count": 57
+        },
+        {
+          "value": "4,50 €",
+          "count": 54
+        }
+      ],
+      "examples": [
+        "0,23 €",
+        "0,26 €",
+        "0,27 €",
+        "0,29 €",
+        "1,01 €"
+      ]
+    },
+    {
+      "position": 10,
+      "original_name": "Differenza",
+      "normalized_name": "differenza",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 663,
+      "unique": false,
+      "min_length": 6,
+      "max_length": 10,
+      "top_values": [
+        {
+          "value": "0,00 €",
+          "count": 5802
+        },
+        {
+          "value": "2,00 €",
+          "count": 111
+        },
+        {
+          "value": "2,50 €",
+          "count": 58
+        },
+        {
+          "value": "3,00 €",
+          "count": 54
+        },
+        {
+          "value": "1,00 €",
+          "count": 41
+        }
+      ],
+      "examples": [
+        "0,00 €",
+        "0,01 €",
+        "0,02 €",
+        "0,03 €",
+        "0,04 €"
+      ]
+    },
+    {
+      "position": 11,
+      "original_name": "Nota",
+      "normalized_name": "nota",
+      "inferred_type": "text",
+      "null_count": 7228,
+      "null_percent": 84.9553,
+      "distinct_count": 10,
+      "unique": false,
+      "min_length": 36,
+      "max_length": 119,
+      "top_values": [
+        {
+          "value": "In distribuzione diretta da parte delle Regioni",
+          "count": 1077
+        },
+        {
+          "value": "Vedi precisazioni del 17 settembre 2012 pubblicate sul sito AIFA.",
+          "count": 95
+        },
+        {
+          "value": "*esclusivamente per uso sottocutaneo",
+          "count": 37
+        },
+        {
+          "value": "Vedi precisazioni del 22 luglio 2011 pubblicate sul sito AIFA. In distribuzione diretta da parte delle Regioni.",
+          "count": 21
+        },
+        {
+          "value": "Vedi precisazioni del comunicato AIFA del 15 dicembre 2014 pubblicate sul sito AIFA",
+          "count": 20
+        }
+      ],
+      "examples": [
+        "*Medico prescrittore e farmacista sono tenuti ad istruire il paziente sulle modalità di utilizzo del farmaco prescritto",
+        "*Vedi Nota informativa del 27/7/2017 pubblicata sul sito Aifa",
+        "*Vedi aggiornamento comunicato del 15 settembre 2023 pubblicato sul sito AIFA",
+        "*esclusivamente per uso sottocutaneo",
+        "*non sostituibile con Adalat Crono, Nifedipina Doc, Nifedipina Mylan Generics"
+      ]
+    },
+    {
+      "position": 12,
+      "original_name": "Codice gruppo equivalenza",
+      "normalized_name": "codice_gruppo_equivalenza",
+      "inferred_type": "text",
+      "null_count": 0,
+      "null_percent": 0,
+      "distinct_count": 1006,
+      "unique": false,
+      "min_length": 3,
+      "max_length": 3,
+      "top_values": [
+        {
+          "value": "CJA",
+          "count": 92
+        },
+        {
+          "value": "HCJ",
+          "count": 70
+        },
+        {
+          "value": "CTA",
+          "count": 55
+        },
+        {
+          "value": "CTB",
+          "count": 55
+        },
+        {
+          "value": "HCF",
+          "count": 53
+        }
+      ],
+      "examples": [
+        "01A",
+        "01B",
+        "01C",
+        "01D",
+        "02A"
+      ]
+    }
+  ]
+}

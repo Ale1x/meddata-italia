@@ -1,0 +1,9 @@
+id: aifa-class-h
+name: AIFA Class H by Active Substance
+authority: AIFA
+enabled: true
+index_url: https://www.aifa.gov.it/liste-farmaci-a-h
+declared_frequency: irregular
+discovery: {type: html-link, preferred_formats: [csv], link_text_patterns: ["fascia H per principio attivo"], url_patterns: ["Classe_H_per_principio_attivo.*\\.csv"]}
+download: {timeout: 60s, max_size_bytes: 52428800}
+parser: {type: aifa-class-a-h, encoding: windows-1252, skip_records: 0}
