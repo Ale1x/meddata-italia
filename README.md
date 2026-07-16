@@ -1,6 +1,6 @@
 # MedData Italia
 
-Go/PostgreSQL MVP for versioned acquisition of public AIFA medicine data and unambiguous official-equivalence lookup.
+Go/PostgreSQL platform for versioned acquisition and documentary consultation of public AIFA medicine data.
 
 The implemented vertical slice is:
 
@@ -13,10 +13,10 @@ Kubernetes CronJob / local scheduler
   → staging JSONB
   → transactional canonical publication + outbox
   → public-api /api/v1/packages/by-aic/{aic}
-  → /api/v1/packages/{id}/official-equivalents
+  → /api/v1/packages/{id}/transparency-group-members
 ```
 
-Official equivalents come **only** from AIFA transparency-list co-membership (`AIFA_TRANSPARENCY_OFFICIAL`). Same ingredient, same ATC, class A/H groupings and shortage alternatives are never silently promoted to official substitutability.
+Transparency-group results come **only** from AIFA transparency-list co-membership (`AIFA_TRANSPARENCY_OFFICIAL`). They report documentary source membership, not patient-specific substitutability. Same ingredient, same ATC, class A/H groupings and shortage alternatives are never promoted to equivalence.
 
 ## Data-discovery result
 
@@ -73,7 +73,7 @@ Lookup examples:
 curl http://localhost:8080/api/v1/packages/by-aic/44155024
 curl 'http://localhost:8080/api/v1/packages/by-aic/44155024?include=provenance'
 curl 'http://localhost:8080/api/v1/official-equivalence/compare?left_aic=044155024&right_aic=039716182'
-curl http://localhost:8080/api/v1/packages/REPLACE_UUID/official-equivalents
+curl http://localhost:8080/api/v1/packages/REPLACE_UUID/transparency-group-members
 curl http://localhost:8080/api/v1/ingestions/latest
 ```
 

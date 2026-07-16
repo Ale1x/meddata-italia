@@ -229,13 +229,13 @@ func TestInfrastructureAndVerticalSlice(t *testing.T) {
 		t.Fatalf("lookup response missing canonical AIC: %s", rec.Body.String())
 	}
 	equivalents := httptest.NewRecorder()
-	api.Router().ServeHTTP(equivalents, httptest.NewRequest(http.MethodGet, "/api/v1/packages/"+uuid.UUID(pkg.ID.Bytes).String()+"/official-equivalents", nil))
+	api.Router().ServeHTTP(equivalents, httptest.NewRequest(http.MethodGet, "/api/v1/packages/"+uuid.UUID(pkg.ID.Bytes).String()+"/transparency-group-members", nil))
 	if equivalents.Code != http.StatusOK || !strings.Contains(equivalents.Body.String(), `"group_source_identifier":"H1A"`) {
 		t.Fatalf("equivalents status=%d body=%s", equivalents.Code, equivalents.Body.String())
 	}
 	comparison := httptest.NewRecorder()
-	api.Router().ServeHTTP(comparison, httptest.NewRequest(http.MethodGet, "/api/v1/official-equivalence/compare?left_aic=44155024&right_aic=39716182", nil))
-	if comparison.Code != http.StatusOK || !strings.Contains(comparison.Body.String(), `"equivalent":true`) || !strings.Contains(comparison.Body.String(), `"reason":"SAME_OFFICIAL_GROUP"`) {
+	api.Router().ServeHTTP(comparison, httptest.NewRequest(http.MethodGet, "/api/v1/transparency-groups/compare?left_aic=44155024&right_aic=39716182", nil))
+	if comparison.Code != http.StatusOK || !strings.Contains(comparison.Body.String(), `"same_transparency_group":true`) || !strings.Contains(comparison.Body.String(), `"reason":"SAME_OFFICIAL_GROUP"`) {
 		t.Fatalf("comparison status=%d body=%s", comparison.Code, comparison.Body.String())
 	}
 }

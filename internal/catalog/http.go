@@ -37,11 +37,13 @@ func (a *API) Router() http.Handler {
 	r.Get("/docs", swaggerDocs)
 	r.Get("/docs/", swaggerDocs)
 	r.Route("/api/v1", func(r chi.Router) {
+		r.Get("/transparency-groups/compare", a.compareOfficialEquivalence)
 		r.Get("/official-equivalence/compare", a.compareOfficialEquivalence)
 		r.Get("/medicines", a.listMedicines)
 		r.Get("/medicines/{id}", a.getMedicine)
 		r.Get("/packages/{id}", a.getPackage)
 		r.Get("/packages/by-aic/{aic}", a.getPackageByAIC)
+		r.Get("/packages/{id}/transparency-group-members", a.officialEquivalents)
 		r.Get("/packages/{id}/official-equivalents", a.officialEquivalents)
 		r.Get("/active-substances", a.listActiveSubstances)
 		r.Get("/active-substances/{id}", a.getActiveSubstance)
@@ -140,12 +142,15 @@ func (a *API) compareOfficialEquivalence(w http.ResponseWriter, r *http.Request)
 		officialGroup = officialGroupMap(leftGroup)
 	}
 	respond(w, r, map[string]any{
-		"equivalent":            sameGroup,
-		"semantics":             "AIFA_TRANSPARENCY_OFFICIAL",
-		"reason":                reason,
-		"left":                  left,
-		"right":                 right,
-		"shared_official_group": officialGroup,
+		"equivalent":              sameGroup,
+		"same_transparency_group": sameGroup,
+		"basis":                   "AIFA_TRANSPARENCY_LIST_GROUP_MEMBERSHIP",
+		"interpretation_notice":   "The result reports source-list co-membership only; it is not patient-specific substitution advice.",
+		"semantics":               "AIFA_TRANSPARENCY_OFFICIAL",
+		"reason":                  reason,
+		"left":                    left,
+		"right":                   right,
+		"shared_official_group":   officialGroup,
 	}, map[string]any{"data_freshness": freshnessMeta})
 }
 
@@ -231,7 +236,9 @@ func (a *API) enrichPackage(r *http.Request, data map[string]any, id pgtype.UUID
 	}
 	group, err := a.Queries.GetOfficialGroupForPackage(r.Context(), id)
 	if err == nil {
-		data["official_equivalence"] = map[string]any{"group_id": uuidString(group.ID), "authority": group.Authority, "source": group.SourceID, "source_group_identifier": group.SourceGroupIdentifier, "label": group.SourceGroupLabel, "published_date": date(group.PublishedDate), "valid_from": timestamp(group.ValidFrom), "valid_to": timestamp(group.ValidTo)}
+		groupData := map[string]any{"group_id": uuidString(group.ID), "authority": group.Authority, "source": group.SourceID, "source_group_identifier": group.SourceGroupIdentifier, "label": group.SourceGroupLabel, "published_date": date(group.PublishedDate), "valid_from": timestamp(group.ValidFrom), "valid_to": timestamp(group.ValidTo)}
+		data["transparency_group"] = groupData
+		data["official_equivalence"] = groupData
 	}
 }
 func (a *API) officialEquivalents(w http.ResponseWriter, r *http.Request) {
@@ -250,7 +257,7 @@ func (a *API) officialEquivalents(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	prices, _ := a.Queries.ListGroupPrices(r.Context(), group.ID)
-	respond(w, r, map[string]any{"authority": group.Authority, "source": group.SourceID, "source_publication_date": date(group.PublishedDate), "group_source_identifier": group.SourceGroupIdentifier, "group_label": group.SourceGroupLabel, "group_validity": map[string]any{"from": timestamp(group.ValidFrom), "to": timestamp(group.ValidTo)}, "reference_prices": prices, "members": members, "artifact_hash": group.ArtifactHash}, map[string]any{"data_freshness": map[string]any{"published_date": date(group.PublishedDate), "source": group.SourceID}})
+	respond(w, r, map[string]any{"basis": "AIFA_TRANSPARENCY_LIST_GROUP_MEMBERSHIP", "interpretation_notice": "Membership is documentary and is not patient-specific substitution advice.", "authority": group.Authority, "source": group.SourceID, "source_publication_date": date(group.PublishedDate), "group_source_identifier": group.SourceGroupIdentifier, "group_label": group.SourceGroupLabel, "group_validity": map[string]any{"from": timestamp(group.ValidFrom), "to": timestamp(group.ValidTo)}, "reference_prices": prices, "members": members, "artifact_hash": group.ArtifactHash}, map[string]any{"data_freshness": map[string]any{"published_date": date(group.PublishedDate), "source": group.SourceID}})
 }
 func (a *API) listMedicines(w http.ResponseWriter, r *http.Request) {
 	limit, offset := pagination(r)

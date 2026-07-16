@@ -37,12 +37,12 @@ export async function getPackagesByActiveSubstance(id: string) {
 }
 
 export function getOfficialEquivalents(packageID: string) {
-  return request<ApiEnvelope<EquivalenceData>>(`/api/v1/packages/${encodeURIComponent(packageID)}/official-equivalents`)
+  return request<ApiEnvelope<EquivalenceData>>(`/api/v1/packages/${encodeURIComponent(packageID)}/transparency-group-members`)
 }
 
 export function compareOfficialEquivalence(leftAIC: string, rightAIC: string) {
   const query = new URLSearchParams({ left_aic: leftAIC, right_aic: rightAIC })
-  return request<ApiEnvelope<ComparisonData>>(`/api/v1/official-equivalence/compare?${query}`)
+  return request<ApiEnvelope<ComparisonData>>(`/api/v1/transparency-groups/compare?${query}`)
 }
 
 export function getLatestIngestions() {

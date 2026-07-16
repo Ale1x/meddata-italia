@@ -14,6 +14,14 @@ export type Provenance = {
   observed_at: string
 }
 
+export type TransparencyGroup = {
+  authority: string
+  group_id: string
+  label: string
+  published_date: string
+  source_group_identifier: string
+}
+
 export type PackageData = {
   id: string
   aic: string
@@ -25,13 +33,9 @@ export type PackageData = {
   administrative_status: string | null
   supply_regime: string | null
   atc: { code: string; description: string; level: number }[]
-  official_equivalence?: {
-    authority: string
-    group_id: string
-    label: string
-    published_date: string
-    source_group_identifier: string
-  }
+  transparency_group?: TransparencyGroup
+  /** @deprecated Use transparency_group. */
+  official_equivalence?: TransparencyGroup
   provenance?: Provenance[]
   observed_at: string
 }
@@ -96,6 +100,9 @@ export type ComparedPackage = {
 
 export type ComparisonData = {
   equivalent: boolean
+  same_transparency_group: boolean
+  basis: "AIFA_TRANSPARENCY_LIST_GROUP_MEMBERSHIP"
+  interpretation_notice: string
   semantics: "AIFA_TRANSPARENCY_OFFICIAL"
   reason: "SAME_PACKAGE" | "SAME_OFFICIAL_GROUP" | "DIFFERENT_OFFICIAL_GROUPS" | "LEFT_NOT_IN_OFFICIAL_LIST" | "RIGHT_NOT_IN_OFFICIAL_LIST" | "NEITHER_IN_OFFICIAL_LIST"
   left: ComparedPackage

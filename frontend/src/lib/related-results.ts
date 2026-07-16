@@ -6,7 +6,7 @@ export type RelatedResultDecision =
   | { mode: "none"; substance: null }
 
 export function selectRelatedResults(pkg: PackageData): RelatedResultDecision {
-  if (pkg.official_equivalence) {
+  if (pkg.transparency_group ?? pkg.official_equivalence) {
     return { mode: "official-equivalents", substance: null }
   }
   const distinctSubstances = Array.from(new Map(pkg.active_substances.map((substance) => [substance.id, substance])).values())

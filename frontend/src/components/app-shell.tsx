@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react"
-import { ArrowUpRight, ArrowsLeftRight, Database, House, MagnifyingGlass, Moon, Pill, Sun } from "@phosphor-icons/react"
+import { ArrowUpRight, ArrowsLeftRight, Database, House, Info, MagnifyingGlass, Moon, Pill, Sun } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { getLatestIngestions, getSources } from "@/lib/api"
@@ -7,7 +7,7 @@ import type { IngestionSummary, SourceSummary } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 type AppShellProps = {
-  activePage: "dashboard" | "search" | "compare"
+  activePage: "dashboard" | "search" | "compare" | "legal"
   children: ReactNode
 }
 
@@ -60,12 +60,17 @@ export function AppShell({ activePage, children }: AppShellProps) {
         </div>
       </header>
 
+      <aside className="mx-auto mt-3 flex max-w-7xl items-start gap-2 px-5 text-xs leading-5 text-muted-foreground lg:px-8" aria-label="Avviso sul servizio">
+        <Info size={15} className="mt-0.5 shrink-0 text-primary" weight="fill" />
+        <p>Servizio informativo indipendente: non vende medicinali e non fornisce indicazioni terapeutiche o di sostituzione. <a href="/terms" className="font-medium text-foreground underline underline-offset-4">Leggi limiti e metodologia</a>.</p>
+      </aside>
+
       <main id="main-content">{children}</main>
 
       <footer className="mx-auto max-w-7xl px-5 pb-8 pt-16 lg:px-8">
         <div className="flex flex-col gap-3 border-t pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>MedData · dati pubblici AIFA · CC BY 4.0</p>
-          <p>Servizio informativo, non sostituisce medico o farmacista.</p>
+          <div><p>MedData · progetto indipendente basato su dati pubblici · CC BY 4.0</p><p className="mt-1">Non affiliato o approvato da AIFA o dal Ministero della Salute.</p></div>
+          <nav aria-label="Informazioni legali" className="flex flex-wrap gap-x-4 gap-y-2"><a className="hover:text-foreground hover:underline" href="/terms">Termini di utilizzo</a><a className="hover:text-foreground hover:underline" href="/privacy">Privacy Policy</a><a className="hover:text-foreground hover:underline" href="mailto:alessandro@passarelli.dev">Segnala un errore</a></nav>
         </div>
       </footer>
     </div>
@@ -75,7 +80,7 @@ export function AppShell({ activePage, children }: AppShellProps) {
 function FreshnessTooltip({ freshness }: { freshness: { ingestions: IngestionSummary[]; sources: SourceSummary[] } | null }) {
   const items = [
     { id: "aifa-packages", label: "Farmaci e confezioni", fallbackFrequency: "daily" },
-    { id: "aifa-transparency-list", label: "Equivalenti ufficiali", fallbackFrequency: "monthly" },
+    { id: "aifa-transparency-list", label: "Lista di trasparenza", fallbackFrequency: "monthly" },
   ].map((item) => ({
     ...item,
     ingestion: freshness?.ingestions.find((ingestion) => ingestion.source_id === item.id),

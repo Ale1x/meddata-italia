@@ -2,7 +2,6 @@ import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "re
 import { toast } from "sonner"
 import {
   ArrowRight,
-  ArrowUpRight,
   CheckCircle,
   Clock,
   Database,
@@ -11,7 +10,6 @@ import {
   FunnelSimple,
   MagnifyingGlass,
   Package,
-  Pill,
   ShieldCheck,
   Sparkle,
   X,
@@ -26,9 +24,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { SafetyNotice } from "@/components/safety-notice"
 import { getOfficialEquivalents, getPackageByAIC, getPackagesByActiveSubstance, normalizeAIC } from "@/lib/api"
-import { commonMedicines, type CommonMedicine } from "@/lib/common-medicines"
 import { selectRelatedResults } from "@/lib/related-results"
 import type { EquivalenceData, PackageData, SubstancePackage } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -102,7 +99,7 @@ export function DashboardPage() {
             if (relatedRequestRef.current === relatedRequest) setRelatedLoading(false)
           })
       }
-      if (packageResponse.data.official_equivalence) {
+      if (packageResponse.data.transparency_group ?? packageResponse.data.official_equivalence) {
         const equivalentResponse = await getOfficialEquivalents(packageResponse.data.id)
         setEquivalence(equivalentResponse.data)
       }
@@ -131,11 +128,6 @@ export function DashboardPage() {
     void search(query)
   }
 
-  function selectMedicine(medicine: CommonMedicine) {
-    setQuery(medicine.aic)
-    void search(medicine.aic)
-  }
-
   return (
     <>
       <section className="relative overflow-hidden px-5 pb-16 pt-16 sm:pt-20 lg:px-8 lg:pb-24 lg:pt-28">
@@ -144,17 +136,17 @@ export function DashboardPage() {
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
           <div className="max-w-2xl">
             <Badge variant="secondary" className="border-0">
-              <Sparkle size={13} weight="fill" /> Catalogo farmaci AIFA
+              <Sparkle size={13} weight="fill" /> Dati pubblici sui medicinali
             </Badge>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[68px]">
               Cerca un farmaco <span className="text-primary">tramite codice AIC/MINSAN.</span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Consulta confezione, principi attivi ed equivalenti ufficiali AIFA.
+              Consulta confezioni, principi attivi e raggruppamenti osservati nella Lista di trasparenza AIFA.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
               <TrustPoint>159.858 confezioni</TrustPoint>
-              <TrustPoint>1.006 gruppi ufficiali</TrustPoint>
+              <TrustPoint>1.006 raggruppamenti osservati</TrustPoint>
               <TrustPoint>Consultazione gratuita</TrustPoint>
             </div>
           </div>
@@ -188,31 +180,15 @@ export function DashboardPage() {
                 </Button>
               </form>
               <p className="mt-4 text-center text-sm text-muted-foreground">Non conosci il codice? <a href="/search" className="font-medium text-primary underline-offset-4 hover:underline">Cerca per nome</a></p>
-              <p className="mt-3 text-center text-xs text-muted-foreground">Per indicazioni terapeutiche, rivolgiti a un medico o farmacista.</p>
+              <p className="mt-3 text-center text-xs text-muted-foreground">La ricerca non fornisce indicazioni terapeutiche o di sostituzione.</p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      <section className="border-y bg-muted/35 px-5 py-14 lg:px-8 lg:py-18">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="eyebrow">Accesso rapido</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Farmaci comuni</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Medicinali conosciuti disponibili per una consultazione rapida.</p>
-            </div>
-            <p className="max-w-xs text-xs leading-5 text-muted-foreground">La presenza in questa sezione non costituisce una raccomandazione d’uso.</p>
-          </div>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {commonMedicines.map((medicine) => <CommonMedicineCard key={medicine.aic} medicine={medicine} onSelect={() => selectMedicine(medicine)} />)}
-          </div>
-        </div>
-      </section>
-
       <section ref={resultRef} className="scroll-mt-28 px-5 py-14 lg:px-8 lg:py-20" aria-live="polite">
         <div className="mx-auto max-w-7xl">
+          <SafetyNotice className="mb-8" />
           {error && <Alert className="mx-auto max-w-3xl">{error}</Alert>}
           {loading && <PackageSkeleton />}
           {!loading && !pkg && !error && <EmptyResult />}
@@ -224,7 +200,7 @@ export function DashboardPage() {
                 <Metric icon={<Flask size={19} />} label="Principi attivi" value={String(pkg.active_substances.length)} detail={pkg.active_substances.map((item) => item.name).join(" · ") || "Non disponibile"} />
                 <Metric icon={<Database size={19} />} label="Classificazione ATC" value={pkg.atc[0]?.code ?? "—"} detail={pkg.atc[0]?.description ?? "Non disponibile"} />
                 <Metric icon={<Package size={19} />} label="Regime di fornitura" value={pkg.supply_regime ?? "—"} detail={pkg.pharmaceutical_form?.name ?? "Non disponibile"} />
-                <Metric icon={<ShieldCheck size={19} />} label="Gruppo ufficiale" value={pkg.official_equivalence?.source_group_identifier ?? "—"} detail={pkg.official_equivalence?.label ?? "Fuori dalla lista di trasparenza"} accent />
+                <Metric icon={<ShieldCheck size={19} />} label="Raggruppamento lista" value={(pkg.transparency_group ?? pkg.official_equivalence)?.source_group_identifier ?? "—"} detail={(pkg.transparency_group ?? pkg.official_equivalence)?.label ?? "Nessun raggruppamento nello snapshot corrente"} accent />
               </div>
 
               <div className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_.65fr]">
@@ -267,25 +243,25 @@ export function DashboardPage() {
               </div>
 
               {equivalence && (
-                <section className="mt-14" aria-labelledby="equivalents-title">
+                <section className="mt-14" aria-labelledby="transparency-group-title">
                   <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
                     <div>
                       <p className="eyebrow">Lista di trasparenza AIFA</p>
-                      <h2 id="equivalents-title" className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Equivalenti ufficiali</h2>
+                      <h2 id="transparency-group-title" className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Confezioni nello stesso raggruppamento</h2>
                       <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">Gruppo <span className="font-mono font-semibold text-foreground">{equivalence.group_source_identifier}</span> · {equivalence.group_label}</p>
                     </div>
                     <div className="flex gap-8">
                       <SummaryNumber value={String(equivalence.members.length)} label="confezioni" />
-                      <SummaryNumber value={referencePrice ? `${Number(referencePrice.amount).toFixed(2)} €` : "—"} label="prezzo riferimento" />
+                      <SummaryNumber value={referencePrice ? `${Number(referencePrice.amount).toFixed(2)} €` : "—"} label="limite di rimborso SSN pubblicato" />
                     </div>
                   </div>
 
                   <Card className="mt-7 overflow-hidden">
                     <div className="flex flex-col gap-4 border-b p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-                      <div><p className="font-medium">Tutte le confezioni del gruppo</p><p className="mt-1 text-xs text-muted-foreground">Confezioni incluse nello stesso gruppo ufficiale AIFA.</p></div>
+                      <div><p className="font-medium">Membri del raggruppamento nello snapshot</p><p className="mt-1 text-xs text-muted-foreground">La co-appartenenza è un dato documentale e non sostituisce la valutazione del farmacista.</p></div>
                       <div className="relative w-full sm:w-80">
                         <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
-                        <label htmlFor="member-filter" className="sr-only">Filtra gli equivalenti</label>
+                        <label htmlFor="member-filter" className="sr-only">Filtra i membri del raggruppamento</label>
                         <Input id="member-filter" className="h-10 pl-9" placeholder="Filtra le confezioni" value={memberFilter} onChange={(event) => setMemberFilter(event.target.value)} />
                       </div>
                     </div>
@@ -330,35 +306,6 @@ export function DashboardPage() {
 
 function TrustPoint({ children }: { children: React.ReactNode }) {
   return <span className="inline-flex items-center gap-2"><CheckCircle className="text-primary" size={16} weight="fill" />{children}</span>
-}
-
-const toneStyles: Record<CommonMedicine["tone"], string> = {
-  blue: "bg-primary text-primary-foreground",
-  lime: "bg-accent text-accent-foreground",
-  amber: "bg-warning/15 text-warning",
-  violet: "bg-secondary text-secondary-foreground",
-  rose: "bg-muted text-foreground",
-}
-
-function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; onSelect: () => void }) {
-  return (
-    <article className="group relative flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-sm">
-      <button type="button" onClick={onSelect} className="absolute inset-0 z-0 cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" aria-label={`Apri ${medicine.name}, AIC/MINSAN ${medicine.aic}`} />
-      <div className="pointer-events-none relative z-10 flex items-center justify-between">
-        <span className={cn("grid size-9 place-items-center rounded-xl", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
-        <Tooltip>
-          <TooltipTrigger render={<a href={medicine.sourceUrl} target="_blank" rel="noreferrer" className="pointer-events-auto inline-flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground transition-colors duration-200 hover:text-foreground" aria-label={`Apri la fonte per ${medicine.name}`} />}>Fonte <ArrowUpRight size={12} /></TooltipTrigger>
-          <TooltipContent>{medicine.sourceLabel}</TooltipContent>
-        </Tooltip>
-      </div>
-      <h3 className="pointer-events-none relative z-10 mt-5 font-display text-xl font-semibold tracking-tight">{medicine.name}</h3>
-      <p className="pointer-events-none relative z-10 mt-1 text-xs font-medium text-muted-foreground">{medicine.activeSubstance}</p>
-      <p className="pointer-events-none relative z-10 mt-4 text-sm leading-5">{medicine.description}</p>
-      <div className="pointer-events-none relative z-10 mt-auto flex items-center justify-between border-t pt-4 text-left text-xs font-medium text-primary transition-colors duration-200 group-hover:text-primary/75">
-        <span className="font-mono tracking-wide">AIC/MINSAN {medicine.aic}</span><ArrowRight size={15} />
-      </div>
-    </article>
-  )
 }
 
 function SameSubstanceSection({ substance, packages, loading, onSelect }: { substance: { id: string; name: string }; packages: SubstancePackage[]; loading: boolean; onSelect: (aic: string) => void }) {
@@ -428,16 +375,16 @@ function SameSubstanceSection({ substance, packages, loading, onSelect }: { subs
     <section className="mt-14" aria-labelledby="same-substance-title">
       <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
         <div>
-          <p className="eyebrow">Stesso principio attivo</p>
-          <h2 id="same-substance-title" className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Altri farmaci con {substance.name.toLocaleLowerCase("it")}</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">Hanno lo stesso principio attivo, ma possono cambiare dosaggio e forma. Non sono necessariamente equivalenti ufficiali.</p>
+          <p className="eyebrow">Confronto descrittivo della composizione</p>
+          <h2 id="same-substance-title" className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Confezioni che riportano {substance.name.toLocaleLowerCase("it")}</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">La presenza dello stesso principio attivo non dimostra equivalenza, intercambiabilità o appropriatezza per una persona. Dosaggio, forma, via di somministrazione ed eccipienti possono differire.</p>
         </div>
         {!loading && <SummaryNumber value={String(filteredPackages.length)} label={activeFilterCount > 0 ? "risultati" : "altre confezioni"} />}
       </div>
 
       <Card className="mt-7 overflow-hidden">
         <div className="flex flex-col gap-4 border-b p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-          <div><p className="font-medium">Confezioni con lo stesso principio attivo</p><p className="mt-1 text-xs text-muted-foreground">Apri una confezione per consultarne i dettagli.</p></div>
+          <div><p className="font-medium">Confezioni contenenti il principio attivo</p><p className="mt-1 text-xs text-muted-foreground">Elenco descrittivo, non elenco di alternative terapeutiche.</p></div>
           <div className="relative w-full sm:w-80">
             <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
             <label htmlFor="related-filter" className="sr-only">Filtra i farmaci con lo stesso principio attivo</label>
@@ -624,13 +571,13 @@ function EmptyResult() {
       <EmptyHeader>
         <EmptyMedia variant="icon"><MagnifyingGlass size={20} /></EmptyMedia>
         <EmptyTitle className="font-display text-xl">Cerca un medicinale</EmptyTitle>
-        <EmptyDescription>Cerca una confezione tramite codice AIC/MINSAN oppure scegli un farmaco comune.</EmptyDescription>
+        <EmptyDescription>Cerca una confezione tramite codice AIC/MINSAN oppure usa la ricerca per nome.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   )
 }
 
-function ResultsPagination({ page, totalPages, totalItems, onPageChange, targetId = "equivalents-title" }: { page: number; totalPages: number; totalItems: number; onPageChange: (page: number) => void; targetId?: string }) {
+function ResultsPagination({ page, totalPages, totalItems, onPageChange, targetId = "transparency-group-title" }: { page: number; totalPages: number; totalItems: number; onPageChange: (page: number) => void; targetId?: string }) {
   if (totalPages <= 1) return null
   const first = (page - 1) * pageSize + 1
   const last = Math.min(page * pageSize, totalItems)

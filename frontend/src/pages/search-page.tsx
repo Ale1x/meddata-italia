@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { SafetyNotice } from "@/components/safety-notice"
 import { getMedicine, getPackageByAIC, searchMedicines } from "@/lib/api"
 import type { MedicineData, MedicinePackage, MedicineSummary } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -142,10 +143,12 @@ export function SearchPage() {
         <a href="/" className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"><ArrowLeft size={16} /> Torna al catalogo</a>
 
         <div className="mt-8 max-w-3xl">
-          <Badge variant="secondary"><MagnifyingGlass size={13} /> Ricerca per nome</Badge>
-          <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Trova un farmaco e le sue <span className="text-primary">confezioni.</span></h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Cerca il nome commerciale per vedere principio attivo e codici AIC/MINSAN disponibili.</p>
+          <Badge variant="secondary"><MagnifyingGlass size={13} /> Consultazione per nome</Badge>
+          <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Consulta medicinali e <span className="text-primary">confezioni registrate.</span></h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Cerca una denominazione per visualizzare i codici AIC/MINSAN e i dati descrittivi disponibili.</p>
         </div>
+
+        <SafetyNotice compact className="mt-8 max-w-3xl" />
 
         <Card className="mt-10 max-w-3xl overflow-hidden py-0 shadow-md">
           <div className="h-1.5 bg-primary" />
@@ -164,7 +167,7 @@ export function SearchPage() {
                   onFocus={() => setSuggestionsOpen(true)}
                   autoComplete="off"
                   inputMode="search"
-                  placeholder="es. Tachipirina"
+                  placeholder="es. paracetamolo"
                   className="h-14 rounded-xl pl-12 text-base"
                 />
               </div>

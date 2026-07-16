@@ -9,6 +9,7 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
+import { SafetyNotice } from "@/components/safety-notice"
 import { compareOfficialEquivalence, getPackageByAIC, normalizeAIC } from "@/lib/api"
 import type { ComparedPackage, ComparisonData, PackageData } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -105,10 +106,12 @@ export function ComparePage() {
         <a href="/" className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"><ArrowLeft size={16} /> Torna al catalogo</a>
 
         <div className="mt-8 max-w-3xl">
-          <Badge variant="secondary"><ArrowsLeftRight size={13} /> Equivalenza ufficiale</Badge>
-          <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Scopri se due farmaci <span className="text-primary">sono equivalenti.</span></h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Inserisci i due codici AIC/MINSAN per verificare l’equivalenza ufficiale.</p>
+          <Badge variant="secondary"><ArrowsLeftRight size={13} /> Verifica documentale</Badge>
+          <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Confronta due confezioni nella <span className="text-primary">Lista di trasparenza.</span></h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Inserisci i codici AIC/MINSAN per sapere se compaiono nello stesso raggruppamento dello snapshot AIFA disponibile.</p>
         </div>
+
+        <SafetyNotice className="mt-8 max-w-3xl" />
 
         <div className="mt-10 grid items-start gap-6 lg:grid-cols-[1.35fr_.65fr]">
           <Card className="py-0 shadow-md">
@@ -129,7 +132,7 @@ export function ComparePage() {
                   </Field>
                 </FieldGroup>
                 <Button type="submit" size="lg" className="mt-6 h-11 w-full cursor-pointer sm:w-auto sm:px-6" disabled={!leftAIC || !rightAIC || loading}>
-                  {loading ? "Verifica in corso…" : "Verifica equivalenza"}
+                  {loading ? "Verifica in corso…" : "Verifica il raggruppamento"}
                   {!loading && <ArrowsLeftRight size={17} />}
                 </Button>
               </form>
@@ -139,8 +142,8 @@ export function ComparePage() {
           <Card className="bg-primary py-0 text-primary-foreground">
             <CardContent className="p-6 sm:p-7">
               <span className="grid size-10 place-items-center rounded-xl bg-primary-foreground/10 text-primary-foreground"><ShieldCheck size={20} /></span>
-              <h2 className="mt-5 font-display text-lg font-semibold">Confronto ufficiale AIFA</h2>
-              <p className="mt-3 text-sm leading-6 text-primary-foreground/75">Il confronto considera esclusivamente i gruppi ufficiali pubblicati da AIFA.</p>
+              <h2 className="mt-5 font-display text-lg font-semibold">Cosa viene verificato</h2>
+              <p className="mt-3 text-sm leading-6 text-primary-foreground/75">Solo la co-appartenenza allo stesso raggruppamento della Lista di trasparenza nazionale osservata. Non viene valutata la sostituibilità nel caso concreto.</p>
               <div className="mt-6 border-t border-primary-foreground/15 pt-5">
                 <p className="text-xs font-medium text-primary-foreground/65">Fonte: Lista di trasparenza AIFA</p>
               </div>
@@ -160,13 +163,13 @@ export function ComparePage() {
 }
 
 function ComparisonResult({ comparison, composition }: { comparison: ComparisonData; composition: CompositionComparison | null }) {
-  const isEquivalent = comparison.equivalent
+  const isSameGroup = comparison.same_transparency_group ?? comparison.equivalent
   const isSamePackage = comparison.reason === "SAME_PACKAGE"
   const isUnavailable = ["LEFT_NOT_IN_OFFICIAL_LIST", "RIGHT_NOT_IN_OFFICIAL_LIST", "NEITHER_IN_OFFICIAL_LIST"].includes(comparison.reason)
   const hasDifferentSubstances = composition?.sameActiveSubstances === false
   const isClearlyDifferent = isUnavailable && hasDifferentSubstances
   const showUnavailableTone = isUnavailable && !isClearlyDifferent
-  const heading = isSamePackage ? "È la stessa confezione" : isEquivalent ? "Equivalenti ufficiali" : isClearlyDifferent ? "Farmaci diversi" : isUnavailable ? "Equivalenza ufficiale non disponibile" : "Non equivalenti ufficiali"
+  const heading = isSamePackage ? "È la stessa confezione" : isSameGroup ? "Stesso raggruppamento nello snapshot" : isClearlyDifferent ? "Principi attivi diversi" : isUnavailable ? "Raggruppamento non osservato" : "Raggruppamenti diversi nello snapshot"
   const message = isClearlyDifferent && composition
     ? `Le confezioni contengono principi attivi diversi: ${composition.leftSubstances.join(" · ")} e ${composition.rightSubstances.join(" · ")}. ${comparisonMessage(comparison)}`
     : comparisonMessage(comparison)
@@ -176,7 +179,7 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
       role="status"
       className={cn(
         "overflow-hidden border-l-4 py-0 ring-1",
-        isEquivalent
+        isSameGroup
           ? "border-l-success bg-success/[0.035] ring-success/20"
           : showUnavailableTone
             ? "border-l-warning bg-warning/[0.035] ring-warning/25"
@@ -189,18 +192,18 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
             aria-hidden="true"
             className={cn(
               "grid size-14 shrink-0 place-items-center rounded-2xl ring-1",
-              isEquivalent
+              isSameGroup
                 ? "bg-success/12 text-success ring-success/25"
                 : showUnavailableTone
                   ? "bg-warning/12 text-warning ring-warning/25"
                 : "bg-destructive/12 text-destructive ring-destructive/25",
             )}
           >
-            {isEquivalent ? <CheckCircle size={30} weight="fill" /> : showUnavailableTone ? <WarningCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
+            {isSameGroup ? <CheckCircle size={30} weight="fill" /> : showUnavailableTone ? <WarningCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
           </span>
           <div>
-            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isEquivalent ? "text-success" : showUnavailableTone ? "text-warning" : "text-destructive")}>{isSamePackage ? "Codici identici" : isClearlyDifferent ? "Principi attivi diversi" : isUnavailable ? "Copertura della fonte" : "Esito del confronto"}</p>
-            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", showUnavailableTone ? "text-warning" : !isEquivalent && "text-destructive")}>{heading}</h2>
+            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isSameGroup ? "text-success" : showUnavailableTone ? "text-warning" : "text-destructive")}>{isSamePackage ? "Codici identici" : isClearlyDifferent ? "Principi attivi diversi" : isUnavailable ? "Copertura della fonte" : "Esito documentale"}</p>
+            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", showUnavailableTone ? "text-warning" : !isSameGroup && "text-destructive")}>{heading}</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">{message}</p>
           </div>
         </div>
@@ -241,7 +244,7 @@ function ComparisonEmpty() {
       <EmptyHeader>
         <EmptyMedia variant="icon"><ArrowsLeftRight size={18} /></EmptyMedia>
         <EmptyTitle className="font-display text-lg">Confronta due confezioni</EmptyTitle>
-        <EmptyDescription>Inserisci due codici AIC/MINSAN per verificarne l’equivalenza ufficiale.</EmptyDescription>
+        <EmptyDescription>Inserisci due codici AIC/MINSAN per verificare la loro presenza nei raggruppamenti dello snapshot disponibile.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   )
@@ -256,15 +259,15 @@ function comparisonMessage(comparison: ComparisonData) {
     case "SAME_PACKAGE":
       return "I due codici indicano esattamente la stessa confezione."
     case "SAME_OFFICIAL_GROUP":
-      return `Entrambe le confezioni appartengono al gruppo ${comparison.shared_official_group?.source_group_identifier}: ${comparison.shared_official_group?.label}.`
+      return `Entrambe le confezioni risultano nel gruppo ${comparison.shared_official_group?.source_group_identifier}: ${comparison.shared_official_group?.label}. La co-appartenenza non sostituisce la verifica del farmacista.`
     case "DIFFERENT_OFFICIAL_GROUPS":
       return `Le confezioni sono nella lista, ma appartengono ai gruppi ${comparison.left.official_group?.source_group_identifier} e ${comparison.right.official_group?.source_group_identifier}.`
     case "LEFT_NOT_IN_OFFICIAL_LIST":
-      return "La prima confezione esiste, ma non è inclusa in un gruppo ufficiale della lista di trasparenza AIFA."
+      return "La prima confezione esiste, ma non è stata osservata in un raggruppamento dello snapshot corrente. Questo non dimostra che non sia equivalente ad altri medicinali."
     case "RIGHT_NOT_IN_OFFICIAL_LIST":
-      return "La seconda confezione esiste, ma non è inclusa in un gruppo ufficiale della lista di trasparenza AIFA."
+      return "La seconda confezione esiste, ma non è stata osservata in un raggruppamento dello snapshot corrente. Questo non dimostra che non sia equivalente ad altri medicinali."
     default:
-      return "Entrambe le confezioni esistono, ma nessuna è inclusa in un gruppo ufficiale della lista di trasparenza AIFA."
+      return "Entrambe le confezioni esistono, ma non sono state osservate in un raggruppamento dello snapshot corrente. L’assenza dalla lista non dimostra non equivalenza."
   }
 }
 
@@ -272,7 +275,7 @@ async function shareComparison() {
   const url = window.location.href
   try {
     if (navigator.share) {
-      await navigator.share({ title: "Confronto farmaci · MedData", text: "Verifica questo confronto basato sui dati AIFA.", url })
+      await navigator.share({ title: "Confronto documentale · MedData", text: "Verifica la presenza di due confezioni nei raggruppamenti della Lista di trasparenza AIFA e chiedi conferma al farmacista.", url })
       return
     }
     await navigator.clipboard.writeText(url)
@@ -309,7 +312,7 @@ function CompositionResult({ composition }: { composition: CompositionComparison
       {composition.strengthSource && composition.strengthSource !== "structured" && (
         <p className="mt-2 text-xs leading-5 text-muted-foreground">Il dosaggio è stato completato dalla descrizione ufficiale della confezione.</p>
       )}
-      <p className="mt-3 text-xs leading-5 text-muted-foreground">{hasDifferentSubstances ? "I principi attivi sono diversi. Questo confronto non valuta eventuali alternative terapeutiche: chiedi conferma a un medico o farmacista." : "La composizione simile non prova la sostituibilità: l’esito ufficiale deriva esclusivamente dalla lista di trasparenza AIFA."}</p>
+      <p className="mt-3 text-xs leading-5 text-muted-foreground">{hasDifferentSubstances ? "I principi attivi sono diversi. Il servizio non valuta alternative terapeutiche: chiedi conferma a un medico o farmacista." : "Una composizione simile o la presenza nello stesso raggruppamento non determina da sola la sostituibilità nel caso concreto."}</p>
     </div>
   )
 }
@@ -399,11 +402,12 @@ function normalizeUnit(value: string) {
 }
 
 function samePackageComparison(pkg: PackageData): ComparisonData {
-  const officialGroup = pkg.official_equivalence
+  const packageGroup = pkg.transparency_group ?? pkg.official_equivalence
+  const officialGroup = packageGroup
     ? {
-        source_group_identifier: pkg.official_equivalence.source_group_identifier,
-        label: pkg.official_equivalence.label,
-        published_date: pkg.official_equivalence.published_date,
+        source_group_identifier: packageGroup.source_group_identifier,
+        label: packageGroup.label,
+        published_date: packageGroup.published_date,
       }
     : null
   const item: ComparedPackage = {
@@ -415,6 +419,9 @@ function samePackageComparison(pkg: PackageData): ComparisonData {
   }
   return {
     equivalent: true,
+    same_transparency_group: true,
+    basis: "AIFA_TRANSPARENCY_LIST_GROUP_MEMBERSHIP",
+    interpretation_notice: "I codici identificano la stessa confezione; non viene fornita un’indicazione terapeutica.",
     semantics: "AIFA_TRANSPARENCY_OFFICIAL",
     reason: "SAME_PACKAGE",
     left: item,

@@ -32,7 +32,7 @@ describe("selectRelatedResults", () => {
   it("prioritizes the official AIFA group for a single-ingredient package", () => {
     const result = selectRelatedResults(packageData({
       active_substances: [paracetamol],
-      official_equivalence: {
+      transparency_group: {
         authority: "AIFA",
         group_id: "group-id",
         label: "500 MG",

@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Medicine Platform API
   version: 1.0.0
-  description: Italian medicine catalog. Official equivalents are exclusively AIFA transparency-list co-memberships. Public API routes are limited to 200 requests per 10 seconds per client (20 requests/second average).
+  description: Italian medicine data catalog. Transparency-group results report documentary co-membership in an observed AIFA transparency-list snapshot and are not patient-specific substitution advice. Public API routes are limited to 200 requests per 10 seconds per client (20 requests/second average).
   license: {name: Apache-2.0, identifier: Apache-2.0}
 servers:
   - url: /api/v1
@@ -12,11 +12,26 @@ x-rate-limit:
   limit: 200
   period_seconds: 10
 paths:
+  /transparency-groups/compare:
+    get:
+      summary: Compare two packages for transparency-list group co-membership
+      operationId: compareTransparencyGroupMembership
+      description: Reports whether both AICs are current members of the same observed AIFA transparency-list group. It does not determine patient-specific substitutability; same substance or ATC is insufficient.
+      parameters:
+        - {name: left_aic, in: query, required: true, schema: {type: string, pattern: '^[0-9]{1,9}$'}}
+        - {name: right_aic, in: query, required: true, schema: {type: string, pattern: '^[0-9]{1,9}$'}}
+      responses:
+        '200':
+          description: Documentary group-membership comparison
+          content: {application/json: {schema: {$ref: '#/components/schemas/OfficialEquivalenceComparisonEnvelope'}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '404': {$ref: '#/components/responses/NotFound'}
   /official-equivalence/compare:
     get:
-      summary: Compare two packages for official AIFA equivalence
+      deprecated: true
+      summary: Deprecated alias for transparency-list group comparison
       operationId: compareOfficialEquivalence
-      description: Returns true only when both AICs are current members of the same AIFA_TRANSPARENCY_OFFICIAL group. Same substance or ATC is insufficient.
+      description: Compatibility alias. Use /transparency-groups/compare. The result is documentary group co-membership, not patient-specific substitution advice.
       parameters:
         - {name: left_aic, in: query, required: true, schema: {type: string, pattern: '^[0-9]{1,9}$'}}
         - {name: right_aic, in: query, required: true, schema: {type: string, pattern: '^[0-9]{1,9}$'}}
@@ -67,13 +82,25 @@ paths:
       responses: {'200': {$ref: '#/components/responses/Package'}, '400': {$ref: '#/components/responses/BadRequest'}, '404': {$ref: '#/components/responses/NotFound'}}
   /packages/{id}/official-equivalents:
     get:
-      summary: List official AIFA equivalents
+      deprecated: true
+      summary: Deprecated alias for transparency-group members
       operationId: listOfficialEquivalents
-      description: Returns only AIFA_TRANSPARENCY_OFFICIAL members; substance/ATC/A-H/shortage inference is excluded.
+      description: Compatibility alias. Use /packages/{id}/transparency-group-members.
       parameters: [{$ref: '#/components/parameters/ID'}]
       responses:
         '200':
           description: Official group and other current members.
+          content: {application/json: {schema: {$ref: '#/components/schemas/Envelope'}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /packages/{id}/transparency-group-members:
+    get:
+      summary: List members of the observed transparency-list group
+      operationId: listTransparencyGroupMembers
+      description: Returns documentary co-members of the same AIFA transparency-list group. It does not provide patient-specific substitution advice; substance/ATC/A-H/shortage inference is excluded.
+      parameters: [{$ref: '#/components/parameters/ID'}]
+      responses:
+        '200':
+          description: Transparency-list group and other current members.
           content: {application/json: {schema: {$ref: '#/components/schemas/Envelope'}}}
         '404': {$ref: '#/components/responses/NotFound'}
   /active-substances:
@@ -220,9 +247,12 @@ components:
         meta: {$ref: '#/components/schemas/Meta'}
     OfficialEquivalenceComparison:
       type: object
-      required: [equivalent, semantics, reason, left, right]
+      required: [equivalent, same_transparency_group, basis, interpretation_notice, semantics, reason, left, right]
       properties:
-        equivalent: {type: boolean}
+        equivalent: {type: boolean, deprecated: true, description: Compatibility field; use same_transparency_group.}
+        same_transparency_group: {type: boolean, description: True only for co-membership in the same current observed transparency-list group.}
+        basis: {type: string, const: AIFA_TRANSPARENCY_LIST_GROUP_MEMBERSHIP}
+        interpretation_notice: {type: string}
         semantics: {type: string, const: AIFA_TRANSPARENCY_OFFICIAL}
         reason: {type: string, enum: [SAME_OFFICIAL_GROUP, DIFFERENT_OFFICIAL_GROUPS, LEFT_NOT_IN_OFFICIAL_LIST, RIGHT_NOT_IN_OFFICIAL_LIST, NEITHER_IN_OFFICIAL_LIST]}
         left: {$ref: '#/components/schemas/ComparedPackage'}
@@ -264,7 +294,8 @@ components:
         administrative_status: {type: [string, 'null']}
         supply_regime: {type: [string, 'null']}
         atc: {type: array, items: {type: object}}
-        official_equivalence: {type: [object, 'null']}
+        transparency_group: {type: [object, 'null'], description: Documentary membership in the observed transparency-list snapshot.}
+        official_equivalence: {type: [object, 'null'], deprecated: true, description: Compatibility alias for transparency_group.}
         provenance: {type: array, items: {$ref: '#/components/schemas/Provenance'}}
         observed_at: {type: string, format: date-time}
     NamedEntity:
