@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
-    "@fontsource-variable/geist": "^5.2.9",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/playfair-display": "^5.2.8",
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.2.3",
     "@shadcn/react": "^0.2.1",

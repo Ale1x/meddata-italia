@@ -41,14 +41,14 @@ export function ComparePage() {
         <a href="/" className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"><ArrowLeft size={16} /> Torna al catalogo</a>
 
         <div className="mt-8 max-w-3xl">
-          <Badge variant="secondary" className="bg-blue-50 text-blue-800 dark:bg-blue-950 dark:text-blue-200"><ArrowsLeftRight size={13} /> Confronto AIC</Badge>
+          <Badge variant="secondary"><ArrowsLeftRight size={13} /> Confronto AIC</Badge>
           <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Due confezioni.<br /><span className="text-primary">Una risposta ufficiale.</span></h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Verifica se due codici AIC appartengono allo stesso gruppo della lista di trasparenza AIFA. Nessuna equivalenza viene dedotta dal solo principio attivo.</p>
         </div>
 
         <div className="mt-10 grid items-start gap-6 lg:grid-cols-[1.35fr_.65fr]">
-          <Card className="py-0 shadow-[0_22px_60px_rgba(30,64,175,0.10)]">
-            <div className="h-1.5 bg-[linear-gradient(90deg,#1e40af,#3b82f6_70%,#a3e635)]" />
+          <Card className="py-0 shadow-[var(--shadow-elevated)]">
+            <div className="h-1.5 bg-[linear-gradient(90deg,var(--primary),var(--chart-3)_72%,var(--chart-1))]" />
             <CardHeader className="px-6 pt-6 sm:px-8 sm:pt-8">
               <CardTitle className="font-display text-xl">Inserisci i codici</CardTitle>
               <CardDescription>I campi partono vuoti e accettano esclusivamente valori numerici da 1 a 9 cifre.</CardDescription>
@@ -75,13 +75,13 @@ export function ComparePage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-ink py-0 text-white dark:bg-blue-950">
+          <Card className="bg-primary py-0 text-primary-foreground">
             <CardContent className="p-6 sm:p-7">
-              <span className="grid size-10 place-items-center rounded-xl bg-white/10 text-lime-300"><ShieldCheck size={20} /></span>
+              <span className="grid size-10 place-items-center rounded-xl bg-primary-foreground/10 text-chart-1"><ShieldCheck size={20} /></span>
               <h2 className="mt-5 font-display text-lg font-semibold">Criterio utilizzato</h2>
-              <p className="mt-3 text-sm leading-6 text-blue-100">La risposta è positiva solo quando entrambi gli AIC sono membri correnti dello stesso gruppo ufficiale AIFA.</p>
-              <div className="mt-6 border-t border-white/15 pt-5">
-                <p className="font-mono text-[11px] tracking-wide text-blue-200">AIFA_TRANSPARENCY_OFFICIAL</p>
+              <p className="mt-3 text-sm leading-6 text-primary-foreground/75">La risposta è positiva solo quando entrambi gli AIC sono membri correnti dello stesso gruppo ufficiale AIFA.</p>
+              <div className="mt-6 border-t border-primary-foreground/15 pt-5">
+                <p className="font-mono text-[11px] tracking-wide text-primary-foreground/65">AIFA_TRANSPARENCY_OFFICIAL</p>
               </div>
             </CardContent>
           </Card>
@@ -100,10 +100,10 @@ export function ComparePage() {
 
 function ComparisonResult({ comparison }: { comparison: ComparisonData }) {
   return (
-    <Card className={cn("py-0", comparison.equivalent ? "ring-lime-400/70" : "ring-foreground/15")}>
+    <Card className={cn("py-0", comparison.equivalent ? "ring-chart-1/70" : "ring-foreground/15")}>
       <CardContent className="p-6 sm:p-8">
         <div className="flex items-start gap-4">
-          <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl", comparison.equivalent ? "bg-lime-100 text-lime-700 dark:bg-lime-950 dark:text-lime-300" : "bg-muted text-muted-foreground")}>
+          <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl", comparison.equivalent ? "bg-chart-1/15 text-chart-1" : "bg-muted text-muted-foreground")}>
             {comparison.equivalent ? <CheckCircle size={26} weight="fill" /> : <XCircle size={26} weight="fill" />}
           </span>
           <div>
@@ -135,7 +135,7 @@ function ComparedPackageCard({ item, label }: { item: ComparedPackage; label: st
       <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-muted-foreground">{item.description}</p>
       <div className="mt-5 flex flex-wrap items-center gap-2">
         <Badge variant="outline" className="font-mono tracking-wide">{item.aic}</Badge>
-        {item.official_group && <Badge variant="secondary" className="bg-lime-100 text-lime-900 dark:bg-lime-950 dark:text-lime-200">Gruppo {item.official_group.source_group_identifier}</Badge>}
+        {item.official_group && <Badge variant="secondary">Gruppo {item.official_group.source_group_identifier}</Badge>}
       </div>
     </div>
   )

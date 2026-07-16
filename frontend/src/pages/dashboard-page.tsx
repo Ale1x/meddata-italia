@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react"
 import {
   ArrowRight,
   ArrowUpRight,
+  CaretDown,
   CheckCircle,
   Clock,
   Database,
@@ -17,6 +18,7 @@ import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -94,7 +96,7 @@ export function DashboardPage() {
         <div className="hero-orb hero-orb-two" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
           <div className="max-w-2xl">
-            <Badge variant="secondary" className="border-0 bg-blue-50 text-blue-800 dark:bg-blue-950 dark:text-blue-200">
+            <Badge variant="secondary" className="border-0">
               <Sparkle size={13} weight="fill" /> Dataset ufficiali AIFA
             </Badge>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[68px]">
@@ -110,8 +112,8 @@ export function DashboardPage() {
             </div>
           </div>
 
-          <Card className="relative overflow-hidden border-blue-100 bg-card/95 shadow-[0_28px_80px_rgba(30,64,175,0.14)] dark:border-blue-900">
-            <div className="h-1.5 bg-[linear-gradient(90deg,#1e40af,#3b82f6_62%,#a3e635)]" />
+          <Card className="relative overflow-hidden bg-card/95 shadow-[var(--shadow-elevated)]">
+            <div className="h-1.5 bg-[linear-gradient(90deg,var(--primary),var(--chart-3)_72%,var(--chart-1))]" />
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -182,7 +184,7 @@ export function DashboardPage() {
                 <Card>
                   <CardContent className="p-6 sm:p-7">
                     <div className="flex items-center gap-3">
-                      <span className="grid size-10 place-items-center rounded-xl bg-blue-50 text-primary dark:bg-blue-950"><Flask size={20} /></span>
+                      <span className="grid size-10 place-items-center rounded-xl bg-secondary text-secondary-foreground"><Flask size={20} /></span>
                       <div><h3 className="font-display text-lg font-semibold">Composizione e confezione</h3><p className="text-sm text-muted-foreground">Campi normalizzati senza completamenti inferiti.</p></div>
                     </div>
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -202,15 +204,30 @@ export function DashboardPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-ink text-white dark:bg-blue-950">
+                <Card>
                   <CardContent className="p-6 sm:p-7">
-                    <div className="flex items-center gap-3"><Clock size={20} className="text-lime-300" /><h3 className="font-display text-lg font-semibold">Origine del dato</h3></div>
-                    <dl className="mt-6 space-y-5">
-                      <DarkDetail label="Fonte" value={pkg.provenance?.[0]?.source ?? "aifa-packages"} />
-                      <DarkDetail label="Osservato" value={formatDate(pkg.observed_at)} />
-                      <DarkDetail label="Artifact SHA-256" value={shortHash(pkg.provenance?.[0]?.artifact_hash)} mono />
-                    </dl>
-                    <p className="mt-7 border-t border-white/15 pt-5 text-xs leading-5 text-blue-100">La provenienza resta disponibile nella risposta API completa.</p>
+                    <div className="flex items-center gap-3">
+                      <span className="grid size-10 place-items-center rounded-xl bg-secondary text-secondary-foreground"><Clock size={20} /></span>
+                      <div><h3 className="font-display text-lg font-semibold">Aggiornamento dati</h3><p className="text-sm text-muted-foreground">Informazioni sull’ultima acquisizione.</p></div>
+                    </div>
+                    <div className="mt-6 rounded-xl bg-muted/55 p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Fonte ufficiale</p>
+                      <p className="mt-1.5 font-medium">{friendlySourceName(pkg.provenance?.[0]?.source)}</p>
+                      <p className="mt-3 text-sm leading-6 text-muted-foreground">Dati aggiornati il {formatFriendlyDate(pkg.observed_at)}.</p>
+                    </div>
+                    <Collapsible className="mt-4 group/technical">
+                      <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between rounded-lg px-2 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50">
+                        Dettagli tecnici
+                        <CaretDown size={16} className="transition-transform group-data-[open]/technical:rotate-180" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="px-2 pb-1 pt-3 text-xs text-muted-foreground">
+                        <dl className="space-y-3">
+                          <TechnicalDetail label="ID sorgente" value={pkg.provenance?.[0]?.source ?? "aifa-packages"} />
+                          <TechnicalDetail label="Rilevato" value={formatDate(pkg.observed_at)} />
+                          <TechnicalDetail label="Hash SHA-256" value={shortHash(pkg.provenance?.[0]?.artifact_hash)} mono />
+                        </dl>
+                      </CollapsibleContent>
+                    </Collapsible>
                   </CardContent>
                 </Card>
               </div>
@@ -269,18 +286,18 @@ function TrustPoint({ children }: { children: React.ReactNode }) {
 }
 
 const toneStyles: Record<CommonMedicine["tone"], string> = {
-  blue: "bg-blue-500",
-  lime: "bg-lime-500",
-  amber: "bg-amber-500",
-  violet: "bg-violet-500",
-  rose: "bg-rose-500",
+  blue: "bg-chart-2",
+  lime: "bg-chart-3",
+  amber: "bg-chart-1",
+  violet: "bg-chart-4",
+  rose: "bg-chart-5",
 }
 
 function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; onSelect: () => void }) {
   return (
     <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-[0_14px_36px_rgba(15,23,42,0.08)]">
       <div className="flex items-center justify-between">
-        <span className={cn("grid size-9 place-items-center rounded-xl text-white", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
+        <span className={cn("grid size-9 place-items-center rounded-xl text-primary-foreground", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
         <Tooltip>
           <TooltipTrigger render={<a href={medicine.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground transition-colors duration-200 hover:text-foreground" aria-label={`Apri la fonte per ${medicine.name}`} />}>Fonte <ArrowUpRight size={12} /></TooltipTrigger>
           <TooltipContent>{medicine.sourceLabel}</TooltipContent>
@@ -302,7 +319,7 @@ function PackageHeader({ pkg }: { pkg: PackageData }) {
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="font-mono tracking-wider">AIC {pkg.aic}</Badge>
-          {pkg.administrative_status && <Badge variant="secondary" className="bg-lime-100 text-lime-900 dark:bg-lime-950 dark:text-lime-200"><CheckCircle size={13} weight="fill" /> {pkg.administrative_status}</Badge>}
+          {pkg.administrative_status && <Badge variant="secondary"><CheckCircle size={13} weight="fill" /> {pkg.administrative_status}</Badge>}
         </div>
         <h2 className="mt-4 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">{pkg.medicine.name}</h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">{pkg.package_description}</p>
@@ -314,11 +331,11 @@ function PackageHeader({ pkg }: { pkg: PackageData }) {
 
 function Metric({ icon, label, value, detail, accent = false }: { icon: React.ReactNode; label: string; value: string; detail: string; accent?: boolean }) {
   return (
-    <Card className={cn("overflow-hidden", accent && "border-lime-300 dark:border-lime-800")}>
+    <Card className={cn("overflow-hidden", accent && "border-chart-1/55")}>
       <CardContent className="p-5">
-        <div className="flex items-center justify-between"><p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p><span className={accent ? "text-lime-600 dark:text-lime-400" : "text-primary"}>{icon}</span></div>
-        <p className="mt-4 truncate font-display text-2xl font-semibold tracking-tight">{value}</p>
-        <p className="mt-1 line-clamp-2 min-h-10 text-xs leading-5 text-muted-foreground">{detail}</p>
+        <div className="flex items-center justify-between gap-3"><p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p><span className={accent ? "text-chart-1" : "text-primary"}>{icon}</span></div>
+        <p className="mt-4 break-words font-display text-xl font-semibold leading-6 tracking-tight sm:text-2xl sm:leading-7">{value}</p>
+        <p className="mt-2 min-h-10 break-words text-xs leading-5 text-muted-foreground">{detail}</p>
       </CardContent>
     </Card>
   )
@@ -328,8 +345,8 @@ function Detail({ label, value }: { label: string; value?: string | null }) {
   return <div><dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</dt><dd className="mt-1.5 text-sm font-medium leading-5">{value || "Non disponibile"}</dd></div>
 }
 
-function DarkDetail({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
-  return <div><dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-blue-200">{label}</dt><dd className={cn("mt-1.5 break-all text-sm font-medium", mono && "font-mono text-xs leading-5")}>{value}</dd></div>
+function TechnicalDetail({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
+  return <div><dt className="font-semibold uppercase tracking-[0.1em]">{label}</dt><dd className={cn("mt-1 break-all text-foreground", mono && "font-mono leading-5")}>{value}</dd></div>
 }
 
 function SummaryNumber({ value, label }: { value: string; label: string }) {
@@ -378,6 +395,19 @@ function PackageSkeleton() {
 function formatDate(value?: string) {
   if (!value) return "Non disponibile"
   return new Intl.DateTimeFormat("it-IT", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value))
+}
+
+function formatFriendlyDate(value?: string) {
+  if (!value) return "non disponibile"
+  return new Intl.DateTimeFormat("it-IT", { dateStyle: "long" }).format(new Date(value))
+}
+
+function friendlySourceName(source?: string) {
+  const names: Record<string, string> = {
+    "aifa-packages": "Anagrafica confezioni AIFA",
+    "aifa-transparency-list": "Lista di trasparenza AIFA",
+  }
+  return names[source ?? ""] ?? "Agenzia Italiana del Farmaco"
 }
 
 function shortHash(value?: string) {

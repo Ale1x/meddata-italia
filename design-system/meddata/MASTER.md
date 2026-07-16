@@ -7,8 +7,9 @@
 ---
 
 **Project:** MedData
-**Generated:** 2026-07-16 09:16:57
-**Category:** Analytics Dashboard
+**Generated:** 2026-07-16 09:39:55
+**Category:** Public Healthcare Data
+**Community theme:** [Zen Inspired Theme by Bikash](https://tweakcn.com/themes/cmlm03etv000204lh15608kec)
 
 ---
 
@@ -18,24 +19,28 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#1E40AF` | `--color-primary` |
-| Secondary | `#3B82F6` | `--color-secondary` |
-| CTA/Accent | `#F59E0B` | `--color-cta` |
-| Background | `#F8FAFC` | `--color-background` |
-| Text | `#1E3A8A` | `--color-text` |
+| Primary | `#2E2E2E` | `--primary` |
+| Secondary | `#D8D2C4` | `--secondary` |
+| CTA/Accent | `#F26A4B` | `--chart-1` |
+| Background | `#E9E4D8` | `--background` |
+| Card | `#F4EFE4` | `--card` |
+| Text | `#1E1E1E` | `--foreground` |
 
-**Color Notes:** Blue data + amber highlights
+**Color Notes:** Warm parchment neutrals with a restrained coral accent. Dark mode uses the exact paired community-theme tokens.
 
 ### Typography
 
-- **Heading Font:** Fira Code
-- **Body Font:** Fira Sans
-- **Mood:** dashboard, data, analytics, code, technical, precise
-- **Google Fonts:** [Fira Code + Fira Sans](https://fonts.google.com/share?selection.family=Fira+Code:wght@400;500;600;700|Fira+Sans:wght@300;400;500;600;700)
+- **Heading Font:** Playfair Display
+- **Body Font:** Inter
+- **Monospace Font:** JetBrains Mono
+- **Mood:** editorial, calm, professional, warm, minimal
+- **Delivery:** self-hosted variable fonts through Fontsource
 
 **CSS Import:**
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/playfair-display";
+@import "@fontsource-variable/jetbrains-mono";
 ```
 
 ### Spacing Variables
@@ -68,8 +73,8 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #F59E0B;
-  color: white;
+  background: #2E2E2E;
+  color: #E6E4D7;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -85,8 +90,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #1E40AF;
-  border: 2px solid #1E40AF;
+  color: #2E2E2E;
+  border: 1px solid #2E2E2E;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -99,8 +104,8 @@
 
 ```css
 .card {
-  background: #F8FAFC;
-  border-radius: 12px;
+  background: #F4EFE4;
+  border-radius: 8px;
   padding: 24px;
   box-shadow: var(--shadow-md);
   transition: all 200ms ease;
@@ -125,9 +130,9 @@
 }
 
 .input:focus {
-  border-color: #1E40AF;
+  border-color: #2E2E2E;
   outline: none;
-  box-shadow: 0 0 0 3px #1E40AF20;
+  box-shadow: 0 0 0 3px #2E2E2E20;
 }
 ```
 
@@ -153,13 +158,13 @@
 
 ## Style Guidelines
 
-**Style:** Data-Dense Dashboard
+**Style:** Accessible & Ethical
 
-**Keywords:** Multiple charts/widgets, data tables, KPI cards, minimal padding, grid layout, space-efficient, maximum data visibility
+**Keywords:** High contrast, large text (16px+), keyboard navigation, screen reader friendly, WCAG compliant, focus state, semantic
 
-**Best For:** Business intelligence dashboards, financial analytics, enterprise reporting, operational dashboards, data warehousing
+**Best For:** Government, healthcare, education, inclusive products, large audience, legal compliance, public
 
-**Key Effects:** Hover tooltips, chart zoom on click, row highlighting on hover, smooth filter animations, data loading spinners
+**Key Effects:** Clear focus rings (3-4px), ARIA labels, skip links, responsive design, reduced motion, 44x44px touch targets
 
 ### Page Pattern
 
@@ -173,8 +178,9 @@
 
 ## Anti-Patterns (Do NOT Use)
 
-- ❌ Ornate design
-- ❌ No filtering
+- ❌ Bright neon colors
+- ❌ Motion-heavy animations
+- ❌ AI purple/pink gradients
 
 ### Additional Forbidden Patterns
 
