@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
-    "@fontsource-variable/dm-sans": "^5.2.8",
     "@fontsource-variable/geist-mono": "^5.2.8",
+    "@fontsource-variable/lexend": "^5.2.11",
+    "@fontsource-variable/source-sans-3": "^5.2.9",
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.2.3",
     "@shadcn/react": "^0.2.1",

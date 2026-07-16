@@ -36,7 +36,7 @@ export function AppShell({ activePage, children }: AppShellProps) {
 
           <div className="flex items-center gap-2">
             <span className="hidden items-center gap-2 text-xs font-medium text-muted-foreground lg:flex">
-              <span className="size-2 rounded-full bg-primary shadow-[0_0_0_4px_color-mix(in_srgb,var(--primary)_12%,transparent)]" />
+              <span className="size-2 rounded-full bg-success shadow-[0_0_0_4px_color-mix(in_srgb,var(--success)_14%,transparent)]" />
               Dati AIFA
             </span>
             <Button variant="ghost" size="icon" className="cursor-pointer rounded-xl" onClick={() => setDark((value) => !value)} aria-label={dark ? "Attiva tema chiaro" : "Attiva tema scuro"}>

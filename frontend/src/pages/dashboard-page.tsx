@@ -286,18 +286,18 @@ function TrustPoint({ children }: { children: React.ReactNode }) {
 }
 
 const toneStyles: Record<CommonMedicine["tone"], string> = {
-  blue: "bg-primary",
-  lime: "bg-primary",
-  amber: "bg-primary",
-  violet: "bg-primary",
-  rose: "bg-primary",
+  blue: "bg-primary text-primary-foreground",
+  lime: "bg-accent text-accent-foreground",
+  amber: "bg-warning/15 text-warning",
+  violet: "bg-secondary text-secondary-foreground",
+  rose: "bg-muted text-foreground",
 }
 
 function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; onSelect: () => void }) {
   return (
     <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-sm">
       <div className="flex items-center justify-between">
-        <span className={cn("grid size-9 place-items-center rounded-xl text-primary-foreground", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
+        <span className={cn("grid size-9 place-items-center rounded-xl", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
         <Tooltip>
           <TooltipTrigger render={<a href={medicine.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground transition-colors duration-200 hover:text-foreground" aria-label={`Apri la fonte per ${medicine.name}`} />}>Fonte <ArrowUpRight size={12} /></TooltipTrigger>
           <TooltipContent>{medicine.sourceLabel}</TooltipContent>
@@ -319,7 +319,7 @@ function PackageHeader({ pkg }: { pkg: PackageData }) {
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="font-mono tracking-wider">AIC {pkg.aic}</Badge>
-          {pkg.administrative_status && <Badge variant="secondary"><CheckCircle size={13} weight="fill" /> {pkg.administrative_status}</Badge>}
+          {pkg.administrative_status && <Badge variant="secondary" className="bg-success/10 text-success"><CheckCircle size={13} weight="fill" /> {pkg.administrative_status}</Badge>}
         </div>
         <h2 className="mt-4 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">{pkg.medicine.name}</h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">{pkg.package_description}</p>
@@ -331,9 +331,9 @@ function PackageHeader({ pkg }: { pkg: PackageData }) {
 
 function Metric({ icon, label, value, detail, accent = false }: { icon: React.ReactNode; label: string; value: string; detail: string; accent?: boolean }) {
   return (
-    <Card className={cn("overflow-hidden", accent && "border-primary/25")}>
+    <Card className={cn("overflow-hidden", accent && "border-accent-foreground/30 bg-accent/35")}>
       <CardContent className="p-5">
-        <div className="flex items-center justify-between gap-3"><p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p><span className="text-primary">{icon}</span></div>
+        <div className="flex items-center justify-between gap-3"><p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p><span className={accent ? "text-accent-foreground" : "text-primary"}>{icon}</span></div>
         <p className="mt-4 break-words font-display text-xl font-semibold leading-6 tracking-tight sm:text-2xl sm:leading-7">{value}</p>
         <p className="mt-2 min-h-10 break-words text-xs leading-5 text-muted-foreground">{detail}</p>
       </CardContent>

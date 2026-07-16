@@ -9,7 +9,7 @@
 **Project:** MedData
 **Generated:** 2026-07-16 09:39:55
 **Category:** Public Healthcare Data
-**Community theme:** [Minimal Neutral by Luis Llanes](https://tweakcn.com/themes/cmho4nr9l000h04l1gu419ckw)
+**Theme:** Clinical Trust — custom MedData theme
 
 ---
 
@@ -19,25 +19,30 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `oklch(0.205 0 0)` | `--primary` |
-| Secondary | `oklch(0.87 0 0)` | `--secondary` |
-| Background | `oklch(1 0 0)` | `--background` |
-| Card | `oklch(0.995 0 0)` | `--card` |
-| Text | `oklch(0.145 0 0)` | `--foreground` |
+| Primary | `#0369A1` | `--primary` |
+| Secondary | `#DCECF2` | `--secondary` |
+| Medical accent | `#D9F1EE` | `--accent` |
+| Success | `#0B7654` | `--success` |
+| Warning | `#A45B00` | `--warning` |
+| Error | `#B42318` | `--destructive` |
+| Background | `#F3F7F9` | `--background` |
+| Card | `#FFFFFF` | `--card` |
+| Text | `#172B36` | `--foreground` |
 
-**Color Notes:** Flat monochrome neutrals. Blue is limited to chart/status tokens supplied by the theme. Dark mode uses the exact paired community-theme tokens.
+**Color Notes:** Clinical blue communicates authoritative actions and links; teal supports neutral medical information. Green, amber and red are reserved for success, warning and error semantics.
 
 ### Typography
 
-- **Heading Font:** DM Sans
-- **Body Font:** DM Sans
+- **Heading Font:** Lexend
+- **Body Font:** Source Sans 3
 - **Monospace Font:** Geist Mono
-- **Mood:** flat, elegant, monochrome, professional, minimal
+- **Mood:** calm, trustworthy, clinical, precise, human
 - **Delivery:** self-hosted variable fonts through Fontsource
 
 **CSS Import:**
 ```css
-@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/source-sans-3";
+@import "@fontsource-variable/lexend";
 @import "@fontsource-variable/geist-mono";
 ```
 
@@ -71,8 +76,8 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: oklch(0.205 0 0);
-  color: oklch(0.985 0 0);
+  background: #0369A1;
+  color: #FFFFFF;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -88,8 +93,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: oklch(0.205 0 0);
-  border: 1px solid oklch(0.205 0 0);
+  color: #0369A1;
+  border: 1px solid #0369A1;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -102,8 +107,8 @@
 
 ```css
 .card {
-  background: oklch(0.995 0 0);
-  border-radius: 16px;
+  background: #FFFFFF;
+  border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
   transition: all 200ms ease;
@@ -128,9 +133,9 @@
 }
 
 .input:focus {
-  border-color: oklch(0.708 0 0);
+  border-color: #007C91;
   outline: none;
-  box-shadow: 0 0 0 3px oklch(0.708 0 0 / 20%);
+  box-shadow: 0 0 0 3px rgb(0 124 145 / 30%);
 }
 ```
 

@@ -23,12 +23,12 @@
 
 ### Typography Overrides
 
-- DM Sans for headings, controls and descriptive content; Geist Mono for AIC and technical identifiers.
+- Lexend for headings, Source Sans 3 for controls and descriptive content; Geist Mono for AIC and technical identifiers.
 - Long source values and package attributes must wrap; never truncate factual values.
 
 ### Color Overrides
 
-- **Strategy:** Use the Minimal Neutral monochrome surfaces and flat shadows; reserve supplied blue chart tokens for restrained status accents.
+- **Strategy:** Clinical blue for actions, teal for medical information, and dedicated success/warning/error tokens only for their semantic states.
 
 ### Component Overrides
 

@@ -100,10 +100,10 @@ export function ComparePage() {
 
 function ComparisonResult({ comparison }: { comparison: ComparisonData }) {
   return (
-    <Card className={cn("py-0", comparison.equivalent ? "ring-primary/30" : "ring-foreground/15")}>
+    <Card className={cn("py-0", comparison.equivalent ? "ring-success/35" : "ring-foreground/15")}>
       <CardContent className="p-6 sm:p-8">
         <div className="flex items-start gap-4">
-          <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl", comparison.equivalent ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
+          <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl", comparison.equivalent ? "bg-success text-success-foreground" : "bg-muted text-muted-foreground")}>
             {comparison.equivalent ? <CheckCircle size={26} weight="fill" /> : <XCircle size={26} weight="fill" />}
           </span>
           <div>
@@ -135,7 +135,7 @@ function ComparedPackageCard({ item, label }: { item: ComparedPackage; label: st
       <p className="mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-muted-foreground">{item.description}</p>
       <div className="mt-5 flex flex-wrap items-center gap-2">
         <Badge variant="outline" className="font-mono tracking-wide">{item.aic}</Badge>
-        {item.official_group && <Badge variant="secondary">Gruppo {item.official_group.source_group_identifier}</Badge>}
+        {item.official_group && <Badge variant="secondary" className="bg-accent text-accent-foreground">Gruppo {item.official_group.source_group_identifier}</Badge>}
       </div>
     </div>
   )
