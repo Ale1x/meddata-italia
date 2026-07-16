@@ -20,7 +20,7 @@ export function AppShell({ activePage, children }: AppShellProps) {
     <div className="min-h-screen bg-background text-foreground">
       <a className="skip-link" href="#main-content">Vai al contenuto</a>
       <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border bg-background/92 px-3 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:px-5">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border bg-background/92 px-3 shadow-[var(--shadow-soft)] backdrop-blur-xl sm:px-5">
           <a href="/" className="flex cursor-pointer items-center gap-2.5 rounded-lg focus-visible:ring-2 focus-visible:ring-ring">
             <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-[var(--shadow-soft)]">
               <Pill size={19} weight="fill" />
@@ -36,7 +36,7 @@ export function AppShell({ activePage, children }: AppShellProps) {
 
           <div className="flex items-center gap-2">
             <span className="hidden items-center gap-2 text-xs font-medium text-muted-foreground lg:flex">
-              <span className="size-2 rounded-full bg-chart-1 shadow-[0_0_0_4px_color-mix(in_srgb,var(--chart-1)_16%,transparent)]" />
+              <span className="size-2 rounded-full bg-primary shadow-[0_0_0_4px_color-mix(in_srgb,var(--primary)_12%,transparent)]" />
               Dati AIFA
             </span>
             <Button variant="ghost" size="icon" className="cursor-pointer rounded-xl" onClick={() => setDark((value) => !value)} aria-label={dark ? "Attiva tema chiaro" : "Attiva tema scuro"}>

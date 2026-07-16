@@ -9,7 +9,7 @@
 **Project:** MedData
 **Generated:** 2026-07-16 09:39:55
 **Category:** Public Healthcare Data
-**Community theme:** [Zen Inspired Theme by Bikash](https://tweakcn.com/themes/cmlm03etv000204lh15608kec)
+**Community theme:** [Minimal Neutral by Luis Llanes](https://tweakcn.com/themes/cmho4nr9l000h04l1gu419ckw)
 
 ---
 
@@ -19,28 +19,26 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#2E2E2E` | `--primary` |
-| Secondary | `#D8D2C4` | `--secondary` |
-| CTA/Accent | `#F26A4B` | `--chart-1` |
-| Background | `#E9E4D8` | `--background` |
-| Card | `#F4EFE4` | `--card` |
-| Text | `#1E1E1E` | `--foreground` |
+| Primary | `oklch(0.205 0 0)` | `--primary` |
+| Secondary | `oklch(0.87 0 0)` | `--secondary` |
+| Background | `oklch(1 0 0)` | `--background` |
+| Card | `oklch(0.995 0 0)` | `--card` |
+| Text | `oklch(0.145 0 0)` | `--foreground` |
 
-**Color Notes:** Warm parchment neutrals with a restrained coral accent. Dark mode uses the exact paired community-theme tokens.
+**Color Notes:** Flat monochrome neutrals. Blue is limited to chart/status tokens supplied by the theme. Dark mode uses the exact paired community-theme tokens.
 
 ### Typography
 
-- **Heading Font:** Playfair Display
-- **Body Font:** Inter
-- **Monospace Font:** JetBrains Mono
-- **Mood:** editorial, calm, professional, warm, minimal
+- **Heading Font:** DM Sans
+- **Body Font:** DM Sans
+- **Monospace Font:** Geist Mono
+- **Mood:** flat, elegant, monochrome, professional, minimal
 - **Delivery:** self-hosted variable fonts through Fontsource
 
 **CSS Import:**
 ```css
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/playfair-display";
-@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/geist-mono";
 ```
 
 ### Spacing Variables
@@ -73,8 +71,8 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #2E2E2E;
-  color: #E6E4D7;
+  background: oklch(0.205 0 0);
+  color: oklch(0.985 0 0);
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -90,8 +88,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #2E2E2E;
-  border: 1px solid #2E2E2E;
+  color: oklch(0.205 0 0);
+  border: 1px solid oklch(0.205 0 0);
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -104,8 +102,8 @@
 
 ```css
 .card {
-  background: #F4EFE4;
-  border-radius: 8px;
+  background: oklch(0.995 0 0);
+  border-radius: 16px;
   padding: 24px;
   box-shadow: var(--shadow-md);
   transition: all 200ms ease;
@@ -130,9 +128,9 @@
 }
 
 .input:focus {
-  border-color: #2E2E2E;
+  border-color: oklch(0.708 0 0);
   outline: none;
-  box-shadow: 0 0 0 3px #2E2E2E20;
+  box-shadow: 0 0 0 3px oklch(0.708 0 0 / 20%);
 }
 ```
 

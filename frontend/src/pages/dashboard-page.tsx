@@ -113,7 +113,7 @@ export function DashboardPage() {
           </div>
 
           <Card className="relative overflow-hidden bg-card/95 shadow-[var(--shadow-elevated)]">
-            <div className="h-1.5 bg-[linear-gradient(90deg,var(--primary),var(--chart-3)_72%,var(--chart-1))]" />
+            <div className="h-1.5 bg-primary" />
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -286,16 +286,16 @@ function TrustPoint({ children }: { children: React.ReactNode }) {
 }
 
 const toneStyles: Record<CommonMedicine["tone"], string> = {
-  blue: "bg-chart-2",
-  lime: "bg-chart-3",
-  amber: "bg-chart-1",
-  violet: "bg-chart-4",
-  rose: "bg-chart-5",
+  blue: "bg-primary",
+  lime: "bg-primary",
+  amber: "bg-primary",
+  violet: "bg-primary",
+  rose: "bg-primary",
 }
 
 function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; onSelect: () => void }) {
   return (
-    <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-[0_14px_36px_rgba(15,23,42,0.08)]">
+    <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-[var(--shadow-soft)]">
       <div className="flex items-center justify-between">
         <span className={cn("grid size-9 place-items-center rounded-xl text-primary-foreground", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
         <Tooltip>
@@ -331,9 +331,9 @@ function PackageHeader({ pkg }: { pkg: PackageData }) {
 
 function Metric({ icon, label, value, detail, accent = false }: { icon: React.ReactNode; label: string; value: string; detail: string; accent?: boolean }) {
   return (
-    <Card className={cn("overflow-hidden", accent && "border-chart-1/55")}>
+    <Card className={cn("overflow-hidden", accent && "border-primary/25")}>
       <CardContent className="p-5">
-        <div className="flex items-center justify-between gap-3"><p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p><span className={accent ? "text-chart-1" : "text-primary"}>{icon}</span></div>
+        <div className="flex items-center justify-between gap-3"><p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p><span className="text-primary">{icon}</span></div>
         <p className="mt-4 break-words font-display text-xl font-semibold leading-6 tracking-tight sm:text-2xl sm:leading-7">{value}</p>
         <p className="mt-2 min-h-10 break-words text-xs leading-5 text-muted-foreground">{detail}</p>
       </CardContent>

@@ -23,12 +23,12 @@
 
 ### Typography Overrides
 
-- Playfair Display for headings only; Inter for all controls and descriptive content.
+- DM Sans for headings, controls and descriptive content; Geist Mono for AIC and technical identifiers.
 - Long source values and package attributes must wrap; never truncate factual values.
 
 ### Color Overrides
 
-- **Strategy:** Use the Zen Inspired parchment/card neutrals and coral only as a restrained status accent.
+- **Strategy:** Use the Minimal Neutral monochrome surfaces and flat shadows; reserve supplied blue chart tokens for restrained status accents.
 
 ### Component Overrides
 
