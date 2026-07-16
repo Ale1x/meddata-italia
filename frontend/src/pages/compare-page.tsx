@@ -47,7 +47,7 @@ export function ComparePage() {
         </div>
 
         <div className="mt-10 grid items-start gap-6 lg:grid-cols-[1.35fr_.65fr]">
-          <Card className="py-0 shadow-[var(--shadow-elevated)]">
+          <Card className="py-0 shadow-md">
             <div className="h-1.5 bg-primary" />
             <CardHeader className="px-6 pt-6 sm:px-8 sm:pt-8">
               <CardTitle className="font-display text-xl">Inserisci i codici</CardTitle>

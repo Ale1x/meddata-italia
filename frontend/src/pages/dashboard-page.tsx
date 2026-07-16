@@ -112,7 +112,7 @@ export function DashboardPage() {
             </div>
           </div>
 
-          <Card className="relative overflow-hidden bg-card/95 shadow-[var(--shadow-elevated)]">
+          <Card className="relative overflow-hidden bg-card/95 shadow-md">
             <div className="h-1.5 bg-primary" />
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
@@ -295,7 +295,7 @@ const toneStyles: Record<CommonMedicine["tone"], string> = {
 
 function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; onSelect: () => void }) {
   return (
-    <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-[var(--shadow-soft)]">
+    <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-sm">
       <div className="flex items-center justify-between">
         <span className={cn("grid size-9 place-items-center rounded-xl text-primary-foreground", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
         <Tooltip>
