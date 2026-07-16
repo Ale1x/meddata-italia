@@ -66,6 +66,17 @@ export type ComparisonData = {
   shared_official_group: { source_group_identifier: string; label: string; published_date: string } | null
 }
 
+export type IngestionSummary = {
+  source_id: string
+  status: string
+  finished_at: string | null
+}
+
+export type SourceSummary = {
+  id: string
+  declared_frequency: string
+}
+
 export type ApiEnvelope<T> = {
   data: T
   meta: {

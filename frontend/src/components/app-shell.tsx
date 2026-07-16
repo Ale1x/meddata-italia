@@ -1,6 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react"
-import { ArrowUpRight, ArrowsLeftRight, Moon, Pill, Sun } from "@phosphor-icons/react"
+import { ArrowUpRight, ArrowsLeftRight, Database, Moon, Pill, Sun } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { getLatestIngestions, getSources } from "@/lib/api"
+import type { IngestionSummary, SourceSummary } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 type AppShellProps = {
@@ -10,11 +13,24 @@ type AppShellProps = {
 
 export function AppShell({ activePage, children }: AppShellProps) {
   const [dark, setDark] = useState(() => window.localStorage.getItem("meddata-theme") === "dark")
+  const [freshness, setFreshness] = useState<{ ingestions: IngestionSummary[]; sources: SourceSummary[] } | null>(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark)
     window.localStorage.setItem("meddata-theme", dark ? "dark" : "light")
   }, [dark])
+
+  useEffect(() => {
+    let active = true
+    Promise.all([getLatestIngestions(), getSources()])
+      .then(([ingestions, sources]) => {
+        if (active) setFreshness({ ingestions: ingestions.data, sources: sources.data })
+      })
+      .catch(() => {
+        if (active) setFreshness({ ingestions: [], sources: [] })
+      })
+    return () => { active = false }
+  }, [])
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -35,10 +51,7 @@ export function AppShell({ activePage, children }: AppShellProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-2 text-xs font-medium text-muted-foreground lg:flex">
-              <span className="size-2 rounded-full bg-success shadow-[0_0_0_4px_color-mix(in_srgb,var(--success)_14%,transparent)]" />
-              Dati AIFA
-            </span>
+            <FreshnessTooltip freshness={freshness} />
             <Button variant="ghost" size="icon" className="cursor-pointer rounded-xl" onClick={() => setDark((value) => !value)} aria-label={dark ? "Attiva tema chiaro" : "Attiva tema scuro"}>
               {dark ? <Sun size={18} /> : <Moon size={18} />}
             </Button>
@@ -56,6 +69,57 @@ export function AppShell({ activePage, children }: AppShellProps) {
       </footer>
     </div>
   )
+}
+
+function FreshnessTooltip({ freshness }: { freshness: { ingestions: IngestionSummary[]; sources: SourceSummary[] } | null }) {
+  const items = [
+    { id: "aifa-packages", label: "Farmaci e confezioni", fallbackFrequency: "daily" },
+    { id: "aifa-transparency-list", label: "Equivalenti ufficiali", fallbackFrequency: "monthly" },
+  ].map((item) => ({
+    ...item,
+    ingestion: freshness?.ingestions.find((ingestion) => ingestion.source_id === item.id),
+    frequency: freshness?.sources.find((source) => source.id === item.id)?.declared_frequency ?? item.fallbackFrequency,
+  }))
+  const hasData = items.some((item) => item.ingestion?.finished_at)
+
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={<button type="button" className="flex min-h-9 cursor-help items-center gap-2 rounded-lg px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" aria-label="Aggiornamento dati AIFA" />}
+      >
+        <span className={cn("size-2 rounded-full", freshness === null ? "animate-pulse bg-muted-foreground" : hasData ? "bg-success shadow-[0_0_0_4px_color-mix(in_srgb,var(--success)_14%,transparent)]" : "bg-warning")} />
+        <Database size={16} className="lg:hidden" />
+        <span className="hidden lg:inline">Dati AIFA</span>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" align="end" sideOffset={8} className="block w-72 p-4">
+        <p className="font-semibold">Ultimi dati disponibili</p>
+        {freshness === null ? <p className="mt-3 text-background/70">Caricamento…</p> : <div className="mt-3 space-y-3">
+          {items.map((item) => (
+            <div key={item.id}>
+              <p className="font-medium">{item.label}</p>
+              <p className="mt-0.5 text-background/70">{formatFreshnessDate(item.ingestion?.finished_at)} · {formatFrequency(item.frequency)}</p>
+            </div>
+          ))}
+        </div>}
+        <p className="mt-3 border-t border-background/20 pt-3 text-background/70">Le fonti vengono controllate automaticamente.</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+function formatFreshnessDate(value?: string | null) {
+  if (!value) return "Data non disponibile"
+  return new Intl.DateTimeFormat("it-IT", { day: "numeric", month: "long", year: "numeric" }).format(new Date(value))
+}
+
+function formatFrequency(value: string) {
+  const frequencies: Record<string, string> = {
+    daily: "aggiornamento giornaliero",
+    monthly: "aggiornamento mensile",
+    periodic: "aggiornamento periodico",
+    irregular: "aggiornamento non programmato",
+  }
+  return frequencies[value] ?? "aggiornamento periodico"
 }
 
 function NavLink({ href, active, icon, children }: { href: string; active: boolean; icon?: ReactNode; children: ReactNode }) {

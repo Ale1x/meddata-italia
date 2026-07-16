@@ -1,4 +1,4 @@
-import type { ApiEnvelope, EquivalenceData, PackageData, ComparisonData } from "@/lib/types"
+import type { ApiEnvelope, ComparisonData, EquivalenceData, IngestionSummary, PackageData, SourceSummary } from "@/lib/types"
 
 const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "")
 
@@ -22,6 +22,14 @@ export function getOfficialEquivalents(packageID: string) {
 export function compareOfficialEquivalence(leftAIC: string, rightAIC: string) {
   const query = new URLSearchParams({ left_aic: leftAIC, right_aic: rightAIC })
   return request<ApiEnvelope<ComparisonData>>(`/api/v1/official-equivalence/compare?${query}`)
+}
+
+export function getLatestIngestions() {
+  return request<ApiEnvelope<IngestionSummary[]>>("/api/v1/ingestions/latest")
+}
+
+export function getSources() {
+  return request<ApiEnvelope<SourceSummary[]>>("/api/v1/sources")
 }
 
 export function normalizeAIC(value: string) {

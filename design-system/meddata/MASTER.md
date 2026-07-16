@@ -177,6 +177,8 @@
 - Prefer short labels and direct outcomes; do not narrate how controls, pagination or empty states are implemented.
 - Hero headings must state the user goal directly: search a medicine or verify equivalence. Avoid abstract campaign-style slogans.
 - Technical provenance remains available from the API and is not repeated in the public interface.
+- Data freshness must be reachable from the global header and state both the latest acquisition date and the declared cadence for each source family.
+- Do not rely on hover alone: freshness details must also open through keyboard focus and tap.
 
 ### Page Pattern
 
