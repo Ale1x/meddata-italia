@@ -342,20 +342,21 @@ const toneStyles: Record<CommonMedicine["tone"], string> = {
 
 function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; onSelect: () => void }) {
   return (
-    <article className="group flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-sm">
-      <div className="flex items-center justify-between">
+    <article className="group relative flex min-h-56 flex-col rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-sm">
+      <button type="button" onClick={onSelect} className="absolute inset-0 z-0 cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" aria-label={`Apri ${medicine.name}, AIC/MINSAN ${medicine.aic}`} />
+      <div className="pointer-events-none relative z-10 flex items-center justify-between">
         <span className={cn("grid size-9 place-items-center rounded-xl", toneStyles[medicine.tone])}><Pill size={17} weight="fill" /></span>
         <Tooltip>
-          <TooltipTrigger render={<a href={medicine.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground transition-colors duration-200 hover:text-foreground" aria-label={`Apri la fonte per ${medicine.name}`} />}>Fonte <ArrowUpRight size={12} /></TooltipTrigger>
+          <TooltipTrigger render={<a href={medicine.sourceUrl} target="_blank" rel="noreferrer" className="pointer-events-auto inline-flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground transition-colors duration-200 hover:text-foreground" aria-label={`Apri la fonte per ${medicine.name}`} />}>Fonte <ArrowUpRight size={12} /></TooltipTrigger>
           <TooltipContent>{medicine.sourceLabel}</TooltipContent>
         </Tooltip>
       </div>
-      <h3 className="mt-5 font-display text-xl font-semibold tracking-tight">{medicine.name}</h3>
-      <p className="mt-1 text-xs font-medium text-muted-foreground">{medicine.activeSubstance}</p>
-      <p className="mt-4 text-sm leading-5">{medicine.description}</p>
-      <button onClick={onSelect} className="mt-auto flex cursor-pointer items-center justify-between border-t pt-4 text-left text-xs font-medium text-primary transition-colors duration-200 hover:text-primary/75">
+      <h3 className="pointer-events-none relative z-10 mt-5 font-display text-xl font-semibold tracking-tight">{medicine.name}</h3>
+      <p className="pointer-events-none relative z-10 mt-1 text-xs font-medium text-muted-foreground">{medicine.activeSubstance}</p>
+      <p className="pointer-events-none relative z-10 mt-4 text-sm leading-5">{medicine.description}</p>
+      <div className="pointer-events-none relative z-10 mt-auto flex items-center justify-between border-t pt-4 text-left text-xs font-medium text-primary transition-colors duration-200 group-hover:text-primary/75">
         <span className="font-mono tracking-wide">AIC/MINSAN {medicine.aic}</span><ArrowRight size={15} />
-      </button>
+      </div>
     </article>
   )
 }
