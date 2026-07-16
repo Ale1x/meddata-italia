@@ -1,0 +1,75 @@
+export type NamedEntity = { id: string; name: string }
+
+export type Ingredient = NamedEntity & {
+  quantity: number | null
+  quantity_raw: string | null
+  unit: string | null
+  unit_raw: string | null
+}
+
+export type Provenance = {
+  source: string
+  artifact_hash: string
+  downloaded_at: string
+  observed_at: string
+}
+
+export type PackageData = {
+  id: string
+  aic: string
+  medicine: NamedEntity
+  package_description: string
+  active_substances: Ingredient[]
+  pharmaceutical_form: NamedEntity | null
+  authorization_holder: NamedEntity | null
+  administrative_status: string | null
+  supply_regime: string | null
+  atc: { code: string; description: string; level: number }[]
+  official_equivalence?: {
+    authority: string
+    group_id: string
+    label: string
+    published_date: string
+    source_group_identifier: string
+  }
+  provenance?: Provenance[]
+  observed_at: string
+}
+
+export type Equivalent = { id: string; aic: string; name: string; description: string }
+
+export type EquivalenceData = {
+  authority: string
+  source: string
+  source_publication_date: string
+  group_source_identifier: string
+  group_label: string
+  members: Equivalent[]
+  reference_prices: { kind: string; amount: number; currency: string }[]
+  artifact_hash: string
+}
+
+export type ComparedPackage = {
+  id: string
+  aic: string
+  name: string
+  description: string
+  official_group: { source_group_identifier: string; label: string; published_date: string } | null
+}
+
+export type ComparisonData = {
+  equivalent: boolean
+  semantics: "AIFA_TRANSPARENCY_OFFICIAL"
+  reason: "SAME_OFFICIAL_GROUP" | "DIFFERENT_OFFICIAL_GROUPS" | "LEFT_NOT_IN_OFFICIAL_LIST" | "RIGHT_NOT_IN_OFFICIAL_LIST" | "NEITHER_IN_OFFICIAL_LIST"
+  left: ComparedPackage
+  right: ComparedPackage
+  shared_official_group: { source_group_identifier: string; label: string; published_date: string } | null
+}
+
+export type ApiEnvelope<T> = {
+  data: T
+  meta: {
+    request_id: string
+    data_freshness?: Record<string, string | null>
+  }
+}

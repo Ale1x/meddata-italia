@@ -11,6 +11,7 @@ const contentTypes: Record<string, string> = {
   png: "image/png",
   svg: "image/svg+xml",
   webp: "image/webp",
+  woff2: "font/woff2",
 }
 
 export default {

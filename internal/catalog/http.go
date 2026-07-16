@@ -33,6 +33,9 @@ func (a *API) Router() http.Handler {
 	r.Get("/health/live", func(w http.ResponseWriter, _ *http.Request) { writeJSON(w, 200, map[string]string{"status": "live"}) })
 	r.Get("/health/ready", a.ready)
 	r.Handle("/metrics", promhttp.Handler())
+	r.Get("/openapi.yaml", openAPISpec)
+	r.Get("/docs", swaggerDocs)
+	r.Get("/docs/", swaggerDocs)
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Get("/official-equivalence/compare", a.compareOfficialEquivalence)
 		r.Get("/medicines", a.listMedicines)

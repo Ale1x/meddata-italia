@@ -2,11 +2,15 @@ openapi: 3.1.0
 info:
   title: Medicine Platform API
   version: 1.0.0
-  description: Italian medicine catalog. Official equivalents are exclusively AIFA transparency-list co-memberships.
+  description: Italian medicine catalog. Official equivalents are exclusively AIFA transparency-list co-memberships. Public API routes are limited to 200 requests per 10 seconds per client (20 requests/second average).
   license: {name: Apache-2.0, identifier: Apache-2.0}
 servers:
   - url: /api/v1
 security: []
+x-rate-limit:
+  scope: client-ip
+  limit: 200
+  period_seconds: 10
 paths:
   /official-equivalence/compare:
     get:

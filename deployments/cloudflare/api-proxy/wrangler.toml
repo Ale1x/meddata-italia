@@ -10,3 +10,11 @@ routes = [
 [[vpc_services]]
 binding = "PRIVATE_API"
 service_id = "019f67ba-95d7-7750-afb1-6a6386b47017"
+
+[[ratelimits]]
+name = "API_RATE_LIMITER"
+namespace_id = "2026071601"
+
+  [ratelimits.simple]
+  limit = 200
+  period = 10

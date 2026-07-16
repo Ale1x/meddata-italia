@@ -49,6 +49,8 @@ Endpoints:
 
 - Frontend demo: `http://localhost:3000`
 - API: `http://localhost:8080`
+- Swagger UI: `http://localhost:8080/docs`
+- OpenAPI: `http://localhost:8080/openapi.yaml`
 - RabbitMQ management: `http://localhost:15672` (`medicine` / `medicine`)
 - MinIO console: `http://localhost:9001` (`minioadmin` / `minioadmin`)
 - PostgreSQL: `localhost:5432` (`medicine` / `medicine`)
@@ -84,6 +86,8 @@ The live demo uses the `kubernetes-admin@kubernetes` context:
 - runtime: CloudNativePG, RabbitMQ, MinIO, two public API replicas, one ingestion worker and the daily scheduler CronJob in namespace `medicine-platform`.
 
 The Worker-to-cluster path is outbound-only; no home router port is exposed. Versioned manifests are under `deployments/kubernetes/home`, while the R2 and API proxy Workers are under `deployments/cloudflare`.
+
+Public API requests under `/api/v1` are limited at the Cloudflare edge to 200 requests per 10 seconds per client (20 requests/second average). The browser frontend is subject to the same limit: `Origin` is intentionally not used as a trust boundary because non-browser clients can forge it. Interactive documentation is available at `https://api.health.passarelli.dev/docs`; the versioned contract is served at `https://api.health.passarelli.dev/openapi.yaml`.
 
 Apply an existing installation after creating the referenced Kubernetes secrets:
 

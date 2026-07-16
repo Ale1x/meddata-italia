@@ -5,7 +5,7 @@ metadata:
   namespace: medicine-platform
 data:
   MEDICINE_ENVIRONMENT: production
-  MEDICINE_VERSION: home-20260715-1
+  MEDICINE_VERSION: home-20260716-1
   MEDICINE_HTTP_ADDRESS: :8080
   MEDICINE_METRICS_ADDRESS: :9091
   MEDICINE_RABBIT_MQ_PREFETCH: "2"
@@ -65,7 +65,7 @@ spec:
           labelSelector: {matchLabels: {app: public-api}}
       containers:
         - name: public-api
-          image: ghcr.io/ale1x/medicine-platform-public-api:home-20260715-1
+          image: ghcr.io/ale1x/medicine-platform-public-api:home-20260716-1
           imagePullPolicy: Always
           ports: [{name: http, containerPort: 8080}]
           envFrom:
