@@ -1,6 +1,6 @@
-import { type FormEvent, useEffect, useRef, useState } from "react"
+import { type FormEvent, useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
-import { ArrowLeft, ArrowsLeftRight, CheckCircle, ShieldCheck, XCircle } from "@phosphor-icons/react"
+import { ArrowLeft, ArrowsLeftRight, CheckCircle, ShareNetwork, ShieldCheck, WarningCircle, XCircle } from "@phosphor-icons/react"
 import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,14 +14,19 @@ import type { ComparedPackage, ComparisonData, PackageData } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 export function ComparePage() {
-  const [leftAIC, setLeftAIC] = useState(() => normalizeAIC(new URLSearchParams(window.location.search).get("aic") ?? ""))
-  const [rightAIC, setRightAIC] = useState("")
+  const initialCodes = useRef({
+    left: normalizeAIC(new URLSearchParams(window.location.search).get("aic") ?? ""),
+    right: normalizeAIC(new URLSearchParams(window.location.search).get("compareToAic") ?? ""),
+  })
+  const [leftAIC, setLeftAIC] = useState(initialCodes.current.left)
+  const [rightAIC, setRightAIC] = useState(initialCodes.current.right)
   const [comparison, setComparison] = useState<ComparisonData | null>(null)
   const [composition, setComposition] = useState<CompositionComparison | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [submitted, setSubmitted] = useState(false)
   const resultRef = useRef<HTMLElement>(null)
+  const autoComparisonStarted = useRef(false)
 
   useEffect(() => {
     if (!submitted || loading || (!comparison && !error)) return
@@ -29,24 +34,27 @@ export function ComparePage() {
     window.requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }))
   }, [comparison, error, loading, submitted])
 
-  async function submit(event: FormEvent) {
-    event.preventDefault()
-    if (!leftAIC || !rightAIC) return
-    setSubmitted(true)
-    if (leftAIC.length !== 9 || rightAIC.length !== 9) {
+  const runComparison = useCallback(async (leftCode: string, rightCode: string, updateURL: boolean) => {
+    if (leftCode.length !== 9 || rightCode.length !== 9) {
       const message = "Entrambi i codici AIC/MINSAN devono contenere 9 cifre."
       setError(message)
+      setComparison(null)
+      setComposition(null)
       toast.error("Codice non valido", { description: message })
       return
+    }
+    if (updateURL) {
+      const params = new URLSearchParams({ aic: leftCode, compareToAic: rightCode })
+      window.history.replaceState(null, "", `${window.location.pathname}?${params}`)
     }
     setLoading(true)
     setError("")
     setComparison(null)
     setComposition(null)
     try {
-      const [leftResult, rightResult] = await Promise.allSettled([getPackageByAIC(leftAIC), getPackageByAIC(rightAIC)])
+      const [leftResult, rightResult] = await Promise.allSettled([getPackageByAIC(leftCode), getPackageByAIC(rightCode)])
       if (leftResult.status === "rejected" || rightResult.status === "rejected") {
-        const code = leftResult.status === "rejected" ? leftAIC : rightAIC
+        const code = leftResult.status === "rejected" ? leftCode : rightCode
         const message = `Nessuna confezione trovata per il codice AIC/MINSAN ${code}.`
         setError(message)
         toast.error("Farmaco non trovato", { description: message })
@@ -57,12 +65,12 @@ export function ComparePage() {
       const rightPackage = rightResult.value.data
       setComposition(compareComposition(leftPackage, rightPackage))
 
-      if (leftAIC === rightAIC) {
+      if (leftCode === rightCode) {
         setComparison(samePackageComparison(leftPackage))
         return
       }
 
-      const response = await compareOfficialEquivalence(leftAIC, rightAIC)
+      const response = await compareOfficialEquivalence(leftCode, rightCode)
       setComparison(response.data)
     } catch (cause) {
       const message = cause instanceof Error && cause.message
@@ -73,6 +81,22 @@ export function ComparePage() {
     } finally {
       setLoading(false)
     }
+  }, [])
+
+  useEffect(() => {
+    if (autoComparisonStarted.current) return
+    autoComparisonStarted.current = true
+    const { left, right } = initialCodes.current
+    if (!left || !right) return
+    setSubmitted(true)
+    void runComparison(left, right, false)
+  }, [runComparison])
+
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    if (!leftAIC || !rightAIC) return
+    setSubmitted(true)
+    await runComparison(leftAIC, rightAIC, true)
   }
 
   return (
@@ -138,6 +162,8 @@ export function ComparePage() {
 function ComparisonResult({ comparison, composition }: { comparison: ComparisonData; composition: CompositionComparison | null }) {
   const isEquivalent = comparison.equivalent
   const isSamePackage = comparison.reason === "SAME_PACKAGE"
+  const isUnavailable = ["LEFT_NOT_IN_OFFICIAL_LIST", "RIGHT_NOT_IN_OFFICIAL_LIST", "NEITHER_IN_OFFICIAL_LIST"].includes(comparison.reason)
+  const heading = isSamePackage ? "È la stessa confezione" : isEquivalent ? "Equivalenti ufficiali" : isUnavailable ? "Equivalenza ufficiale non disponibile" : "Non equivalenti ufficiali"
 
   return (
     <Card
@@ -146,6 +172,8 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
         "overflow-hidden border-l-4 py-0 ring-1",
         isEquivalent
           ? "border-l-success bg-success/[0.035] ring-success/20"
+          : isUnavailable
+            ? "border-l-warning bg-warning/[0.035] ring-warning/25"
           : "border-l-destructive bg-destructive/[0.035] ring-destructive/25",
       )}
     >
@@ -157,14 +185,16 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
               "grid size-14 shrink-0 place-items-center rounded-2xl ring-1",
               isEquivalent
                 ? "bg-success/12 text-success ring-success/25"
+                : isUnavailable
+                  ? "bg-warning/12 text-warning ring-warning/25"
                 : "bg-destructive/12 text-destructive ring-destructive/25",
             )}
           >
-            {isEquivalent ? <CheckCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
+            {isEquivalent ? <CheckCircle size={30} weight="fill" /> : isUnavailable ? <WarningCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
           </span>
           <div>
-            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isEquivalent ? "text-success" : "text-destructive")}>{isSamePackage ? "Codici identici" : "Esito del confronto"}</p>
-            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", !isEquivalent && "text-destructive")}>{isSamePackage ? "È la stessa confezione" : isEquivalent ? "Equivalenti ufficiali" : "Non equivalenti ufficiali"}</h2>
+            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isEquivalent ? "text-success" : isUnavailable ? "text-warning" : "text-destructive")}>{isSamePackage ? "Codici identici" : isUnavailable ? "Copertura della fonte" : "Esito del confronto"}</p>
+            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", isUnavailable ? "text-warning" : !isEquivalent && "text-destructive")}>{heading}</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">{comparisonMessage(comparison)}</p>
           </div>
         </div>
@@ -175,6 +205,10 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
         </div>
 
         {composition && !isSamePackage && <CompositionResult composition={composition} />}
+
+        <div className="mt-7 flex justify-end border-t pt-6">
+          <Button type="button" variant="outline" className="cursor-pointer" onClick={() => void shareComparison()}><ShareNetwork size={17} /> Condividi confronto</Button>
+        </div>
 
       </CardContent>
     </Card>
@@ -228,9 +262,25 @@ function comparisonMessage(comparison: ComparisonData) {
   }
 }
 
+async function shareComparison() {
+  const url = window.location.href
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: "Confronto farmaci · MedData", text: "Verifica questo confronto basato sui dati AIFA.", url })
+      return
+    }
+    await navigator.clipboard.writeText(url)
+    toast.success("Link copiato", { description: "Puoi inviarlo al farmacista per chiedere conferma." })
+  } catch (cause) {
+    if (cause instanceof DOMException && cause.name === "AbortError") return
+    toast.error("Link non copiato", { description: "Copia l’indirizzo dalla barra del browser." })
+  }
+}
+
 type CompositionComparison = {
   sameActiveSubstances: boolean | null
   sameStrength: boolean | null
+  strengthSource: "structured" | "description" | "mixed" | null
   leftSubstances: string[]
   rightSubstances: string[]
 }
@@ -249,6 +299,9 @@ function CompositionResult({ composition }: { composition: CompositionComparison
       <p className="mt-4 text-sm leading-6 text-muted-foreground">
         {composition.leftSubstances.join(" · ") || "Principio attivo non disponibile"} <span aria-hidden="true">↔</span> {composition.rightSubstances.join(" · ") || "Principio attivo non disponibile"}
       </p>
+      {composition.strengthSource && composition.strengthSource !== "structured" && (
+        <p className="mt-2 text-xs leading-5 text-muted-foreground">Il dosaggio è stato completato dalla descrizione ufficiale della confezione.</p>
+      )}
       <p className="mt-3 text-xs leading-5 text-muted-foreground">La composizione simile non prova la sostituibilità: l’esito ufficiale deriva esclusivamente dalla lista di trasparenza AIFA.</p>
     </div>
   )
@@ -271,7 +324,8 @@ function compareComposition(left: PackageData, right: PackageData): CompositionC
   const rightStrength = strengthSignature(right)
   return {
     sameActiveSubstances: leftSubstances.length === 0 || rightSubstances.length === 0 ? null : JSON.stringify(leftSubstances) === JSON.stringify(rightSubstances),
-    sameStrength: leftStrength === null || rightStrength === null ? null : leftStrength === rightStrength,
+    sameStrength: leftStrength === null || rightStrength === null ? null : leftStrength.value === rightStrength.value,
+    strengthSource: strengthSource(leftStrength, rightStrength),
     leftSubstances,
     rightSubstances,
   }
@@ -283,13 +337,57 @@ function ingredientNames(pkg: PackageData) {
 
 function strengthSignature(pkg: PackageData) {
   const values = pkg.active_substances.map((ingredient) => {
-    const quantity = ingredient.quantity_raw ?? ingredient.quantity
-    const unit = ingredient.unit_raw ?? ingredient.unit
-    if (quantity === null || quantity === undefined || !unit) return null
-    return `${ingredient.name.trim().toLocaleUpperCase("it")}|${String(quantity).trim().toLocaleUpperCase("it")}|${unit.trim().toLocaleUpperCase("it")}`
+    const quantity = nonEmpty(ingredient.quantity_raw) ?? ingredient.quantity
+    const unit = nonEmpty(ingredient.unit_raw) ?? nonEmpty(ingredient.unit)
+    if (quantity === null || quantity === undefined || unit === null) return null
+    return `${ingredient.name.trim().toLocaleUpperCase("it")}|${normalizeQuantity(quantity)}|${normalizeUnit(unit)}`
   })
-  if (values.some((value) => value === null)) return null
-  return values.sort().join(";")
+  if (values.length > 0 && values.every((value) => value !== null)) {
+    return { value: values.sort().join(";"), source: "structured" as const }
+  }
+
+  if (pkg.active_substances.length !== 1) return null
+  const descriptionStrength = strengthFromDescription(pkg.package_description)
+  if (!descriptionStrength) return null
+  const substance = pkg.active_substances[0].name.trim().toLocaleUpperCase("it")
+  return { value: `${substance}|${descriptionStrength}`, source: "description" as const }
+}
+
+function strengthFromDescription(description: string) {
+  const match = description.toLocaleUpperCase("it").match(/(\d+(?:[.,]\d+)?)\s*(MCG|µG|UG|MG|G)(?:\s*\/\s*(?:(\d+(?:[.,]\d+)?)\s*)?(MCG|µG|UG|MG|G|ML))?/)
+  if (!match) return null
+  const numerator = `${normalizeQuantity(match[1])}|${normalizeUnit(match[2])}`
+  if (!match[4]) return numerator
+  const denominator = `${normalizeQuantity(match[3] ?? "1")}|${normalizeUnit(match[4])}`
+  return `${numerator}/${denominator}`
+}
+
+function strengthSource(left: ReturnType<typeof strengthSignature>, right: ReturnType<typeof strengthSignature>): CompositionComparison["strengthSource"] {
+  if (!left || !right) return null
+  if (left.source === right.source) return left.source
+  return "mixed"
+}
+
+function nonEmpty(value?: string | null) {
+  const normalized = value?.trim()
+  return normalized ? normalized : null
+}
+
+function normalizeQuantity(value: string | number) {
+  const raw = String(value).trim().replace(",", ".")
+  const parsed = Number(raw)
+  return Number.isFinite(parsed) ? String(parsed) : raw.toLocaleUpperCase("it")
+}
+
+function normalizeUnit(value: string) {
+  const unit = value.trim().toLocaleLowerCase("it").replace(/\s+/g, "")
+  const units: Array<[RegExp, string]> = [
+    [/^(mcg|µg|ug|microgramm[io])$/, "mcg"],
+    [/^(mg|milligramm[io])$/, "mg"],
+    [/^(g|gramm[io])$/, "g"],
+    [/^(ml|millilitr[io])$/, "ml"],
+  ]
+  return units.find(([pattern]) => pattern.test(unit))?.[1] ?? unit
 }
 
 function samePackageComparison(pkg: PackageData): ComparisonData {
