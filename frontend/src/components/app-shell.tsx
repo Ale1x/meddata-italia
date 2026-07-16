@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react"
 import { ArrowUpRight, ArrowsLeftRight, Database, House, Info, MagnifyingGlass, Moon, Pill, Sun } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { AccessDisclaimerDialog } from "@/components/access-disclaimer-dialog"
 import { getLatestIngestions, getSources } from "@/lib/api"
 import type { IngestionSummary, SourceSummary } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -34,6 +35,7 @@ export function AppShell({ activePage, children }: AppShellProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <AccessDisclaimerDialog />
       <a className="skip-link" href="#main-content">Vai al contenuto</a>
       <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border bg-background/92 px-3 shadow-sm backdrop-blur-xl sm:px-5">
