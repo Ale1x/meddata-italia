@@ -78,7 +78,7 @@ export type ComparedPackage = {
 export type ComparisonData = {
   equivalent: boolean
   semantics: "AIFA_TRANSPARENCY_OFFICIAL"
-  reason: "SAME_OFFICIAL_GROUP" | "DIFFERENT_OFFICIAL_GROUPS" | "LEFT_NOT_IN_OFFICIAL_LIST" | "RIGHT_NOT_IN_OFFICIAL_LIST" | "NEITHER_IN_OFFICIAL_LIST"
+  reason: "SAME_PACKAGE" | "SAME_OFFICIAL_GROUP" | "DIFFERENT_OFFICIAL_GROUPS" | "LEFT_NOT_IN_OFFICIAL_LIST" | "RIGHT_NOT_IN_OFFICIAL_LIST" | "NEITHER_IN_OFFICIAL_LIST"
   left: ComparedPackage
   right: ComparedPackage
   shared_official_group: { source_group_identifier: string; label: string; published_date: string } | null

@@ -1,4 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { toast } from "sonner"
 import {
   ArrowRight,
   ArrowUpRight,
@@ -56,7 +57,12 @@ export function DashboardPage() {
 
   const search = useCallback(async (aicValue: string) => {
     const aic = normalizeAIC(aicValue)
-    if (!aic) return
+    if (aic.length !== 9) {
+      const message = "Inserisci un codice AIC/MINSAN di 9 cifre."
+      setError(message)
+      toast.error("Codice non valido", { description: message })
+      return
+    }
 
     setLoading(true)
     setError("")
@@ -72,7 +78,13 @@ export function DashboardPage() {
       }
       window.requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }))
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Non è stato possibile recuperare la confezione.")
+      const technicalMessage = cause instanceof Error ? cause.message : ""
+      const notFound = /not found|no package|resource/i.test(technicalMessage)
+      const message = notFound
+        ? `Nessuna confezione trovata per il codice AIC/MINSAN ${aic}.`
+        : "Non è stato possibile recuperare la confezione. Riprova tra poco."
+      setError(message)
+      toast.error(notFound ? "Farmaco non trovato" : "Servizio non disponibile", { description: message })
     } finally {
       setLoading(false)
     }
@@ -105,7 +117,7 @@ export function DashboardPage() {
               <Sparkle size={13} weight="fill" /> Catalogo farmaci AIFA
             </Badge>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[68px]">
-              Cerca un farmaco <span className="text-primary">tramite codice AIC.</span>
+              Cerca un farmaco <span className="text-primary">tramite codice AIC/MINSAN.</span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
               Consulta confezione, principi attivi ed equivalenti ufficiali AIFA.
@@ -122,12 +134,12 @@ export function DashboardPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-display text-xl font-semibold tracking-tight">Inserisci il codice AIC</p>
+                  <p className="font-display text-xl font-semibold tracking-tight">Inserisci il codice AIC/MINSAN</p>
                 </div>
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><Fingerprint size={21} /></span>
               </div>
               <form onSubmit={submit} className="mt-7 space-y-3">
-                <label htmlFor="aic-search" className="sr-only">Codice AIC</label>
+                <label htmlFor="aic-search" className="sr-only">Codice AIC/MINSAN</label>
                 <div className="relative">
                   <MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={19} />
                   <Input
@@ -248,7 +260,7 @@ export function DashboardPage() {
                       </div>
                     </div>
                     <Table>
-                      <TableHeader><TableRow><TableHead>Medicinale</TableHead><TableHead>AIC</TableHead><TableHead className="hidden lg:table-cell">Confezione</TableHead><TableHead className="w-14"><span className="sr-only">Apri</span></TableHead></TableRow></TableHeader>
+                      <TableHeader><TableRow><TableHead>Medicinale</TableHead><TableHead>AIC/MINSAN</TableHead><TableHead className="hidden lg:table-cell">Confezione</TableHead><TableHead className="w-14"><span className="sr-only">Apri</span></TableHead></TableRow></TableHeader>
                       <TableBody>
                         {visibleMembers.map((member) => (
                           <TableRow key={member.id}>
@@ -299,7 +311,7 @@ function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; 
       <p className="mt-1 text-xs font-medium text-muted-foreground">{medicine.activeSubstance}</p>
       <p className="mt-4 text-sm leading-5">{medicine.description}</p>
       <button onClick={onSelect} className="mt-auto flex cursor-pointer items-center justify-between border-t pt-4 text-left text-xs font-medium text-primary transition-colors duration-200 hover:text-primary/75">
-        <span className="font-mono tracking-wide">AIC {medicine.aic}</span><ArrowRight size={15} />
+        <span className="font-mono tracking-wide">AIC/MINSAN {medicine.aic}</span><ArrowRight size={15} />
       </button>
     </article>
   )
@@ -310,13 +322,13 @@ function PackageHeader({ pkg }: { pkg: PackageData }) {
     <div className="flex flex-col justify-between gap-5 border-b pb-7 md:flex-row md:items-end">
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline" className="font-mono tracking-wider">AIC {pkg.aic}</Badge>
+          <Badge variant="outline" className="font-mono tracking-wider">AIC/MINSAN {pkg.aic}</Badge>
           {pkg.administrative_status && <Badge variant="secondary" className="bg-success/10 text-success"><CheckCircle size={13} weight="fill" /> {pkg.administrative_status}</Badge>}
         </div>
         <h2 className="mt-4 font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">{pkg.medicine.name}</h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">{pkg.package_description}</p>
       </div>
-      <a href="/compare" className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-4 text-sm font-medium transition-colors duration-200 hover:bg-muted">Confronta questo AIC <ArrowRight size={15} /></a>
+      <a href={`/compare?aic=${encodeURIComponent(pkg.aic)}`} className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg border px-4 text-sm font-medium transition-colors duration-200 hover:bg-muted">Confronta questo AIC/MINSAN <ArrowRight size={15} /></a>
     </div>
   )
 }
@@ -347,7 +359,7 @@ function EmptyResult() {
       <EmptyHeader>
         <EmptyMedia variant="icon"><MagnifyingGlass size={20} /></EmptyMedia>
         <EmptyTitle className="font-display text-xl">Cerca un medicinale</EmptyTitle>
-        <EmptyDescription>Cerca una confezione tramite codice AIC oppure scegli un farmaco comune.</EmptyDescription>
+        <EmptyDescription>Cerca una confezione tramite codice AIC/MINSAN oppure scegli un farmaco comune.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   )

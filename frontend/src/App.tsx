@@ -9,7 +9,7 @@ function App() {
   const isSearch = window.location.pathname === "/search" || window.location.pathname.startsWith("/search/")
 
   useEffect(() => {
-    document.title = isCompare ? "Confronta AIC · MedData" : isSearch ? "Cerca farmaci · MedData" : "MedData · Catalogo medicinali AIFA"
+    document.title = isCompare ? "Confronta AIC/MINSAN · MedData" : isSearch ? "Cerca farmaci · MedData" : "MedData · Catalogo medicinali AIFA"
   }, [isCompare, isSearch])
 
   const activePage = isCompare ? "compare" : isSearch ? "search" : "dashboard"

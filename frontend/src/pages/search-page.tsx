@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from "react"
+import { type FormEvent, useEffect, useRef, useState } from "react"
 import { ArrowLeft, ArrowRight, MagnifyingGlass, Package, Pill } from "@phosphor-icons/react"
 import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -35,6 +35,14 @@ export function SearchPage() {
   const [searchingNames, setSearchingNames] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [submitted, setSubmitted] = useState(false)
+  const resultRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!submitted || loading || (!result && !error)) return
+    if (!window.matchMedia("(max-width: 767px)").matches) return
+    window.requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }))
+  }, [error, loading, result, submitted])
 
   useEffect(() => {
     const value = query.trim()
@@ -64,6 +72,7 @@ export function SearchPage() {
   }, [query])
 
   async function selectMedicine(candidate: SearchCandidate) {
+    setSubmitted(true)
     setLoading(true)
     setError("")
     setResult(null)
@@ -101,6 +110,7 @@ export function SearchPage() {
     event.preventDefault()
     const value = query.trim()
     if (!value) return
+    setSubmitted(true)
 
     const exactMatch = matches.find((medicine) => medicine.name.localeCompare(value, "it", { sensitivity: "base" }) === 0)
     if (exactMatch) {
@@ -134,7 +144,7 @@ export function SearchPage() {
         <div className="mt-8 max-w-3xl">
           <Badge variant="secondary"><MagnifyingGlass size={13} /> Ricerca per nome</Badge>
           <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Trova un farmaco e le sue <span className="text-primary">confezioni.</span></h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Cerca il nome commerciale per vedere principio attivo e codici AIC disponibili.</p>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Cerca il nome commerciale per vedere principio attivo e codici AIC/MINSAN disponibili.</p>
         </div>
 
         <Card className="mt-10 max-w-3xl overflow-hidden py-0 shadow-md">
@@ -173,7 +183,7 @@ export function SearchPage() {
                               <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary"><Pill size={16} weight="fill" /></span>
                               <span className="min-w-0">
                                 <span className="block truncate font-medium">{medicine.name}</span>
-                                <span className="block text-xs text-muted-foreground">Vedi confezioni e codici AIC</span>
+                                <span className="block text-xs text-muted-foreground">Vedi confezioni e codici AIC/MINSAN</span>
                               </span>
                             </CommandItem>
                           ))}
@@ -192,7 +202,7 @@ export function SearchPage() {
           </CardContent>
         </Card>
 
-        <section className="mt-10" aria-live="polite">
+        <section ref={resultRef} className="mt-10 scroll-mt-24" aria-live="polite">
           {error && <Alert>{error}</Alert>}
           {loading && <SearchSkeleton />}
           {!loading && !result && !error && <SearchEmpty />}
@@ -226,7 +236,7 @@ function MedicineResult({ result }: { result: SearchResult }) {
 
       <Card className="mt-7 overflow-hidden">
         <div className="border-b p-4 sm:p-5">
-          <p className="font-medium">Confezioni e codici AIC</p>
+          <p className="font-medium">Confezioni e codici AIC/MINSAN</p>
           <p className="mt-1 text-xs text-muted-foreground">Ogni codice identifica una specifica confezione.</p>
         </div>
 
@@ -236,7 +246,7 @@ function MedicineResult({ result }: { result: SearchResult }) {
 
         <div className="hidden md:block">
           <Table>
-            <TableHeader><TableRow><TableHead>AIC</TableHead><TableHead>Confezione</TableHead><TableHead className="w-14"><span className="sr-only">Apri</span></TableHead></TableRow></TableHeader>
+            <TableHeader><TableRow><TableHead>AIC/MINSAN</TableHead><TableHead>Confezione</TableHead><TableHead className="w-14"><span className="sr-only">Apri</span></TableHead></TableRow></TableHeader>
             <TableBody>
               {visiblePackages.map((item) => (
                 <TableRow key={item.id}>
@@ -274,7 +284,7 @@ function PackageLink({ item, iconOnly = false }: { item: MedicinePackage; iconOn
   return (
     <a
       href={`/?aic=${encodeURIComponent(item.aic)}`}
-      aria-label={`Apri la scheda della confezione AIC ${item.aic}`}
+      aria-label={`Apri la scheda della confezione AIC/MINSAN ${item.aic}`}
       className={cn(
         "inline-flex cursor-pointer items-center justify-center rounded-lg text-sm font-medium text-primary transition-colors hover:bg-primary/10",
         iconOnly ? "size-9" : "h-9 gap-2 px-3",
