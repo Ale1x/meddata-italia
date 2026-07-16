@@ -1,4 +1,4 @@
-import type { ApiEnvelope, ComparisonData, EquivalenceData, IngestionSummary, MedicineData, MedicineSummary, PackageData, SourceSummary } from "@/lib/types"
+import type { ApiEnvelope, ComparisonData, EquivalenceData, IngestionSummary, MedicineData, MedicineSummary, PackageData, SourceSummary, SubstancePackage } from "@/lib/types"
 
 const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "")
 
@@ -22,6 +22,18 @@ export function searchMedicines(query: string, limit = 8) {
 
 export function getMedicine(id: string) {
   return request<ApiEnvelope<MedicineData>>(`/api/v1/medicines/${encodeURIComponent(id)}`)
+}
+
+export async function getPackagesByActiveSubstance(id: string) {
+  const pageSize = 200
+  const packages: SubstancePackage[] = []
+  for (let offset = 0; ; offset += pageSize) {
+    const params = new URLSearchParams({ limit: String(pageSize), offset: String(offset) })
+    const response = await request<ApiEnvelope<SubstancePackage[]>>(`/api/v1/active-substances/${encodeURIComponent(id)}/packages?${params}`)
+    packages.push(...response.data)
+    if (response.data.length < pageSize) break
+  }
+  return packages
 }
 
 export function getOfficialEquivalents(packageID: string) {

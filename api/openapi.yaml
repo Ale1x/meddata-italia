@@ -93,7 +93,10 @@ paths:
       summary: List packages by active substance
       operationId: listPackagesByActiveSubstance
       parameters: [{$ref: '#/components/parameters/ID'}, {$ref: '#/components/parameters/Limit'}, {$ref: '#/components/parameters/Offset'}]
-      responses: {'200': {$ref: '#/components/responses/Collection'}}
+      responses:
+        '200':
+          description: Packages containing the active substance, with structured filter facets.
+          content: {application/json: {schema: {$ref: '#/components/schemas/SubstancePackageCollectionEnvelope'}}}
   /atc/{code}:
     get:
       summary: Get an ATC classification
@@ -183,6 +186,32 @@ components:
       properties:
         data: {$ref: '#/components/schemas/Package'}
         meta: {$ref: '#/components/schemas/Meta'}
+    SubstancePackageCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: {type: array, items: {$ref: '#/components/schemas/SubstancePackage'}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    SubstancePackage:
+      type: object
+      required: [id, aic, name, description, observed_at, ingredient_count, in_official_list]
+      properties:
+        id: {type: string, format: uuid}
+        aic: {type: string, pattern: '^[0-9]{9}$'}
+        name: {type: string}
+        description: {type: string}
+        observed_at: {type: string, format: date-time}
+        quantity: {type: [number, 'null']}
+        unit: {type: [string, 'null']}
+        quantity_raw: {type: [string, 'null']}
+        unit_raw: {type: [string, 'null']}
+        pharmaceutical_form: {type: [string, 'null']}
+        administration_route: {type: [string, 'null']}
+        supply_regime: {type: [string, 'null']}
+        administrative_status: {type: [string, 'null']}
+        authorization_holder: {type: [string, 'null']}
+        ingredient_count: {type: integer, minimum: 1}
+        in_official_list: {type: boolean}
     OfficialEquivalenceComparisonEnvelope:
       type: object
       required: [data, meta]

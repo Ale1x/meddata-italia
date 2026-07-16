@@ -18,6 +18,7 @@ import (
 
 	dbgen "github.com/Ale1x/meddata-italia/db/generated"
 	"github.com/Ale1x/meddata-italia/internal/catalog"
+	"github.com/Ale1x/meddata-italia/internal/catalogaudit"
 	"github.com/Ale1x/meddata-italia/internal/ingestion"
 	"github.com/Ale1x/meddata-italia/internal/messaging"
 	"github.com/Ale1x/meddata-italia/internal/objectstorage"
@@ -163,6 +164,16 @@ func TestInfrastructureAndVerticalSlice(t *testing.T) {
 		if err := processor.Process(ctx, event); err != nil {
 			t.Fatalf("process %s: %v", sourceID, err)
 		}
+	}
+	audit, err := catalogaudit.Run(ctx, pool, 3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if audit.Summary.Packages == 0 {
+		t.Fatal("catalog audit did not scan any packages")
+	}
+	if audit.ErrorCount() != 0 {
+		t.Fatalf("catalog audit found %d errors: %+v", audit.ErrorCount(), audit.Findings)
 	}
 	queries := dbgen.New(pool)
 	pkg, err := queries.GetPackageByAIC(ctx, "044155024")

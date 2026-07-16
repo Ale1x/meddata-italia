@@ -50,6 +50,25 @@ export type MedicinePackage = {
   observed_at: string
 }
 
+export type SubstancePackage = {
+  id: string
+  aic: string
+  name: string
+  description: string
+  observed_at: string
+  quantity: number | null
+  unit: string | null
+  quantity_raw: string | null
+  unit_raw: string | null
+  pharmaceutical_form: string | null
+  administration_route: string | null
+  supply_regime: string | null
+  administrative_status: string | null
+  authorization_holder: string | null
+  ingredient_count: number
+  in_official_list: boolean
+}
+
 export type MedicineData = MedicineSummary & {
   packages: MedicinePackage[]
 }

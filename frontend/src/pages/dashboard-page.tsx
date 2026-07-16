@@ -8,11 +8,13 @@ import {
   Database,
   Fingerprint,
   Flask,
+  FunnelSimple,
   MagnifyingGlass,
   Package,
   Pill,
   ShieldCheck,
   Sparkle,
+  X,
 } from "@phosphor-icons/react"
 import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
@@ -23,10 +25,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { getOfficialEquivalents, getPackageByAIC, normalizeAIC } from "@/lib/api"
+import { getOfficialEquivalents, getPackageByAIC, getPackagesByActiveSubstance, normalizeAIC } from "@/lib/api"
 import { commonMedicines, type CommonMedicine } from "@/lib/common-medicines"
-import type { EquivalenceData, PackageData } from "@/lib/types"
+import { selectRelatedResults } from "@/lib/related-results"
+import type { EquivalenceData, PackageData, SubstancePackage } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 const pageSize = 10
@@ -40,7 +44,11 @@ export function DashboardPage() {
   const [error, setError] = useState("")
   const [memberFilter, setMemberFilter] = useState("")
   const [page, setPage] = useState(1)
+  const [relatedSubstance, setRelatedSubstance] = useState<{ id: string; name: string } | null>(null)
+  const [relatedPackages, setRelatedPackages] = useState<SubstancePackage[]>([])
+  const [relatedLoading, setRelatedLoading] = useState(false)
   const resultRef = useRef<HTMLElement>(null)
+  const relatedRequestRef = useRef(0)
 
   const filteredMembers = useMemo(() => {
     const needle = memberFilter.toLocaleLowerCase("it").trim()
@@ -69,9 +77,31 @@ export function DashboardPage() {
     setPkg(null)
     setEquivalence(null)
     setMemberFilter("")
+    setRelatedSubstance(null)
+    setRelatedPackages([])
+    setRelatedLoading(false)
+    const relatedRequest = ++relatedRequestRef.current
     try {
       const packageResponse = await getPackageByAIC(aic)
       setPkg(packageResponse.data)
+      const relatedDecision = selectRelatedResults(packageResponse.data)
+      const substance = relatedDecision.substance
+      if (substance) {
+        setRelatedSubstance({ id: substance.id, name: substance.name })
+        setRelatedLoading(true)
+        void getPackagesByActiveSubstance(substance.id)
+          .then((packages) => {
+            if (relatedRequestRef.current !== relatedRequest) return
+            const uniquePackages = Array.from(new Map(packages.filter((item) => item.aic !== aic).map((item) => [item.aic, item])).values())
+            setRelatedPackages(uniquePackages)
+          })
+          .catch(() => {
+            if (relatedRequestRef.current === relatedRequest) setRelatedPackages([])
+          })
+          .finally(() => {
+            if (relatedRequestRef.current === relatedRequest) setRelatedLoading(false)
+          })
+      }
       if (packageResponse.data.official_equivalence) {
         const equivalentResponse = await getOfficialEquivalents(packageResponse.data.id)
         setEquivalence(equivalentResponse.data)
@@ -277,6 +307,19 @@ export function DashboardPage() {
                   </Card>
                 </section>
               )}
+
+              {relatedSubstance && (
+                <SameSubstanceSection
+                  key={relatedSubstance.id}
+                  substance={relatedSubstance}
+                  packages={relatedPackages}
+                  loading={relatedLoading}
+                  onSelect={(aic) => {
+                    setQuery(aic)
+                    void search(aic)
+                  }}
+                />
+              )}
             </>
           )}
         </div>
@@ -315,6 +358,227 @@ function CommonMedicineCard({ medicine, onSelect }: { medicine: CommonMedicine; 
       </button>
     </article>
   )
+}
+
+function SameSubstanceSection({ substance, packages, loading, onSelect }: { substance: { id: string; name: string }; packages: SubstancePackage[]; loading: boolean; onSelect: (aic: string) => void }) {
+  const [filter, setFilter] = useState("")
+  const [compositionFilter, setCompositionFilter] = useState("all")
+  const [dosageFilter, setDosageFilter] = useState("all")
+  const [formFilter, setFormFilter] = useState("all")
+  const [officialFilter, setOfficialFilter] = useState("all")
+  const [relatedPage, setRelatedPage] = useState(1)
+
+  const relatedFilters = useMemo<RelatedFilters>(() => ({
+    needle: filter.trim().toLocaleLowerCase("it"),
+    composition: compositionFilter,
+    dosage: dosageFilter,
+    form: formFilter,
+    official: officialFilter,
+  }), [compositionFilter, dosageFilter, filter, formFilter, officialFilter])
+
+  const dosageOptions = useMemo(() => {
+    const options = new Map<string, { label: string; sortValue: number }>()
+    for (const item of packages) {
+      const dosage = packageDosage(item)
+      if (!dosage) continue
+      options.set(dosage.key, { label: dosage.label, sortValue: dosage.sortValue })
+    }
+    return Array.from(options, ([key, value]) => ({ key, ...value })).sort((left, right) => left.sortValue - right.sortValue || left.label.localeCompare(right.label, "it"))
+  }, [packages])
+
+  const dosageFacets = useMemo(() => dosageOptions.map((option) => ({
+    ...option,
+    count: packages.filter((item) => matchesRelatedFilters(item, relatedFilters, "dosage") && packageDosage(item)?.key === option.key).length,
+  })), [dosageOptions, packages, relatedFilters])
+
+  const formOptions = useMemo(() => Array.from(new Set(packages.map((item) => item.pharmaceutical_form).filter((value): value is string => Boolean(value)))).sort((left, right) => left.localeCompare(right, "it")), [packages])
+
+  const formFacets = useMemo(() => formOptions.map((name) => ({
+    name,
+    count: packages.filter((item) => matchesRelatedFilters(item, relatedFilters, "form") && item.pharmaceutical_form === name).length,
+  })), [formOptions, packages, relatedFilters])
+
+  const compositionBase = useMemo(() => packages.filter((item) => matchesRelatedFilters(item, relatedFilters, "composition")), [packages, relatedFilters])
+  const officialBase = useMemo(() => packages.filter((item) => matchesRelatedFilters(item, relatedFilters, "official")), [packages, relatedFilters])
+  const dosageBaseCount = useMemo(() => packages.filter((item) => matchesRelatedFilters(item, relatedFilters, "dosage")).length, [packages, relatedFilters])
+  const formBaseCount = useMemo(() => packages.filter((item) => matchesRelatedFilters(item, relatedFilters, "form")).length, [packages, relatedFilters])
+
+  const filteredPackages = useMemo(() => packages.filter((item) => matchesRelatedFilters(item, relatedFilters)), [packages, relatedFilters])
+  const singleIngredientCount = compositionBase.filter((item) => item.ingredient_count === 1).length
+  const combinationCount = compositionBase.filter((item) => item.ingredient_count > 1).length
+  const officialCount = officialBase.filter((item) => item.in_official_list).length
+  const outsideOfficialCount = officialBase.length - officialCount
+
+  const totalPages = Math.max(1, Math.ceil(filteredPackages.length / pageSize))
+  const visiblePackages = filteredPackages.slice((relatedPage - 1) * pageSize, relatedPage * pageSize)
+  const activeFilterCount = [compositionFilter, dosageFilter, formFilter, officialFilter].filter((value) => value !== "all").length + (filter.trim() ? 1 : 0)
+
+  useEffect(() => setRelatedPage(1), [compositionFilter, dosageFilter, filter, formFilter, officialFilter, packages])
+
+  function resetFilters() {
+    setFilter("")
+    setCompositionFilter("all")
+    setDosageFilter("all")
+    setFormFilter("all")
+    setOfficialFilter("all")
+  }
+
+  return (
+    <section className="mt-14" aria-labelledby="same-substance-title">
+      <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+        <div>
+          <p className="eyebrow">Stesso principio attivo</p>
+          <h2 id="same-substance-title" className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Altri farmaci con {substance.name.toLocaleLowerCase("it")}</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">Hanno lo stesso principio attivo, ma possono cambiare dosaggio e forma. Non sono necessariamente equivalenti ufficiali.</p>
+        </div>
+        {!loading && <SummaryNumber value={String(filteredPackages.length)} label={activeFilterCount > 0 ? "risultati" : "altre confezioni"} />}
+      </div>
+
+      <Card className="mt-7 overflow-hidden">
+        <div className="flex flex-col gap-4 border-b p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div><p className="font-medium">Confezioni con lo stesso principio attivo</p><p className="mt-1 text-xs text-muted-foreground">Apri una confezione per consultarne i dettagli.</p></div>
+          <div className="relative w-full sm:w-80">
+            <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+            <label htmlFor="related-filter" className="sr-only">Filtra i farmaci con lo stesso principio attivo</label>
+            <Input id="related-filter" className="h-10 pl-9" placeholder="Filtra per nome o AIC" value={filter} onChange={(event) => setFilter(event.target.value)} disabled={loading} />
+          </div>
+        </div>
+
+        <div className="border-b bg-muted/20 p-4 sm:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <p className="inline-flex items-center gap-2 text-sm font-medium"><FunnelSimple size={17} /> Filtri {activeFilterCount > 0 && <Badge variant="secondary">{activeFilterCount}</Badge>}</p>
+            <Button variant="outline" size="sm" className="cursor-pointer bg-background" onClick={resetFilters} disabled={activeFilterCount === 0}><X size={15} /> Azzera filtri</Button>
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <FacetSelect label="Composizione" value={compositionFilter} selectedLabel={compositionFilter === "single" ? `Solo ${substance.name.toLocaleLowerCase("it")}` : compositionFilter === "combination" ? "In associazione" : "Tutte le composizioni"} onValueChange={setCompositionFilter}>
+              <SelectItem value="all">Tutte le composizioni ({compositionBase.length})</SelectItem>
+              <SelectItem value="single" disabled={singleIngredientCount === 0 && compositionFilter !== "single"}>Solo {substance.name.toLocaleLowerCase("it")} ({singleIngredientCount})</SelectItem>
+              <SelectItem value="combination" disabled={combinationCount === 0 && compositionFilter !== "combination"}>In associazione ({combinationCount})</SelectItem>
+            </FacetSelect>
+            <FacetSelect label="Dosaggio" value={dosageFilter} selectedLabel={dosageFilter === "all" ? "Tutti i dosaggi" : dosageFacets.find((item) => item.key === dosageFilter)?.label ?? "Dosaggio"} onValueChange={setDosageFilter}>
+              <SelectItem value="all">Tutti i dosaggi ({dosageBaseCount})</SelectItem>
+              {dosageFacets.map((item) => <SelectItem key={item.key} value={item.key} disabled={item.count === 0 && dosageFilter !== item.key}>{item.label} ({item.count})</SelectItem>)}
+            </FacetSelect>
+            <FacetSelect label="Forma" value={formFilter} selectedLabel={formFilter === "all" ? "Tutte le forme" : formFilter} onValueChange={setFormFilter}>
+              <SelectItem value="all">Tutte le forme ({formBaseCount})</SelectItem>
+              {formFacets.map((item) => <SelectItem key={item.name} value={item.name} disabled={item.count === 0 && formFilter !== item.name}>{item.name} ({item.count})</SelectItem>)}
+            </FacetSelect>
+            <FacetSelect label="Lista di trasparenza" value={officialFilter} selectedLabel={officialFilter === "official" ? "Incluse nella lista" : officialFilter === "outside" ? "Non incluse nella lista" : "Tutte le confezioni"} onValueChange={setOfficialFilter}>
+              <SelectItem value="all">Tutte le confezioni ({officialBase.length})</SelectItem>
+              <SelectItem value="official" disabled={officialCount === 0 && officialFilter !== "official"}>Incluse nella lista ({officialCount})</SelectItem>
+              <SelectItem value="outside" disabled={outsideOfficialCount === 0 && officialFilter !== "outside"}>Non incluse nella lista ({outsideOfficialCount})</SelectItem>
+            </FacetSelect>
+          </div>
+        </div>
+        {loading ? <RelatedPackagesSkeleton /> : (
+          <>
+            <div className="grid gap-3 p-4 md:hidden">
+              {visiblePackages.map((item) => (
+                <article key={item.id} className="rounded-xl border bg-background p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0"><p className="font-medium">{item.name}</p><p className="mt-1 font-mono text-xs text-muted-foreground">AIC/MINSAN {item.aic}</p></div>
+                    <Button variant="ghost" size="icon" className="shrink-0 cursor-pointer" aria-label={`Apri ${item.name}, AIC/MINSAN ${item.aic}`} onClick={() => onSelect(item.aic)}><ArrowRight size={16} /></Button>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.description}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="hidden md:block">
+              <Table>
+                <TableHeader><TableRow><TableHead>Medicinale</TableHead><TableHead>AIC/MINSAN</TableHead><TableHead className="hidden lg:table-cell">Confezione</TableHead><TableHead className="w-14"><span className="sr-only">Apri</span></TableHead></TableRow></TableHeader>
+                <TableBody>
+                  {visiblePackages.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell className="font-medium">{item.name}</TableCell>
+                      <TableCell className="font-mono text-xs tracking-wide">{item.aic}</TableCell>
+                      <TableCell className="hidden max-w-xl text-muted-foreground lg:table-cell">{item.description}</TableCell>
+                      <TableCell><Button variant="ghost" size="icon" className="cursor-pointer" aria-label={`Apri ${item.name}, AIC/MINSAN ${item.aic}`} onClick={() => onSelect(item.aic)}><ArrowRight size={16} /></Button></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+
+            {visiblePackages.length === 0 && <p className="px-4 py-12 text-center text-sm text-muted-foreground">Nessuna confezione soddisfa tutti i filtri selezionati.</p>}
+            <ResultsPagination page={relatedPage} totalPages={totalPages} totalItems={filteredPackages.length} onPageChange={setRelatedPage} targetId="same-substance-title" />
+          </>
+        )}
+      </Card>
+    </section>
+  )
+}
+
+function FacetSelect({ label, value, selectedLabel, onValueChange, children }: { label: string; value: string; selectedLabel: string; onValueChange: (value: string) => void; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{label}</p>
+      <Select value={value} onValueChange={(nextValue) => { if (nextValue) onValueChange(nextValue) }}>
+        <SelectTrigger className="h-10 w-full cursor-pointer"><SelectValue>{selectedLabel}</SelectValue></SelectTrigger>
+        <SelectContent align="start">{children}</SelectContent>
+      </Select>
+    </div>
+  )
+}
+
+type RelatedFacet = "composition" | "dosage" | "form" | "official"
+
+type RelatedFilters = {
+  needle: string
+  composition: string
+  dosage: string
+  form: string
+  official: string
+}
+
+function matchesRelatedFilters(item: SubstancePackage, filters: RelatedFilters, ignoredFacet?: RelatedFacet) {
+  if (filters.needle && !`${item.name} ${item.aic} ${item.description}`.toLocaleLowerCase("it").includes(filters.needle)) return false
+  if (ignoredFacet !== "composition") {
+    if (filters.composition === "single" && item.ingredient_count !== 1) return false
+    if (filters.composition === "combination" && item.ingredient_count <= 1) return false
+  }
+  if (ignoredFacet !== "dosage" && filters.dosage !== "all" && packageDosage(item)?.key !== filters.dosage) return false
+  if (ignoredFacet !== "form" && filters.form !== "all" && item.pharmaceutical_form !== filters.form) return false
+  if (ignoredFacet !== "official") {
+    if (filters.official === "official" && !item.in_official_list) return false
+    if (filters.official === "outside" && item.in_official_list) return false
+  }
+  return true
+}
+
+function packageDosage(item: SubstancePackage) {
+  const quantity = item.quantity ?? parseLocalizedNumber(item.quantity_raw)
+  const unit = normalizeDosageUnit(nonEmptyString(item.unit) ?? item.unit_raw)
+  if (quantity === null || !unit) return null
+  const formattedQuantity = new Intl.NumberFormat("it-IT", { maximumFractionDigits: 6 }).format(quantity)
+  return { key: `${quantity}|${unit}`, label: `${formattedQuantity} ${unit}`, sortValue: quantity }
+}
+
+function parseLocalizedNumber(value?: string | null) {
+  if (!value?.trim()) return null
+  const parsed = Number(value.trim().replace(",", "."))
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+function normalizeDosageUnit(value?: string | null) {
+  if (!value?.trim()) return null
+  return value.trim().toLocaleLowerCase("it")
+    .replace(/milligram\(s\)\/millilitre/g, "mg/ml")
+    .replace(/milligrammi\/millilitr[io]/g, "mg/ml")
+    .replace(/microgramm[io]/g, "mcg")
+    .replace(/milligramm[io]/g, "mg")
+    .replace(/millilitr[io]/g, "ml")
+    .replace(/gramm[io]/g, "g")
+    .replace(/\s+/g, "")
+}
+
+function nonEmptyString(value?: string | null) {
+  const normalized = value?.trim()
+  return normalized ? normalized : null
+}
+
+function RelatedPackagesSkeleton() {
+  return <div className="space-y-3 p-4 sm:p-5">{Array.from({ length: 5 }).map((_, index) => <Skeleton key={index} className="h-20 w-full" />)}</div>
 }
 
 function PackageHeader({ pkg }: { pkg: PackageData }) {
@@ -365,7 +629,7 @@ function EmptyResult() {
   )
 }
 
-function ResultsPagination({ page, totalPages, totalItems, onPageChange }: { page: number; totalPages: number; totalItems: number; onPageChange: (page: number) => void }) {
+function ResultsPagination({ page, totalPages, totalItems, onPageChange, targetId = "equivalents-title" }: { page: number; totalPages: number; totalItems: number; onPageChange: (page: number) => void; targetId?: string }) {
   if (totalPages <= 1) return null
   const first = (page - 1) * pageSize + 1
   const last = Math.min(page * pageSize, totalItems)
@@ -376,11 +640,11 @@ function ResultsPagination({ page, totalPages, totalItems, onPageChange }: { pag
       <Pagination className="mx-0 w-auto justify-start sm:justify-end">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#equivalents-title" text="Precedente" aria-disabled={page === 1} className={cn(page === 1 && "pointer-events-none opacity-50")} onClick={(event) => { event.preventDefault(); if (page > 1) onPageChange(page - 1) }} />
+            <PaginationPrevious href={`#${targetId}`} text="Precedente" aria-disabled={page === 1} className={cn(page === 1 && "pointer-events-none opacity-50")} onClick={(event) => { event.preventDefault(); if (page > 1) onPageChange(page - 1) }} />
           </PaginationItem>
           <PaginationItem><span className="flex h-8 min-w-24 items-center justify-center px-2 text-xs font-medium">Pagina {page} di {totalPages}</span></PaginationItem>
           <PaginationItem>
-            <PaginationNext href="#equivalents-title" text="Successiva" aria-disabled={page === totalPages} className={cn(page === totalPages && "pointer-events-none opacity-50")} onClick={(event) => { event.preventDefault(); if (page < totalPages) onPageChange(page + 1) }} />
+            <PaginationNext href={`#${targetId}`} text="Successiva" aria-disabled={page === totalPages} className={cn(page === totalPages && "pointer-events-none opacity-50")} onClick={(event) => { event.preventDefault(); if (page < totalPages) onPageChange(page + 1) }} />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
