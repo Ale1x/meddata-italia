@@ -94,10 +94,29 @@ SELECT id, display_name, observed_at FROM active_substances ORDER BY display_nam
 SELECT id, display_name, observed_at FROM active_substances WHERE id = $1;
 
 -- name: ListPackagesByActiveSubstance :many
-SELECT p.id, ma.aic, mp.name, p.description, p.observed_at
+SELECT p.id, ma.aic, mp.name, p.description, p.observed_at,
+       pi.quantity, pi.unit_normalized, pi.quantity_raw, pi.unit_raw,
+       pf.display_name AS pharmaceutical_form,
+       ar.display_name AS administration_route,
+       p.supply_regime,
+       ma.administrative_status,
+       o.name AS authorization_holder,
+       (SELECT COUNT(DISTINCT all_pi.active_substance_id) FROM package_ingredients all_pi WHERE all_pi.package_id = p.id) AS ingredient_count,
+       EXISTS (
+         SELECT 1
+         FROM official_equivalence_memberships oem
+         JOIN official_equivalence_groups oeg ON oeg.id = oem.group_id
+         WHERE oem.package_id = p.id
+           AND oem.valid_to IS NULL
+           AND oeg.valid_to IS NULL
+           AND oeg.relationship_type = 'AIFA_TRANSPARENCY_OFFICIAL'
+       ) AS in_official_list
 FROM package_ingredients pi JOIN packages p ON p.id=pi.package_id
 JOIN marketing_authorizations ma ON ma.id=p.marketing_authorization_id
 JOIN medicinal_products mp ON mp.id=p.product_id
+LEFT JOIN pharmaceutical_forms pf ON pf.id=p.pharmaceutical_form_id
+LEFT JOIN administration_routes ar ON ar.id=p.administration_route_id
+LEFT JOIN organizations o ON o.id=ma.holder_organization_id
 WHERE pi.active_substance_id=$1 ORDER BY mp.name,ma.aic LIMIT $2 OFFSET $3;
 
 -- name: GetATC :one

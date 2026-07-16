@@ -306,7 +306,22 @@ func (a *API) packagesBySubstance(w http.ResponseWriter, r *http.Request) {
 		dbProblem(w, err)
 		return
 	}
-	respond(w, r, rows, map[string]any{"limit": limit, "offset": offset})
+	items := make([]any, 0, len(rows))
+	for _, row := range rows {
+		items = append(items, map[string]any{
+			"id": uuidString(row.ID), "aic": strings.TrimSpace(row.Aic), "name": row.Name,
+			"description": row.Description, "observed_at": timestamp(row.ObservedAt),
+			"quantity": numeric(row.Quantity), "unit": nullableText(row.UnitNormalized),
+			"quantity_raw": nullableText(row.QuantityRaw), "unit_raw": nullableText(row.UnitRaw),
+			"pharmaceutical_form":   nullableText(row.PharmaceuticalForm),
+			"administration_route":  nullableText(row.AdministrationRoute),
+			"supply_regime":         nullableText(row.SupplyRegime),
+			"administrative_status": nullableText(row.AdministrativeStatus),
+			"authorization_holder":  nullableText(row.AuthorizationHolder),
+			"ingredient_count":      row.IngredientCount, "in_official_list": row.InOfficialList,
+		})
+	}
+	respond(w, r, items, map[string]any{"limit": limit, "offset": offset})
 }
 func (a *API) getATC(w http.ResponseWriter, r *http.Request) {
 	row, err := a.Queries.GetATC(r.Context(), strings.ToUpper(chi.URLParam(r, "code")))

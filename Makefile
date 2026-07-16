@@ -1,4 +1,4 @@
-.PHONY: build test integration vet fmt fmt-check sqlc migrate-up discovery openapi-lint compose-up compose-down scheduler
+.PHONY: build test frontend-test integration catalog-audit catalog-audit-strict vet fmt fmt-check sqlc migrate-up discovery openapi-lint compose-up compose-down scheduler
 
 build:
 	go build ./cmd/...
@@ -6,8 +6,17 @@ build:
 test:
 	go test ./...
 
+frontend-test:
+	npm test --prefix frontend
+
 integration:
-	RUN_INTEGRATION=1 go test -tags=integration -v ./integration
+	RUN_INTEGRATION=1 go test -count=1 -tags=integration -v ./integration
+
+catalog-audit:
+	go run ./cmd/catalog-audit
+
+catalog-audit-strict:
+	go run ./cmd/catalog-audit --strict
 
 vet:
 	go vet ./...

@@ -113,6 +113,7 @@ curl 'https://api.health.passarelli.dev/api/v1/official-equivalence/compare?left
 make sqlc
 make fmt-check
 make test
+make frontend-test
 make vet
 make build
 make openapi-lint
@@ -124,6 +125,14 @@ Default tests use local verified fixtures and never call AIFA. Docker-backed Tes
 ```bash
 make integration
 ```
+
+An exhaustive, read-only catalog audit can be run against any populated PostgreSQL database. It scans every canonical package and checks AIC identity, product consistency, ingredient duplication, official-group ambiguity, temporal consistency and AIFA transparency-list provenance. It also reports how many packages follow each UI policy branch. The database URL is read from `MEDICINE_DATABASE_URL` and is never written to the report:
+
+```bash
+MEDICINE_DATABASE_URL='postgres://...' make catalog-audit
+```
+
+`make catalog-audit` fails on invariant violations. Use `make catalog-audit-strict` when warnings such as packages without normalized ingredients must also fail the run, and `go run ./cmd/catalog-audit --format=json` for CI artifacts.
 
 ## Configuration
 
