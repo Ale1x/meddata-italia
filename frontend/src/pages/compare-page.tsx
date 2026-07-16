@@ -163,7 +163,13 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
   const isEquivalent = comparison.equivalent
   const isSamePackage = comparison.reason === "SAME_PACKAGE"
   const isUnavailable = ["LEFT_NOT_IN_OFFICIAL_LIST", "RIGHT_NOT_IN_OFFICIAL_LIST", "NEITHER_IN_OFFICIAL_LIST"].includes(comparison.reason)
-  const heading = isSamePackage ? "È la stessa confezione" : isEquivalent ? "Equivalenti ufficiali" : isUnavailable ? "Equivalenza ufficiale non disponibile" : "Non equivalenti ufficiali"
+  const hasDifferentSubstances = composition?.sameActiveSubstances === false
+  const isClearlyDifferent = isUnavailable && hasDifferentSubstances
+  const showUnavailableTone = isUnavailable && !isClearlyDifferent
+  const heading = isSamePackage ? "È la stessa confezione" : isEquivalent ? "Equivalenti ufficiali" : isClearlyDifferent ? "Farmaci diversi" : isUnavailable ? "Equivalenza ufficiale non disponibile" : "Non equivalenti ufficiali"
+  const message = isClearlyDifferent && composition
+    ? `Le confezioni contengono principi attivi diversi: ${composition.leftSubstances.join(" · ")} e ${composition.rightSubstances.join(" · ")}. ${comparisonMessage(comparison)}`
+    : comparisonMessage(comparison)
 
   return (
     <Card
@@ -172,7 +178,7 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
         "overflow-hidden border-l-4 py-0 ring-1",
         isEquivalent
           ? "border-l-success bg-success/[0.035] ring-success/20"
-          : isUnavailable
+          : showUnavailableTone
             ? "border-l-warning bg-warning/[0.035] ring-warning/25"
           : "border-l-destructive bg-destructive/[0.035] ring-destructive/25",
       )}
@@ -185,17 +191,17 @@ function ComparisonResult({ comparison, composition }: { comparison: ComparisonD
               "grid size-14 shrink-0 place-items-center rounded-2xl ring-1",
               isEquivalent
                 ? "bg-success/12 text-success ring-success/25"
-                : isUnavailable
+                : showUnavailableTone
                   ? "bg-warning/12 text-warning ring-warning/25"
                 : "bg-destructive/12 text-destructive ring-destructive/25",
             )}
           >
-            {isEquivalent ? <CheckCircle size={30} weight="fill" /> : isUnavailable ? <WarningCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
+            {isEquivalent ? <CheckCircle size={30} weight="fill" /> : showUnavailableTone ? <WarningCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
           </span>
           <div>
-            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isEquivalent ? "text-success" : isUnavailable ? "text-warning" : "text-destructive")}>{isSamePackage ? "Codici identici" : isUnavailable ? "Copertura della fonte" : "Esito del confronto"}</p>
-            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", isUnavailable ? "text-warning" : !isEquivalent && "text-destructive")}>{heading}</h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">{comparisonMessage(comparison)}</p>
+            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isEquivalent ? "text-success" : showUnavailableTone ? "text-warning" : "text-destructive")}>{isSamePackage ? "Codici identici" : isClearlyDifferent ? "Principi attivi diversi" : isUnavailable ? "Copertura della fonte" : "Esito del confronto"}</p>
+            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", showUnavailableTone ? "text-warning" : !isEquivalent && "text-destructive")}>{heading}</h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">{message}</p>
           </div>
         </div>
 
@@ -286,6 +292,7 @@ type CompositionComparison = {
 }
 
 function CompositionResult({ composition }: { composition: CompositionComparison }) {
+  const hasDifferentSubstances = composition.sameActiveSubstances === false
   return (
     <div className="mt-7 border-t pt-6">
       <div className="flex flex-wrap items-center gap-2">
@@ -294,7 +301,7 @@ function CompositionResult({ composition }: { composition: CompositionComparison
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <CompositionSignal label="Principio attivo" matches={composition.sameActiveSubstances === true} unavailable={composition.sameActiveSubstances === null} />
-        <CompositionSignal label="Dosaggio pubblicato" matches={composition.sameStrength === true} unavailable={composition.sameStrength === null} />
+        <CompositionSignal label="Dosaggio pubblicato" matches={composition.sameStrength === true} unavailable={composition.sameStrength === null} unavailableText={hasDifferentSubstances ? "Non applicabile" : "Non confrontabile"} />
       </div>
       <p className="mt-4 text-sm leading-6 text-muted-foreground">
         {composition.leftSubstances.join(" · ") || "Principio attivo non disponibile"} <span aria-hidden="true">↔</span> {composition.rightSubstances.join(" · ") || "Principio attivo non disponibile"}
@@ -302,13 +309,13 @@ function CompositionResult({ composition }: { composition: CompositionComparison
       {composition.strengthSource && composition.strengthSource !== "structured" && (
         <p className="mt-2 text-xs leading-5 text-muted-foreground">Il dosaggio è stato completato dalla descrizione ufficiale della confezione.</p>
       )}
-      <p className="mt-3 text-xs leading-5 text-muted-foreground">La composizione simile non prova la sostituibilità: l’esito ufficiale deriva esclusivamente dalla lista di trasparenza AIFA.</p>
+      <p className="mt-3 text-xs leading-5 text-muted-foreground">{hasDifferentSubstances ? "I principi attivi sono diversi. Questo confronto non valuta eventuali alternative terapeutiche: chiedi conferma a un medico o farmacista." : "La composizione simile non prova la sostituibilità: l’esito ufficiale deriva esclusivamente dalla lista di trasparenza AIFA."}</p>
     </div>
   )
 }
 
-function CompositionSignal({ label, matches, unavailable }: { label: string; matches: boolean; unavailable: boolean }) {
-  const text = unavailable ? "Non confrontabile" : matches ? "Coincide" : "Diverso"
+function CompositionSignal({ label, matches, unavailable, unavailableText = "Non confrontabile" }: { label: string; matches: boolean; unavailable: boolean; unavailableText?: string }) {
+  const text = unavailable ? unavailableText : matches ? "Coincide" : "Diverso"
   return (
     <div className="flex items-center justify-between gap-3 rounded-xl border bg-background p-4">
       <span className="text-sm font-medium">{label}</span>
@@ -322,10 +329,11 @@ function compareComposition(left: PackageData, right: PackageData): CompositionC
   const rightSubstances = ingredientNames(right)
   const leftStrength = strengthSignature(left)
   const rightStrength = strengthSignature(right)
+  const sameActiveSubstances = leftSubstances.length === 0 || rightSubstances.length === 0 ? null : JSON.stringify(leftSubstances) === JSON.stringify(rightSubstances)
   return {
-    sameActiveSubstances: leftSubstances.length === 0 || rightSubstances.length === 0 ? null : JSON.stringify(leftSubstances) === JSON.stringify(rightSubstances),
-    sameStrength: leftStrength === null || rightStrength === null ? null : leftStrength.value === rightStrength.value,
-    strengthSource: strengthSource(leftStrength, rightStrength),
+    sameActiveSubstances,
+    sameStrength: sameActiveSubstances !== true || leftStrength === null || rightStrength === null ? null : leftStrength.value === rightStrength.value,
+    strengthSource: sameActiveSubstances === true ? strengthSource(leftStrength, rightStrength) : null,
     leftSubstances,
     rightSubstances,
   }
