@@ -3,7 +3,7 @@ package ingestion
 import (
 	"context"
 	"fmt"
-	"github.com/example/medicine-platform/internal/messaging"
+	"github.com/Ale1x/meddata-italia/internal/messaging"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"time"

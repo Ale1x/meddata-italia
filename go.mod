@@ -1,4 +1,4 @@
-module github.com/example/medicine-platform
+module github.com/Ale1x/meddata-italia
 
 go 1.26
 

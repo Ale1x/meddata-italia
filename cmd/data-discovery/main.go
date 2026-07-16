@@ -11,7 +11,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/example/medicine-platform/internal/profiling"
+	"github.com/Ale1x/meddata-italia/internal/profiling"
 )
 
 type joinResult struct {

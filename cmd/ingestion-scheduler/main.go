@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/example/medicine-platform/internal/messaging"
-	"github.com/example/medicine-platform/internal/platform"
-	"github.com/example/medicine-platform/internal/sources"
+	"github.com/Ale1x/meddata-italia/internal/messaging"
+	"github.com/Ale1x/meddata-italia/internal/platform"
+	"github.com/Ale1x/meddata-italia/internal/sources"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )

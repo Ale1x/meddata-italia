@@ -1,4 +1,4 @@
-# Medicine Platform
+# MedData Italia
 
 Go/PostgreSQL MVP for versioned acquisition of public AIFA medicine data and unambiguous official-equivalence lookup.
 

@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/example/medicine-platform/internal/sources"
+	"github.com/Ale1x/meddata-italia/internal/sources"
 	"golang.org/x/net/html"
 )
 

@@ -2,7 +2,7 @@ package discovery
 
 import (
 	"context"
-	"github.com/example/medicine-platform/internal/sources"
+	"github.com/Ale1x/meddata-italia/internal/sources"
 	"net/http"
 	"net/http/httptest"
 	"testing"

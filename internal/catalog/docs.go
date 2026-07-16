@@ -1,7 +1,7 @@
 package catalog
 
 import (
-	apischema "github.com/example/medicine-platform/api"
+	apischema "github.com/Ale1x/meddata-italia/api"
 	"net/http"
 )
 

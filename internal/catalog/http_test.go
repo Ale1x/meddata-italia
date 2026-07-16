@@ -1,7 +1,7 @@
 package catalog
 
 import (
-	"github.com/example/medicine-platform/internal/platform"
+	"github.com/Ale1x/meddata-italia/internal/platform"
 	"github.com/prometheus/client_golang/prometheus"
 	"io"
 	"log/slog"

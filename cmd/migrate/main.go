@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/example/medicine-platform/internal/platform"
+	"github.com/Ale1x/meddata-italia/internal/platform"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 	"os"

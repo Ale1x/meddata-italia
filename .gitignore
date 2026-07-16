@@ -10,9 +10,20 @@
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
 *.local
 *.pem
 *.key
+*.p12
+*.pfx
+.netrc
+.npmrc
+.pypirc
+credentials.json
+kubeconfig
+kubeconfig.*
+*.kubeconfig
 
 # Go build and test output
 /bin/
@@ -36,6 +47,7 @@ data/
 
 # Infrastructure local state
 .terraform/
+.wrangler/
 *.tfstate
 *.tfstate.*
 crash.log

@@ -3,7 +3,7 @@ package equivalence
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"github.com/example/medicine-platform/internal/catalog"
+	"github.com/Ale1x/meddata-italia/internal/catalog"
 	"sort"
 	"strings"
 )
