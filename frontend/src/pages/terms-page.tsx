@@ -39,7 +39,6 @@ export function TermsPage() {
       <LegalSection title="10. Segnalazioni, modifiche e legge applicabile">
         <p>Errori o contenuti potenzialmente fuorvianti possono essere segnalati a <a href="mailto:alessandro@passarelli.dev">alessandro@passarelli.dev</a>. I termini possono essere aggiornati; la data della versione è riportata in fondo. Si applica la legge italiana, fatti salvi i diritti inderogabili e il foro eventualmente previsto a tutela del consumatore.</p>
       </LegalSection>
-      <p className="border-t pt-5 text-xs text-muted-foreground">Versione del 16 luglio 2026. Una revisione professionale indipendente resta raccomandata per ogni utilizzo pubblico o commerciale del servizio.</p>
     </LegalLayout>
   )
 }
