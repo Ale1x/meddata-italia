@@ -99,16 +99,34 @@ export function ComparePage() {
 }
 
 function ComparisonResult({ comparison }: { comparison: ComparisonData }) {
+  const isEquivalent = comparison.equivalent
+
   return (
-    <Card className={cn("py-0", comparison.equivalent ? "ring-success/35" : "ring-foreground/15")}>
+    <Card
+      role="status"
+      className={cn(
+        "overflow-hidden border-l-4 py-0 ring-1",
+        isEquivalent
+          ? "border-l-success bg-success/[0.035] ring-success/20"
+          : "border-l-destructive bg-destructive/[0.035] ring-destructive/25",
+      )}
+    >
       <CardContent className="p-6 sm:p-8">
         <div className="flex items-start gap-4">
-          <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl", comparison.equivalent ? "bg-success text-success-foreground" : "bg-muted text-muted-foreground")}>
-            {comparison.equivalent ? <CheckCircle size={26} weight="fill" /> : <XCircle size={26} weight="fill" />}
+          <span
+            aria-hidden="true"
+            className={cn(
+              "grid size-14 shrink-0 place-items-center rounded-2xl ring-1",
+              isEquivalent
+                ? "bg-success/12 text-success ring-success/25"
+                : "bg-destructive/12 text-destructive ring-destructive/25",
+            )}
+          >
+            {isEquivalent ? <CheckCircle size={30} weight="fill" /> : <XCircle size={30} weight="fill" />}
           </span>
           <div>
-            <p className="eyebrow">Esito del confronto</p>
-            <h2 className="mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl">{comparison.equivalent ? "Equivalenti ufficiali" : "Non equivalenti ufficiali"}</h2>
+            <p className={cn("text-[11px] font-semibold uppercase tracking-[0.16em]", isEquivalent ? "text-success" : "text-destructive")}>Esito del confronto</p>
+            <h2 className={cn("mt-1 font-display text-2xl font-semibold tracking-tight sm:text-3xl", !isEquivalent && "text-destructive")}>{isEquivalent ? "Equivalenti ufficiali" : "Non equivalenti ufficiali"}</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">{comparisonMessage(comparison)}</p>
           </div>
         </div>
