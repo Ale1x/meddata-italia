@@ -1,4 +1,4 @@
-FROM golang:1.26-alpine AS build
+FROM --platform=$BUILDPLATFORM golang:1.26-alpine AS build
 WORKDIR /src
 RUN apk add --no-cache ca-certificates git
 COPY deployments/docker/certs/actalis-domain-validation-server-ca-g3.crt /usr/local/share/ca-certificates/
@@ -7,7 +7,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 ARG SERVICE=public-api
-RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/service ./cmd/${SERVICE}
+ARG TARGETOS
+ARG TARGETARCH
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags="-s -w" -o /out/service ./cmd/${SERVICE}
 
 FROM gcr.io/distroless/static-debian12:debug-nonroot
 ARG SERVICE=service
