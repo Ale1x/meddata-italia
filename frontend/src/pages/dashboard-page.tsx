@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react"
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
   ArrowRight,
   ArrowUpRight,
@@ -31,7 +31,8 @@ import { cn } from "@/lib/utils"
 const pageSize = 10
 
 export function DashboardPage() {
-  const [query, setQuery] = useState("")
+  const initialAIC = useRef(normalizeAIC(new URLSearchParams(window.location.search).get("aic") ?? ""))
+  const [query, setQuery] = useState(initialAIC.current)
   const [pkg, setPkg] = useState<PackageData | null>(null)
   const [equivalence, setEquivalence] = useState<EquivalenceData | null>(null)
   const [loading, setLoading] = useState(false)
@@ -53,7 +54,7 @@ export function DashboardPage() {
 
   useEffect(() => setPage(1), [memberFilter, equivalence])
 
-  async function search(aicValue: string) {
+  const search = useCallback(async (aicValue: string) => {
     const aic = normalizeAIC(aicValue)
     if (!aic) return
 
@@ -75,7 +76,13 @@ export function DashboardPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (!initialAIC.current) return
+    void search(initialAIC.current)
+    initialAIC.current = ""
+  }, [search])
 
   function submit(event: FormEvent) {
     event.preventDefault()
@@ -138,7 +145,8 @@ export function DashboardPage() {
                   {!loading && <ArrowRight size={17} />}
                 </Button>
               </form>
-              <p className="mt-4 text-center text-xs text-muted-foreground">Per indicazioni terapeutiche, rivolgiti a un medico o farmacista.</p>
+              <p className="mt-4 text-center text-sm text-muted-foreground">Non conosci il codice? <a href="/search" className="font-medium text-primary underline-offset-4 hover:underline">Cerca per nome</a></p>
+              <p className="mt-3 text-center text-xs text-muted-foreground">Per indicazioni terapeutiche, rivolgiti a un medico o farmacista.</p>
             </CardContent>
           </Card>
         </div>

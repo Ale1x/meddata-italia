@@ -36,6 +36,24 @@ export type PackageData = {
   observed_at: string
 }
 
+export type MedicineSummary = {
+  id: string
+  source_product_code: string
+  name: string
+  observed_at: string
+}
+
+export type MedicinePackage = {
+  id: string
+  aic: string
+  description: string
+  observed_at: string
+}
+
+export type MedicineData = MedicineSummary & {
+  packages: MedicinePackage[]
+}
+
 export type Equivalent = { id: string; aic: string; name: string; description: string }
 
 export type EquivalenceData = {

@@ -10,8 +10,8 @@ export default defineConfig({
     host: "0.0.0.0",
     allowedHosts: ["terminal.local"],
     proxy: {
-      "/api": "http://localhost:8080",
-      "/health": "http://localhost:8080",
+      "/api": { target: process.env.VITE_DEV_API_PROXY ?? "http://localhost:8080", changeOrigin: true },
+      "/health": { target: process.env.VITE_DEV_API_PROXY ?? "http://localhost:8080", changeOrigin: true },
     },
   },
 })

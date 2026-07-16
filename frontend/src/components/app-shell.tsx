@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react"
-import { ArrowUpRight, ArrowsLeftRight, Database, Moon, Pill, Sun } from "@phosphor-icons/react"
+import { ArrowUpRight, ArrowsLeftRight, Database, House, MagnifyingGlass, Moon, Pill, Sun } from "@phosphor-icons/react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { getLatestIngestions, getSources } from "@/lib/api"
@@ -7,7 +7,7 @@ import type { IngestionSummary, SourceSummary } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 type AppShellProps = {
-  activePage: "dashboard" | "compare"
+  activePage: "dashboard" | "search" | "compare"
   children: ReactNode
 }
 
@@ -45,7 +45,8 @@ export function AppShell({ activePage, children }: AppShellProps) {
           </a>
 
           <nav aria-label="Navigazione principale" className="flex items-center gap-1 rounded-xl bg-muted/70 p-1">
-            <NavLink href="/" active={activePage === "dashboard"}>Catalogo</NavLink>
+            <NavLink href="/" active={activePage === "dashboard"} icon={<House size={15} />}>Catalogo</NavLink>
+            <NavLink href="/search" active={activePage === "search"} icon={<MagnifyingGlass size={15} />}>Cerca</NavLink>
             <NavLink href="/compare" active={activePage === "compare"} icon={<ArrowsLeftRight size={15} />}>Confronta</NavLink>
             <a href="https://api.health.passarelli.dev/docs" target="_blank" rel="noreferrer" className="hidden cursor-pointer items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground md:flex">API <ArrowUpRight size={13} /></a>
           </nav>
@@ -126,14 +127,15 @@ function NavLink({ href, active, icon, children }: { href: string; active: boole
   return (
     <a
       href={href}
+      aria-label={typeof children === "string" ? children : undefined}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 sm:px-4",
+        "flex size-9 cursor-pointer items-center justify-center gap-1.5 rounded-lg text-sm font-medium transition-colors duration-200 sm:h-auto sm:w-auto sm:px-4 sm:py-2",
         active ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
       )}
     >
-      <span className="hidden sm:inline-flex">{icon}</span>
-      {children}
+      <span className="inline-flex">{icon}</span>
+      <span className="sr-only sm:not-sr-only">{children}</span>
     </a>
   )
 }
