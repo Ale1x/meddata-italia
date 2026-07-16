@@ -175,6 +175,7 @@
 - Do not expose implementation constraints, normalization behavior, storage terminology, raw identifiers or API semantics in primary UI copy.
 - Keep domain terms only when they help users interpret AIFA data.
 - Prefer short labels and direct outcomes; do not narrate how controls, pagination or empty states are implemented.
+- Hero headings must state the user goal directly: search a medicine or verify equivalence. Avoid abstract campaign-style slogans.
 - Technical provenance remains available from the API and is not repeated in the public interface.
 
 ### Page Pattern

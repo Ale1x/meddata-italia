@@ -95,13 +95,13 @@ export function DashboardPage() {
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
           <div className="max-w-2xl">
             <Badge variant="secondary" className="border-0">
-              <Sparkle size={13} weight="fill" /> Dati ufficiali AIFA
+              <Sparkle size={13} weight="fill" /> Catalogo farmaci AIFA
             </Badge>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[68px]">
-              Un codice. <span className="text-primary">Tutto il farmaco.</span>
+              Cerca un farmaco <span className="text-primary">tramite codice AIC.</span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Cerca una confezione tramite AIC e consulta composizione, classificazione e appartenenza ai gruppi ufficiali della lista di trasparenza.
+              Consulta confezione, principi attivi ed equivalenti ufficiali AIFA.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
               <TrustPoint>159.858 confezioni</TrustPoint>
@@ -115,8 +115,7 @@ export function DashboardPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-display text-xl font-semibold tracking-tight">Cerca per codice AIC</p>
-                  <p className="mt-1 text-sm text-muted-foreground">Trova una confezione e consulta i dati disponibili.</p>
+                  <p className="font-display text-xl font-semibold tracking-tight">Inserisci il codice AIC</p>
                 </div>
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><Fingerprint size={21} /></span>
               </div>

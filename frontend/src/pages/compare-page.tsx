@@ -41,16 +41,16 @@ export function ComparePage() {
         <a href="/" className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"><ArrowLeft size={16} /> Torna al catalogo</a>
 
         <div className="mt-8 max-w-3xl">
-          <Badge variant="secondary"><ArrowsLeftRight size={13} /> Confronto AIC</Badge>
-          <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Due confezioni.<br /><span className="text-primary">Una risposta ufficiale.</span></h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Scopri se due confezioni appartengono allo stesso gruppo ufficiale AIFA.</p>
+          <Badge variant="secondary"><ArrowsLeftRight size={13} /> Equivalenza ufficiale</Badge>
+          <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Scopri se due farmaci <span className="text-primary">sono equivalenti.</span></h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Inserisci i due codici AIC per verificare l’equivalenza ufficiale.</p>
         </div>
 
         <div className="mt-10 grid items-start gap-6 lg:grid-cols-[1.35fr_.65fr]">
           <Card className="py-0 shadow-md">
             <div className="h-1.5 bg-primary" />
             <CardHeader className="px-6 pt-6 sm:px-8 sm:pt-8">
-              <CardTitle className="font-display text-xl">Inserisci i codici</CardTitle>
+              <CardTitle className="font-display text-xl">Codici AIC</CardTitle>
             </CardHeader>
             <CardContent className="px-6 pb-6 sm:px-8 sm:pb-8">
               <form onSubmit={submit}>
