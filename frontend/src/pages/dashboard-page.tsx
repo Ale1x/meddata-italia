@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react"
 import {
   ArrowRight,
   ArrowUpRight,
-  CaretDown,
   CheckCircle,
   Clock,
   Database,
@@ -18,7 +17,6 @@ import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -97,7 +95,7 @@ export function DashboardPage() {
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
           <div className="max-w-2xl">
             <Badge variant="secondary" className="border-0">
-              <Sparkle size={13} weight="fill" /> Dataset ufficiali AIFA
+              <Sparkle size={13} weight="fill" /> Dati ufficiali AIFA
             </Badge>
             <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[68px]">
               Un codice. <span className="text-primary">Tutto il farmaco.</span>
@@ -108,7 +106,7 @@ export function DashboardPage() {
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
               <TrustPoint>159.858 confezioni</TrustPoint>
               <TrustPoint>1.006 gruppi ufficiali</TrustPoint>
-              <TrustPoint>AIC preservato a 9 cifre</TrustPoint>
+              <TrustPoint>Consultazione gratuita</TrustPoint>
             </div>
           </div>
 
@@ -118,7 +116,7 @@ export function DashboardPage() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="font-display text-xl font-semibold tracking-tight">Cerca per codice AIC</p>
-                  <p className="mt-1 text-sm text-muted-foreground">Inserisci da 1 a 9 cifre. Gli zeri iniziali vengono normalizzati.</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Trova una confezione e consulta i dati disponibili.</p>
                 </div>
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><Fingerprint size={21} /></span>
               </div>
@@ -141,7 +139,7 @@ export function DashboardPage() {
                   {!loading && <ArrowRight size={17} />}
                 </Button>
               </form>
-              <p className="mt-4 text-center text-xs text-muted-foreground">Nessun suggerimento terapeutico. Solo consultazione dei dati pubblicati.</p>
+              <p className="mt-4 text-center text-xs text-muted-foreground">Per indicazioni terapeutiche, rivolgiti a un medico o farmacista.</p>
             </CardContent>
           </Card>
         </div>
@@ -153,7 +151,7 @@ export function DashboardPage() {
             <div>
               <p className="eyebrow">Accesso rapido</p>
               <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Farmaci comuni</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Confezioni note selezionate come esempi di ricerca. I codici sono stati verificati su fonti pubbliche istituzionali.</p>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Medicinali conosciuti disponibili per una consultazione rapida.</p>
             </div>
             <p className="max-w-xs text-xs leading-5 text-muted-foreground">La presenza in questa sezione non costituisce una raccomandazione d’uso.</p>
           </div>
@@ -174,9 +172,9 @@ export function DashboardPage() {
               <PackageHeader pkg={pkg} />
 
               <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                <Metric icon={<Flask size={19} />} label="Principi attivi" value={String(pkg.active_substances.length)} detail={pkg.active_substances.map((item) => item.name).join(" · ") || "Non strutturati"} />
+                <Metric icon={<Flask size={19} />} label="Principi attivi" value={String(pkg.active_substances.length)} detail={pkg.active_substances.map((item) => item.name).join(" · ") || "Non disponibile"} />
                 <Metric icon={<Database size={19} />} label="Classificazione ATC" value={pkg.atc[0]?.code ?? "—"} detail={pkg.atc[0]?.description ?? "Non disponibile"} />
-                <Metric icon={<Package size={19} />} label="Regime di fornitura" value={pkg.supply_regime ?? "—"} detail={pkg.pharmaceutical_form?.name ?? "Forma non strutturata"} />
+                <Metric icon={<Package size={19} />} label="Regime di fornitura" value={pkg.supply_regime ?? "—"} detail={pkg.pharmaceutical_form?.name ?? "Non disponibile"} />
                 <Metric icon={<ShieldCheck size={19} />} label="Gruppo ufficiale" value={pkg.official_equivalence?.source_group_identifier ?? "—"} detail={pkg.official_equivalence?.label ?? "Fuori dalla lista di trasparenza"} accent />
               </div>
 
@@ -185,15 +183,15 @@ export function DashboardPage() {
                   <CardContent className="p-6 sm:p-7">
                     <div className="flex items-center gap-3">
                       <span className="grid size-10 place-items-center rounded-xl bg-secondary text-secondary-foreground"><Flask size={20} /></span>
-                      <div><h3 className="font-display text-lg font-semibold">Composizione e confezione</h3><p className="text-sm text-muted-foreground">Campi normalizzati senza completamenti inferiti.</p></div>
+                      <div><h3 className="font-display text-lg font-semibold">Composizione e confezione</h3><p className="text-sm text-muted-foreground">Principi attivi e caratteristiche della confezione.</p></div>
                     </div>
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
                       {pkg.active_substances.length > 0 ? pkg.active_substances.map((ingredient) => (
                         <div key={ingredient.id} className="rounded-xl border bg-muted/25 p-4">
                           <p className="font-medium">{ingredient.name}</p>
-                          <p className="mt-1 text-sm text-muted-foreground">{[ingredient.quantity_raw, ingredient.unit_raw].filter(Boolean).join(" ") || "Dosaggio nella descrizione sorgente"}</p>
+                          <p className="mt-1 text-sm text-muted-foreground">{[ingredient.quantity_raw, ingredient.unit_raw].filter(Boolean).join(" ") || "Dosaggio non disponibile"}</p>
                         </div>
-                      )) : <p className="text-sm text-muted-foreground">Principi attivi strutturati non disponibili per questa confezione.</p>}
+                      )) : <p className="text-sm text-muted-foreground">Principi attivi non disponibili per questa confezione.</p>}
                     </div>
                     <dl className="mt-6 grid gap-x-8 gap-y-5 border-t pt-6 sm:grid-cols-2">
                       <Detail label="Titolare AIC" value={pkg.authorization_holder?.name} />
@@ -208,26 +206,13 @@ export function DashboardPage() {
                   <CardContent className="p-6 sm:p-7">
                     <div className="flex items-center gap-3">
                       <span className="grid size-10 place-items-center rounded-xl bg-secondary text-secondary-foreground"><Clock size={20} /></span>
-                      <div><h3 className="font-display text-lg font-semibold">Aggiornamento dati</h3><p className="text-sm text-muted-foreground">Informazioni sull’ultima acquisizione.</p></div>
+                      <div><h3 className="font-display text-lg font-semibold">Aggiornamento dati</h3><p className="text-sm text-muted-foreground">Ultimo aggiornamento disponibile.</p></div>
                     </div>
                     <div className="mt-6 rounded-xl bg-muted/55 p-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Fonte ufficiale</p>
                       <p className="mt-1.5 font-medium">{friendlySourceName(pkg.provenance?.[0]?.source)}</p>
                       <p className="mt-3 text-sm leading-6 text-muted-foreground">Dati aggiornati il {formatFriendlyDate(pkg.observed_at)}.</p>
                     </div>
-                    <Collapsible className="mt-4 group/technical">
-                      <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between rounded-lg px-2 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50">
-                        Dettagli tecnici
-                        <CaretDown size={16} className="transition-transform group-data-[open]/technical:rotate-180" />
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="px-2 pb-1 pt-3 text-xs text-muted-foreground">
-                        <dl className="space-y-3">
-                          <TechnicalDetail label="ID sorgente" value={pkg.provenance?.[0]?.source ?? "aifa-packages"} />
-                          <TechnicalDetail label="Rilevato" value={formatDate(pkg.observed_at)} />
-                          <TechnicalDetail label="Hash SHA-256" value={shortHash(pkg.provenance?.[0]?.artifact_hash)} mono />
-                        </dl>
-                      </CollapsibleContent>
-                    </Collapsible>
                   </CardContent>
                 </Card>
               </div>
@@ -248,7 +233,7 @@ export function DashboardPage() {
 
                   <Card className="mt-7 overflow-hidden">
                     <div className="flex flex-col gap-4 border-b p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-                      <div><p className="font-medium">Tutte le confezioni del gruppo</p><p className="mt-1 text-xs text-muted-foreground">Naviga pagina per pagina oppure filtra per nome, AIC o descrizione.</p></div>
+                      <div><p className="font-medium">Tutte le confezioni del gruppo</p><p className="mt-1 text-xs text-muted-foreground">Confezioni incluse nello stesso gruppo ufficiale AIFA.</p></div>
                       <div className="relative w-full sm:w-80">
                         <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                         <label htmlFor="member-filter" className="sr-only">Filtra gli equivalenti</label>
@@ -345,10 +330,6 @@ function Detail({ label, value }: { label: string; value?: string | null }) {
   return <div><dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</dt><dd className="mt-1.5 text-sm font-medium leading-5">{value || "Non disponibile"}</dd></div>
 }
 
-function TechnicalDetail({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
-  return <div><dt className="font-semibold uppercase tracking-[0.1em]">{label}</dt><dd className={cn("mt-1 break-all text-foreground", mono && "font-mono leading-5")}>{value}</dd></div>
-}
-
 function SummaryNumber({ value, label }: { value: string; label: string }) {
   return <div><p className="font-display text-2xl font-semibold tracking-tight">{value}</p><p className="mt-0.5 text-xs text-muted-foreground">{label}</p></div>
 }
@@ -358,8 +339,8 @@ function EmptyResult() {
     <Empty className="mx-auto max-w-xl py-10">
       <EmptyHeader>
         <EmptyMedia variant="icon"><MagnifyingGlass size={20} /></EmptyMedia>
-        <EmptyTitle className="font-display text-xl">Pronto per una ricerca</EmptyTitle>
-        <EmptyDescription>Inserisci un AIC oppure scegli uno dei farmaci comuni. La scheda comparirà qui senza contenuti precompilati.</EmptyDescription>
+        <EmptyTitle className="font-display text-xl">Cerca un medicinale</EmptyTitle>
+        <EmptyDescription>Cerca una confezione tramite codice AIC oppure scegli un farmaco comune.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   )
@@ -392,11 +373,6 @@ function PackageSkeleton() {
   return <div className="space-y-7"><div><Skeleton className="h-6 w-36" /><Skeleton className="mt-4 h-12 w-72 max-w-full" /><Skeleton className="mt-3 h-5 w-full max-w-2xl" /></div><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} className="h-36" />)}</div><div className="grid gap-6 lg:grid-cols-[1.35fr_.65fr]"><Skeleton className="h-80" /><Skeleton className="h-80" /></div></div>
 }
 
-function formatDate(value?: string) {
-  if (!value) return "Non disponibile"
-  return new Intl.DateTimeFormat("it-IT", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value))
-}
-
 function formatFriendlyDate(value?: string) {
   if (!value) return "non disponibile"
   return new Intl.DateTimeFormat("it-IT", { dateStyle: "long" }).format(new Date(value))
@@ -408,9 +384,4 @@ function friendlySourceName(source?: string) {
     "aifa-transparency-list": "Lista di trasparenza AIFA",
   }
   return names[source ?? ""] ?? "Agenzia Italiana del Farmaco"
-}
-
-function shortHash(value?: string) {
-  if (!value) return "Non disponibile"
-  return `${value.slice(0, 14)}…${value.slice(-10)}`
 }

@@ -1,11 +1,11 @@
 import { type FormEvent, useState } from "react"
-import { ArrowLeft, ArrowsLeftRight, CheckCircle, Info, ShieldCheck, XCircle } from "@phosphor-icons/react"
+import { ArrowLeft, ArrowsLeftRight, CheckCircle, ShieldCheck, XCircle } from "@phosphor-icons/react"
 import { Alert } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { compareOfficialEquivalence, normalizeAIC } from "@/lib/api"
@@ -43,7 +43,7 @@ export function ComparePage() {
         <div className="mt-8 max-w-3xl">
           <Badge variant="secondary"><ArrowsLeftRight size={13} /> Confronto AIC</Badge>
           <h1 className="mt-5 font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-6xl">Due confezioni.<br /><span className="text-primary">Una risposta ufficiale.</span></h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Verifica se due codici AIC appartengono allo stesso gruppo della lista di trasparenza AIFA. Nessuna equivalenza viene dedotta dal solo principio attivo.</p>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Scopri se due confezioni appartengono allo stesso gruppo ufficiale AIFA.</p>
         </div>
 
         <div className="mt-10 grid items-start gap-6 lg:grid-cols-[1.35fr_.65fr]">
@@ -51,7 +51,6 @@ export function ComparePage() {
             <div className="h-1.5 bg-primary" />
             <CardHeader className="px-6 pt-6 sm:px-8 sm:pt-8">
               <CardTitle className="font-display text-xl">Inserisci i codici</CardTitle>
-              <CardDescription>I campi partono vuoti e accettano esclusivamente valori numerici da 1 a 9 cifre.</CardDescription>
             </CardHeader>
             <CardContent className="px-6 pb-6 sm:px-8 sm:pb-8">
               <form onSubmit={submit}>
@@ -59,12 +58,10 @@ export function ComparePage() {
                   <Field>
                     <FieldLabel htmlFor="left-aic">Primo codice AIC</FieldLabel>
                     <Input id="left-aic" value={leftAIC} onChange={(event) => setLeftAIC(normalizeAIC(event.target.value))} inputMode="numeric" autoComplete="off" placeholder="es. 044155024" className="h-12 font-mono text-base tracking-wider" />
-                    <FieldDescription>Confezione da confrontare.</FieldDescription>
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="right-aic">Secondo codice AIC</FieldLabel>
                     <Input id="right-aic" value={rightAIC} onChange={(event) => setRightAIC(normalizeAIC(event.target.value))} inputMode="numeric" autoComplete="off" placeholder="es. 039716182" className="h-12 font-mono text-base tracking-wider" />
-                    <FieldDescription>Confezione di confronto.</FieldDescription>
                   </Field>
                 </FieldGroup>
                 <Button type="submit" size="lg" className="mt-6 h-11 w-full cursor-pointer sm:w-auto sm:px-6" disabled={!leftAIC || !rightAIC || loading}>
@@ -78,10 +75,10 @@ export function ComparePage() {
           <Card className="bg-primary py-0 text-primary-foreground">
             <CardContent className="p-6 sm:p-7">
               <span className="grid size-10 place-items-center rounded-xl bg-primary-foreground/10 text-primary-foreground"><ShieldCheck size={20} /></span>
-              <h2 className="mt-5 font-display text-lg font-semibold">Criterio utilizzato</h2>
-              <p className="mt-3 text-sm leading-6 text-primary-foreground/75">La risposta è positiva solo quando entrambi gli AIC sono membri correnti dello stesso gruppo ufficiale AIFA.</p>
+              <h2 className="mt-5 font-display text-lg font-semibold">Confronto ufficiale AIFA</h2>
+              <p className="mt-3 text-sm leading-6 text-primary-foreground/75">Il confronto considera esclusivamente i gruppi ufficiali pubblicati da AIFA.</p>
               <div className="mt-6 border-t border-primary-foreground/15 pt-5">
-                <p className="font-mono text-[11px] tracking-wide text-primary-foreground/65">AIFA_TRANSPARENCY_OFFICIAL</p>
+                <p className="text-xs font-medium text-primary-foreground/65">Fonte: Lista di trasparenza AIFA</p>
               </div>
             </CardContent>
           </Card>
@@ -136,10 +133,6 @@ function ComparisonResult({ comparison }: { comparison: ComparisonData }) {
           <ComparedPackageCard item={comparison.right} label="Secondo AIC" />
         </div>
 
-        <div className="mt-6 flex items-start gap-2.5 rounded-xl bg-muted/60 p-4 text-xs leading-5 text-muted-foreground">
-          <Info className="mt-0.5 shrink-0" size={16} />
-          <p>Esito calcolato esclusivamente dalla membership corrente della lista di trasparenza, non da similarità terapeutiche o classificazioni ATC.</p>
-        </div>
       </CardContent>
     </Card>
   )
@@ -164,8 +157,8 @@ function ComparisonEmpty() {
     <Empty className="border py-12">
       <EmptyHeader>
         <EmptyMedia variant="icon"><ArrowsLeftRight size={18} /></EmptyMedia>
-        <EmptyTitle className="font-display text-lg">Nessun confronto ancora</EmptyTitle>
-        <EmptyDescription>Inserisci due codici AIC per visualizzare qui l’esito e i gruppi ufficiali associati.</EmptyDescription>
+        <EmptyTitle className="font-display text-lg">Confronta due confezioni</EmptyTitle>
+        <EmptyDescription>Inserisci due codici AIC per verificarne l’equivalenza ufficiale.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   )
@@ -182,10 +175,10 @@ function comparisonMessage(comparison: ComparisonData) {
     case "DIFFERENT_OFFICIAL_GROUPS":
       return `Le confezioni sono nella lista, ma appartengono ai gruppi ${comparison.left.official_group?.source_group_identifier} e ${comparison.right.official_group?.source_group_identifier}.`
     case "LEFT_NOT_IN_OFFICIAL_LIST":
-      return "Il primo AIC non appartiene a un gruppo corrente della lista di trasparenza."
+      return "Il primo AIC non appartiene a un gruppo ufficiale della lista di trasparenza."
     case "RIGHT_NOT_IN_OFFICIAL_LIST":
-      return "Il secondo AIC non appartiene a un gruppo corrente della lista di trasparenza."
+      return "Il secondo AIC non appartiene a un gruppo ufficiale della lista di trasparenza."
     default:
-      return "Nessuno dei due AIC appartiene a un gruppo corrente della lista di trasparenza."
+      return "Nessuno dei due AIC appartiene a un gruppo ufficiale della lista di trasparenza."
   }
 }

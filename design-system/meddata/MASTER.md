@@ -169,6 +169,14 @@
 
 **Key Effects:** Clear focus rings (3-4px), ARIA labels, skip links, responsive design, reduced motion, 44x44px touch targets
 
+### Content rules
+
+- Write for medicine users, not for developers or data engineers.
+- Do not expose implementation constraints, normalization behavior, storage terminology, raw identifiers or API semantics in primary UI copy.
+- Keep domain terms only when they help users interpret AIFA data.
+- Prefer short labels and direct outcomes; do not narrate how controls, pagination or empty states are implemented.
+- Technical provenance remains available from the API and is not repeated in the public interface.
+
 ### Page Pattern
 
 **Pattern Name:** Minimal Single Column
